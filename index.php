@@ -3,7 +3,7 @@
 /*
 Plugin Name: 	wdesk
 Description: 	Plugin developed to track inquiries in a Helpdesk platform inside Wordpress
-Version: 		2.0
+Version: 		0.1
 Author: 		Marcelo Rodrigues Campos
 Author URI: 	https://github.com/wwwxkz
 Text Domain:	wdesk
