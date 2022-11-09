@@ -16,7 +16,9 @@ function wdesk_tickets()
 			<table class="wp-list-table widefat fixed striped table-view-list" style="height: -moz-available; height: -webkit-fill-available;">
 				<thead>
 					<tr>
-						<th colspan="2"><?php echo $tickets[0]->subject ?></th>
+						<th colspan="4"><?php echo $tickets[0]->subject ?></th>
+						<th><?php _e('User', 'wdesk') ?></th>
+						<th><?php _e('File', 'wdesk') ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -25,8 +27,17 @@ function wdesk_tickets()
 				foreach ($thread as $res) {
 					?>
 					<tr>
-						<th><?php echo $res[0] ?></th>
-						<th>User: <?php echo $res[1] ?></th>
+						<th colspan="4"><?php echo $res[0] ?></th>
+						<th><?php echo $res[1] ?></th>
+						<th>
+						<?php 
+						if (isset($res[2]) && $res[2] != '') {
+							?>
+							<a href="<?php echo $res[2] ?>"><?php _e('Download', 'wdesk') ?></a> 
+							<?php
+						} 
+						?>
+						</th>
 					</tr>
 					<?php
 				}
@@ -113,6 +124,8 @@ function wdesk_tickets()
 			<input type="hidden" name="user" value="<?php echo $tickets[0]->user ?>" />
 			<input type="hidden" name="thread-user" value="<?php echo wp_get_current_user()->display_name; ?>" />
 			<textarea type="text" name="thread" id="thread" placeholder="<?php _e('Please, describe your problem', 'wdesk') ?>" value="" style="height: 170px;" required></textarea>
+			<br>
+			<input type="file" name="file" />
 			<br>
 			<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-update" value="<?php _e('Send', 'wdesk') ?>">
 		</form>	

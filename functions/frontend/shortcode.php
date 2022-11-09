@@ -1,7 +1,6 @@
 <?php 
 
-function wdesk_shortcode() 
-{
+function wdesk_shortcode() {
     $return = '';
     if (isset($_COOKIE["wdesk-user-email"]) && isset($_COOKIE["wdesk-user-password"])) {
         global $wpdb;
@@ -28,8 +27,7 @@ function wdesk_shortcode()
     return $return;
 }
 
-function wdesk_shortcode_login() 
-{
+function wdesk_shortcode_login() {
     $return = '';
     $return .= '
         <div id="wdesk-login">	
@@ -189,7 +187,9 @@ function wdesk_shortcode_ticket($users) {
 		<table>
 		<thead>
 			<tr>
-				<th colspan="2">' . $ticket[0]->subject . '</th>
+				<th colspan="4">' . $ticket[0]->subject . '</th>
+				<th>' . __('User', 'wdesk') . '</th>
+				<th>' . __('File', 'wdesk') . '</th>
 			</tr>
 		</thead>
 		';
@@ -198,8 +198,14 @@ function wdesk_shortcode_ticket($users) {
 		foreach ($thread as $res) {
 			$return .= '
 			<tr>
-				<th>' . $res[0] . '</th>
-				<th>' . __('User', 'wdesk') . ': ' . $res[1] . '</th>
+				<th colspan="4">' . $res[0] . '</th>
+				<th>' . $res[1] . '</th>
+				<th>';
+				if (isset($res[2]) && $res[2] != '') {
+					$return .= '<a href="' . $res[2] . '">' . __('Download', 'wdesk') . '</a>';
+				}
+				$return .= '
+				</th>
 			</tr>
 			';
 		}
@@ -208,13 +214,15 @@ function wdesk_shortcode_ticket($users) {
 		</table>
 		';
 		$return .= '
-		<h1 style="color: #1a447a; margin-bottom: 40px;">' . __('Answer ticket', 'wdesk') . '</h1>
+		<br>
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 			<input type="hidden" name="ticket" value="' . $ticket[0]->id . '"/>
 			<input type="hidden" name="subject" value="' . $ticket[0]->subject . '"/>
 			<input type="hidden" name="user" value="' . $users[0]->id . '" />
 			<input type="hidden" name="thread-user" value="'. $users[0]->name .'">
 			<textarea required type="text" name="thread" id="thread" placeholder="' . __('Describe your case', 'wdesk') . '" value="" style="height: 170px;"></textarea>
+			<br>
+			<input type="file" name="file" />
 			<br>
 			<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-update" value="' . __('Send', 'wdesk') . '">
 		</form>	
@@ -284,10 +292,12 @@ function wdesk_shortcode_new_ticket($users) {
 				$return .= '</select><br>';
 				$return .= '
 				<label>' . __('Subject', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-				<input required type="text" name="subject" id="subject" value="" placeholder="' . __('Ticket subject', 'wdesk') . '" />
+				<input type="text" name="subject" value="" placeholder="' . __('Ticket subject', 'wdesk') . '" required />
 				<br>
 				<label>' . __('Description', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-				<textarea required type="text" name="thread" id="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" value="" style="height: 170px;"></textarea>
+				<textarea type="text" name="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" value="" style="height: 170px;" required></textarea>
+				<br>
+				<input type="file" name="file" />
 				<br>
 				<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-new" value="' . __('Send', 'wdesk') . '">
 			</div>	

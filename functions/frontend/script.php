@@ -104,7 +104,8 @@ function wdesk_ticket()
 	}
     if (isset($_POST['wdesk-ticket-new'])) {
         global $wpdb;
-		$thread = [[$_POST['thread'], $_POST['thread-user']]];
+		$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
+		$thread = [[$_POST['thread'], $_POST['thread-user'], $file]];
 		$thread = serialize($thread);
 		$user = $_POST['user'];
 		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user = '$user' and status != 'Closed'");
@@ -129,7 +130,8 @@ function wdesk_ticket()
 		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE id = '$id'");
 		$thread = $tickets[0]->thread;
 		$thread = unserialize($thread);
-		array_push($thread, [$_POST['thread'], $_POST['thread-user']]);
+		$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
+		array_push($thread, [$_POST['thread'], $_POST['thread-user'], $file]);
 		$thread = serialize($thread);
 		$wpdb->update(
 			'wdesk_tickets',
@@ -223,4 +225,13 @@ function wdesk_helper_notify_agent($ticket_id)
 	$subject = __('Ticket', 'wdesk') . " $id " . __('was updated', 'wdesk');
 	$message = __('Ticket', 'wdesk') . " $id ";
 	(isset($agent->user_email) && $agent->user_email != "") ? wdesk_helper_send_mail($agent->user_email, $subject, $message) : '';
+}
+
+function wdesk_helper_save_file($file)
+{
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+    $uploaded_file = wp_handle_upload($file, array('test_form' => false));
+    if ($uploaded_file) {
+        return $uploaded_file['url'];
+    }
 }
