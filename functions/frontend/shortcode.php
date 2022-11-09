@@ -173,13 +173,15 @@ function wdesk_shortcode_ticket($users) {
 		$return .= '
 		<div style="display: flex; flex-direction: row; justify-content: space-between;">
 			<h1 style="color: #1a447a; margin-bottom: 40px;">' . __('Ticket', 'wdesk') . ' ' . $ticket[0]->id . '</h1>
-			<div>
+			<div style="display: flex; flex-direction: row;">
 				<input type="submit" style="margin-bottom: 40px; margin-top: 20px;" required class="button action" onclick="(function(){
 					 window.location.replace(location.pathname);
 				})();return false;" value="' . __('Tickets', 'wdesk') . '" />
-				<input type="submit" style="margin-bottom: 40px; margin-top: 20px;" required class="button action" onclick="(function(){
-					alert(`Por enquanto nada, sorry`);
-				})();return false;" value="' . __('Close', 'wdesk') . '" />
+				&nbsp;
+				<form method="post" style="margin-bottom: 40px; margin-top: 20px;">
+					<input type="hidden" name="ticket" value="' . $ticket[0]->id . '" />
+					<input type="submit" name="wdesk-ticket-close" value="' . __('Close', 'wdesk') . '" style="height: 100%;" />
+				</form>
 			</div>
 		</div>
 		';
