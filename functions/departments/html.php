@@ -1,7 +1,7 @@
 <?php
 
 function wdesk_departments() {
-	if (current_user_can('administrator')) { ?>
+?>
 	<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: column; justify-content: space-between;">
 	<h2><?php _e('Departments', 'wdesk') ?></h2>
 		<div style="display: flex; flex-direction: row;">
@@ -78,14 +78,6 @@ function wdesk_departments() {
 			</table>
 		</div>
 	</div>
-	<?php
-	} else {
-		?>
-		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: column; justify-content: space-between;">
-		<h2><?php _e('You do not have acess to this page', 'wdesk') ?></h2>
-		</div>
-		<?php
-	}
+<?php
 }
-
 ?>
