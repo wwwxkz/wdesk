@@ -8,8 +8,8 @@ function wdesk_user()
     }
     if (isset($_POST['wdesk-user-register']) || isset($_POST['wdesk-user-update'])) {
         global $wpdb;
-        $name = sanitize_text_field($_POST['name']);
         $email = sanitize_email($_POST['email']);
+        $name = sanitize_text_field($_POST['name']);
 		$users = $wpdb->get_results("SELECT 1 FROM wdesk_users WHERE email = $email;");
 		if (isset($users[0]) && $users[0] >= 1 && isset($_POST['wdesk-user-register'])) {
 			echo "<script>alert('" . __('Email already in use', 'wdesk') . "')</script>";
@@ -21,11 +21,13 @@ function wdesk_user()
 					'wdesk_users',
 					array(
 						'id' => $id,
-						'name' => $name,
 						'email' => $email,
-						'password' => $_COOKIE["wdesk-user-password"]                        
+						'name' => $name,
+						'password' => sha1(base64_encode($_POST["password"]))                        
 					)
 				);
+				setcookie("wdesk-user-email", $email, time() + 3600);
+				setcookie("wdesk-user-password", $password, time() + 3600);
 				echo "<script>alert('" . __('User updated', 'wdesk') . "')</script>";
 				return 0;
 			} else {
@@ -33,7 +35,6 @@ function wdesk_user()
 				$wpdb->insert(
 					'wdesk_users',
 					array(
-						'name' => $name,
 						'email' => $email,
 						'password' => $password
 					)
@@ -89,7 +90,7 @@ function wdesk_ticket()
 		);	
 	}
 	if (isset($_POST['wdesk-ticket-notify'])) {
-		wdesk_helper_notify_user(sanitize_text_field($_POST['ticket']));
+		wdesk_helper_notify_user(sanitize_text_field($_POST['token']));
 	}
 	if (isset($_POST['wdesk-ticket-close'])) {
 		global $wpdb;	
@@ -104,22 +105,25 @@ function wdesk_ticket()
 	}
     if (isset($_POST['wdesk-ticket-new'])) {
         global $wpdb;
+        $user_email = sanitize_email($_POST['user-email']);
+		$thread_user = sanitize_text_field($_POST['thread-user']);
 		$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
-		$thread = [[sanitize_textarea_field($_POST['thread']), sanitize_text_field($_POST['thread-user']), $file]];
-		$thread = serialize($thread);
-		$user = sanitize_text_field($_POST['user']);
-		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user = '$user' and status != 'Closed'");
+		$thread = serialize([[sanitize_textarea_field($_POST['thread']), $thread_user, $file]]);
+		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user_email = '$thread_user' and status != 'Closed'");
 		if(count($tickets) <= 0) {
 			$wpdb->insert(
 				'wdesk_tickets',
 				array(
 					'subject' => sanitize_text_field($_POST['subject']),
 					'thread' => $thread,
-					'user' => $user,
+					'user_email' => $user_email,
+					'user_name' => $thread_user,
+					'token' => uniqid(),
 					'status' => 'Open',
 					'department' => sanitize_text_field($_POST['department'])
 				)
 			);
+			wdesk_helper_notify_user($tickets[0]->token);
 		} else {
 			echo "<script>alert('" . __('Your already have a ticket open, wait until you ticket is solved or close it to create another', 'wdesk') . "')</script>";
 		}
@@ -136,14 +140,12 @@ function wdesk_ticket()
 		$wpdb->update(
 			'wdesk_tickets',
 			array(
-				'subject' => sanitize_text_field($_POST['subject']),
 				'thread' => $thread,
-				'user' => sanitize_text_field($_POST['user'])                     
 			), array (
 				'id' => sanitize_text_field($_POST['ticket']),
 			)
 		);
-		wdesk_helper_notify_user($id);
+		wdesk_helper_notify_user($tickets[0]->token);
 		wdesk_helper_notify_agent($id);
 	}
 }
@@ -202,6 +204,14 @@ function wdesk_setting()
 				'id' => 1,
 			)
 		);
+		$wpdb->update(
+			'wdesk_settings',
+			array(
+				'value' => sanitize_text_field($_POST['url']),
+			), array(
+				'id' => 2,
+			)
+		);
 	}
 }
 
@@ -209,35 +219,45 @@ function wdesk_helper_send_mail($to, $subject, $message)
 {
 	global $wpdb;
 	$settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
-    $headers[] = "From: $settings[1]->value";
+	$email = $settings[1]->value;
+    $headers[] = "From: $email";
     wp_mail($to, $subject, $message, $headers);
 }
 
-function wdesk_helper_recover_password($to)
+function wdesk_helper_recover_password($email)
 {
     global $wpdb;
     $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
-    $users = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE email = '$to';");
+    $users = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE email = '$email';");
     if (isset($users[0])) {
-        $password = $users[0]->password;
+    	$otp = uniqid();
+		$wpdb->update(
+			'wdesk_users',
+			array(
+				'otp' => $otp,
+			), array(
+				'id' => $users[0]->id,
+			)
+		);
 		$subject =  __('Recover your helpdesk access password', 'wdesk');
-		$message = __('Your password is: ', 'wdesk') . $password;
-		$headers[] = "From: $settings[1]->value";
-		wp_mail($to, $subject, $message, $headers);
+		$url = $settings[2]->value;
+		$message = __("Access $url?recover=$otp to reset your password", 'wdesk');
+		$sender = $settings[1]->value;
+		$headers[] = "From: $sender";
+		wp_mail($email, $subject, $message, $headers);
     }
-    echo '<script>alert("' . __('If your user is found in the database we will send you a email with its password. If not, sign-in as usual to access the helpdesk', 'wdesk') . '")</script>';
+    echo '<script>alert("' . __('If your user is found in the database we will send you a email with an OTP code and URL to reset your password. If not, sign-in or submit a ticket as a guest', 'wdesk') . '")</script>';
 }
 
-function wdesk_helper_notify_user($ticket_id) 
+function wdesk_helper_notify_user($token) 
 {
 	global $wpdb;
-	$id = $ticket_id;
-	$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE id = '$id'");
-	$id = $tickets[0]->user;
-	$user = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE id = '$id'");
+	$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE token = '$token'");
 	$subject = __('Ticket update', 'wdesk');
-	$message = __('Access the helpdesk by using your email and password', 'wdesk');
-	(isset($user[0]->email) && $user[0]->email != "") ? wdesk_helper_send_mail($user[0]->email, $subject, $message) : '';
+    $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+	$url = $settings[2]->value;
+	$message = __("Access the helpdesk by using your email and password or using the url $url?token=$token", 'wdesk');
+	(isset($user[0]->email) && $user[0]->email != "") ? wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message) : '';
 }
 
 function wdesk_helper_notify_agent($ticket_id) 

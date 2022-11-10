@@ -29,6 +29,12 @@ function wdesk_settings() {
 						</tr>
 						<tr>
 							<th>
+								<?php _e('URL', 'wdesk') ?>: <br>
+								<input type="text" name="url" placeholder="<?php _e('Helpdesk url', 'wdesk') ?>" value="<?php echo esc_html($settings[2]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+							</th>
+						</tr>
+						<tr>
+							<th>
 								<input type="submit" class="button action" name="wdesk-setting-update" value="<?php _e('Update', 'wdesk') ?>"/>							
 							</th>
 						</tr>

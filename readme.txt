@@ -3,8 +3,8 @@ Contributors: wxkz
 Donate link: https://github.com/wwwxkz/wallets
 Tags: helpdesk, support
 Requires at least: 5.0
-Tested up to: 9.0
-Stable tag: 0.1
+Tested up to: 6.0
+Stable tag: 0.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -27,11 +27,20 @@ https://github.com/wwwxkz/wdesk
 
 == Changelog ==
 
+= 0.2 =
+* Guest users
+* OTP password recover
+* File attachment
+* Settings page
+
 = 0.1 =
 * Tickets and Departments
 * Internationalization
 
 == Upgrade Notice ==
+
+= 0.2 =
+Security and usability
 
 = 0.1 =
 Core features

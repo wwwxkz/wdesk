@@ -2,26 +2,31 @@
 
 function wdesk_shortcode() {
     $return = '';
-    if (isset($_COOKIE["wdesk-user-email"]) && isset($_COOKIE["wdesk-user-password"])) {
-        global $wpdb;
-        $email = $_COOKIE["wdesk-user-email"];
-        $password = $_COOKIE["wdesk-user-password"];
-        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = '$email' AND password = '$password'"));
-        if(empty($user)) {
-            echo '<script>alert("' . __('This user does not exist', 'wdesk') . '")</script>';
-			unset($_COOKIE['wdesk-user-email']);
-			unset($_COOKIE['wdesk-user-password']);
-			setcookie('wdesk-user-email', null, -1); 
-			setcookie('wdesk-user-password', null, -1); 
-			header("Refresh:0");
-        }
-        $return .= wdesk_shortcode_tickets($user);
-		$return .= wdesk_shortcode_ticket($user);
-		$return .= wdesk_shortcode_profile($user);
-		$return .= wdesk_shortcode_new_ticket($user);
+    if(isset($_GET['ticket'])) {
+    	$return .= wdesk_shortcode_ticket_guest(sanitize_text_field($_GET['ticket']));
     } else {
-        $return .= wdesk_shortcode_login();
-    }  
+		if (isset($_COOKIE["wdesk-user-email"]) && isset($_COOKIE["wdesk-user-password"])) {
+	        global $wpdb;
+	        $email = $_COOKIE["wdesk-user-email"];
+	        $password = $_COOKIE["wdesk-user-password"];
+	        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = '$email' AND password = '$password'"));
+	        if(empty($user)) {
+	            echo '<script>alert("' . __('This user does not exist', 'wdesk') . '")</script>';
+				unset($_COOKIE['wdesk-user-email']);
+				unset($_COOKIE['wdesk-user-password']);
+				setcookie('wdesk-user-email', null, -1); 
+				setcookie('wdesk-user-password', null, -1); 
+				header("Refresh:0");
+	        }
+	        $return .= wdesk_shortcode_tickets($user);
+			$return .= wdesk_shortcode_ticket($user);
+			$return .= wdesk_shortcode_profile($user);
+			$return .= wdesk_shortcode_new_ticket($user);
+	    } else {
+	        $return .= wdesk_shortcode_login();
+	        $return .= wdesk_shortcode_guest();
+	    }  
+    }
     $return .= wdesk_shortcode_script_masks();
     $return .= wdesk_shortcode_style();
     return $return;
@@ -30,17 +35,19 @@ function wdesk_shortcode() {
 function wdesk_shortcode_login() {
     $return = '';
     $return .= '
-        <div id="wdesk-login">	
+        <div id="wdesk-shortcode-login">	
 			<div style="display: flex; gap: 20px; flex-wrap: wrap; flex-direction: row;">
 				<div style="flex-grow: 1;">
+					<h1 style="color: #1a447a; flex-grow: 1;">' . __('Guest log-in', 'wdesk') . '</h1>
+					<input type="submit" style="margin-bottom: 40px; margin-top: 20px;" required class="button action" onclick="(function(){
+						document.getElementById(`wdesk-shortcode-login`).style.display = `none`;
+						document.getElementById(`wdesk-shortcode-guest`).style.display = `block`;
+					})();return false;" value="' . __('Send ticket as a guest', 'wdesk') . '" />
 					<h1 style="color: #1a447a; flex-grow: 1;">' . __('Sign-in', 'wdesk') . '</h1>
-					<form method="post" enctype="multipart/form-data">  
+					<form method="post">  
 						<div style="display: flex; flex-direction: column;">
 							<label>' . __('Email', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 							<input required type="email" name="email" placeholder="' . __('Valid email adress', 'wdesk') . '" />
-							<br>
-							<label>' . __('Name', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-							<input required type="text" name="name" id="name" placeholder="' . __('Full name', 'wdesk') . '" />
 							<br>
 							<label>' . __('Password', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 							<input onchange="confirmPassword();" type="password" required name="password" id="password" placeholder="' . __('A strong password', 'wdesk') . '" />
@@ -52,9 +59,9 @@ function wdesk_shortcode_login() {
 						</div>
 					</form>
 				</div>
-				<div style="flex-grow: 1;">
+				<div style="flex-grow: .5;">
 					<h1 style="color: #1a447a; flex-grow: 1;">' . __('Log-in', 'wdesk') . '</h1>
-					<form method="post" enctype="multipart/form-data">
+					<form method="post">
 						<div style="display: flex; flex-direction: column;">
 							<label>' . __('Email', 'wdesk') . '</label>
 							<input type="text" required name="email" placeholder="' . __('Valid email adress', 'wdesk') . '" />
@@ -65,13 +72,11 @@ function wdesk_shortcode_login() {
 							<input type="submit" required class="button action" name="wdesk-user-login" value="' . __('Log-in', 'wdesk') . '" />
 						</div>
 					</form>
-					<!--
 					<h1 style="color: #1a447a;">' . __('Forgot your password', 'wdesk') . '?</h1>
 					<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 						<input type="text" required name="email" placeholder="' . __('Last email used to acess', 'wdesk') . '" style="margin-bottom: 15px;"/>
 						<input type="submit" required class="button action" name="wdesk-user-recover" value="' . __('Send email with the password', 'wdesk') . '" />
 					</form>
-					 -->
 				</div>
 			</div>
         </div>
@@ -79,10 +84,53 @@ function wdesk_shortcode_login() {
     return $return;
 }
 
+function wdesk_shortcode_guest() {
+	global $wpdb;
+	$return = '';
+	$return .= '
+        <div id="wdesk-shortcode-guest" style="display: none;">	
+			<h1 style="color: #1a447a; flex-grow: 1;">' . __('Ticket', 'wdesk') . '</h1>
+			<input type="submit" style="margin-bottom: 40px; margin-top: 20px;" required class="button action" onclick="(function(){
+				document.getElementById(`wdesk-shortcode-login`).style.display = `block`;
+				document.getElementById(`wdesk-shortcode-guest`).style.display = `none`;
+			})();return false;" value="' . __('Log-in', 'wdesk') . '" />
+			<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+				<label>' . __('Email', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+				<input type="text" name="user-email" value="" placeholder="' . __('Valid email adress', 'wdesk') . '" required />
+				<br>
+				<label>' . __('Name', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+				<input type="text" name="thread-name" value="" placeholder="' . __('Full name', 'wdesk') . '" required />
+				<br>
+				<div style="display: flex; flex-direction: column;">
+					<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+					';
+					$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
+					$return .= '<select name="department">';
+						foreach ($departments as $department) {
+							$return .= '<option value="' . $department->id . '">' . $department->name . '</option>';
+						}
+					$return .= '</select><br>';
+					$return .= '
+					<label>' . __('Subject', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+					<input type="text" name="subject" value="" placeholder="' . __('Ticket subject', 'wdesk') . '" required />
+					<br>
+					<label>' . __('Description', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+					<textarea type="text" name="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" value="" style="height: 170px;" required></textarea>
+					<br>
+					<input type="file" name="file" />
+					<br>
+					<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-new" value="' . __('Send', 'wdesk') . '">
+				</div>	
+			</form>
+		</div>
+	';
+	return $return;
+}
+
 function wdesk_shortcode_tickets($users) {
 	global $wpdb;
-	$id = $users[0]->id;
-	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user = '$id'"));
+	$email = $users[0]->email;
+	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = '$email'"));
     $return = '';
     $return .= '
 		<div id="wdesk-shortcode-tickets">
@@ -122,7 +170,7 @@ function wdesk_shortcode_tickets($users) {
 						$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
 						$return .= '
 							<tr>
-								<th><a href="?id=' . $ticket->id . '"><p>' 	. $ticket->id . '</p></a></th>
+								<th><a href="?token=' . $ticket->token . '"><p>' 	. $ticket->id . '</p></a></th>
 								<th><p>';
 								if ($ticket->status == 'Open') {
 									$return .= __('Open', 'wdesk');
@@ -136,7 +184,7 @@ function wdesk_shortcode_tickets($users) {
 								$return .= '
 								</p></th>	
 								<th><p>' 									. $ticket->created . '</p></th>
-								<th><a href="?id=' . $ticket->id . '"><p>' 	. $ticket->subject . '</p></a></th>
+								<th><a href="?token=' . $ticket->token . '"><p>' 	. $ticket->subject . '</p></a></th>
 								<th><p>' 									. $department[0]->name . '</p></th>
 								<th><p>' 									. $agent . '</p></th>
 								<th>
@@ -159,10 +207,10 @@ function wdesk_shortcode_tickets($users) {
 
 function wdesk_shortcode_ticket($users) {
 	$return = '';
-	if (isset($_GET['id'])) {
+	if (isset($_GET['token'])) {
 		global $wpdb;
-		$id = $_GET['id'];
-		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = '$id'"));
+		$token = $_GET['token'];
+		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
 		$return .= '
 		<script>
 			document.getElementById(`wdesk-shortcode-tickets`).style.display = `none`; 
@@ -220,8 +268,7 @@ function wdesk_shortcode_ticket($users) {
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 			<input type="hidden" name="ticket" value="' . $ticket[0]->id . '"/>
 			<input type="hidden" name="subject" value="' . $ticket[0]->subject . '"/>
-			<input type="hidden" name="user" value="' . $users[0]->id . '" />
-			<input type="hidden" name="thread-user" value="'. $users[0]->name .'">
+			<input type="hidden" name="thread-user" value="' . $ticket[0]->user_name . '" />
 			<textarea required type="text" name="thread" id="thread" placeholder="' . __('Describe your case', 'wdesk') . '" value="" style="height: 170px;"></textarea>
 			<br>
 			<input type="file" name="file" />
@@ -229,6 +276,75 @@ function wdesk_shortcode_ticket($users) {
 			<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-update" value="' . __('Send', 'wdesk') . '">
 		</form>	
 		';
+	}
+	return $return;
+}
+
+function wdesk_shortcode_ticket_guest($token) {
+	global $wpdb;
+	$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
+	$return = '';
+	if (isset($ticket[0])) {
+		$return .= '
+		<div style="display: flex; flex-direction: row; justify-content: space-between;">
+			<h1 style="color: #1a447a; margin-bottom: 40px;">' . __('Ticket', 'wdesk') . ' ' . $ticket[0]->id . '</h1>
+			<div style="display: flex; flex-direction: row;">
+				<input type="submit" style="margin-bottom: 40px; margin-top: 20px;" required class="button action" onclick="(function(){
+					 window.location.replace(location.pathname);
+				})();return false;" value="' . __('Tickets', 'wdesk') . '" />
+				&nbsp;
+				<form method="post" style="margin-bottom: 40px; margin-top: 20px;">
+					<input type="hidden" name="ticket" value="' . $ticket[0]->id . '" />
+					<input type="submit" name="wdesk-ticket-close" value="' . __('Close', 'wdesk') . '" style="height: 100%;" />
+				</form>
+			</div>
+		</div>
+		';
+		$return .= '
+		<table>
+		<thead>
+			<tr>
+				<th colspan="4">' . $ticket[0]->subject . '</th>
+				<th>' . __('User', 'wdesk') . '</th>
+				<th>' . __('File', 'wdesk') . '</th>
+			</tr>
+		</thead>
+		';
+		$thread = unserialize($ticket[0]->thread);
+		$return .= '<tbody>';
+		foreach ($thread as $res) {
+			$return .= '
+			<tr>
+				<th colspan="4">' . $res[0] . '</th>
+				<th>' . $res[1] . '</th>
+				<th>';
+				if (isset($res[2]) && $res[2] != '') {
+					$return .= '<a href="' . $res[2] . '">' . __('Download', 'wdesk') . '</a>';
+				}
+				$return .= '
+				</th>
+			</tr>
+			';
+		}
+		$return .= '
+		</tbody>
+		</table>
+		';
+		$return .= '
+		<br>
+		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+			<input type="hidden" name="ticket" value="' . $ticket[0]->id . '"/>
+			<input type="hidden" name="subject" value="' . $ticket[0]->subject . '"/>
+			<input type="hidden" name="thread-user" value="' . $ticket[0]->user_name . '" />
+			<textarea required type="text" name="thread" id="thread" placeholder="' . __('Describe your case', 'wdesk') . '" value="" style="height: 170px;"></textarea>
+			<br>
+			<input type="file" name="file" />
+			<br>
+			<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-update" value="' . __('Send', 'wdesk') . '">
+		</form>	
+		';
+	} else {
+		$return .= __('No ticket found', 'wdesk');
 	}
 	return $return;
 }
@@ -247,16 +363,15 @@ function wdesk_shortcode_profile($users) {
 		</div>
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 			<input type="hidden" name="id" value="'. $users[0]->id .'">
-			<input type="hidden" name="password" value="'. $users[0]->password .'">
 			<div style="display: flex; flex-direction: column;">
-				<label>' . __('Name', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-				<input required type="text" name="name" id="name" value="'. $users[0]->name .'" placeholder="' . __('Full name', 'wdesk') . '" />
-				<br>
 				<label>' . __('Email', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 				<input required type="email" name="email" value="' . $users[0]->email. '" placeholder="' . __('Valid email adress', 'wdesk') . '" />
 				<br>
+				<label>' . __('Name', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+				<input required type="text" name="name" value="' . $users[0]->name. '" placeholder="' . __('Full name', 'wdesk') . '" />
+				<br>
 				<label>' . __('New password', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-				<input required type="password" name="password" id="password" placeholder="' . __('A strong password', 'wdesk') . '" value=""/>
+				<input required type="text" name="password" placeholder="' . __('A strong password', 'wdesk') . '" value=""/>
 				<br>
 				<input style="width: 100%;" type="submit" class="button action" name="wdesk-user-update" value="' . __('Save', 'wdesk') . '">
 				<input style="color: white; background-color: indianred; margin-top: 10px;width: 100%;" type="submit" class="button action" name="wdesk-user-logout" value="' . __('Logout', 'wdesk') . '">
@@ -281,8 +396,8 @@ function wdesk_shortcode_new_ticket($users) {
 			})();return false;" value="' . __('Tickets', 'wdesk') . '" />
 		</div>
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
-			<input type="hidden" name="user" value="'. $users[0]->id .'">
-			<input type="hidden" name="thread-user" value="'. $users[0]->name .'">
+			<input type="hidden" name="user-email" value="'. $users[0]->email .'">
+			<input type="hidden" name="thread-name" value="'. $users[0]->name .'">
 			<div style="display: flex; flex-direction: column;">
 				<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 				';

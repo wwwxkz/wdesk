@@ -3,11 +3,9 @@
 function wdesk_tickets()
 {
     global $wpdb;
-	if (isset($_GET['id'])) {
-		$id = $_GET['id'];
-		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = '$id'"));
-		$id = $tickets[0]->user;
-		$ticket_user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE id = '$id'"));
+	if (isset($_GET['token'])) {
+		$token = $_GET['token'];
+		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
 		?>
 		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: row; justify-content: space-between;">
 			<h2>Ticket <?php echo esc_textarea($tickets[0]->id) ?></h2>
@@ -45,7 +43,7 @@ function wdesk_tickets()
 				</tbody>
 			</table>
 			&nbsp;
-			<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px;">
+			<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px; height: -webkit-fill-available;">
 				<thead>
 					<tr>
 						<th><?php _e('Details', 'wdesk') ?></th>
@@ -54,6 +52,7 @@ function wdesk_tickets()
 				<tbody>
 					<form method="post">
 						<input type="hidden" name="ticket" value="<?php echo esc_textarea($tickets[0]->id) ?>" />
+						<input type="hidden" name="token" value="<?php echo esc_textarea($tickets[0]->token) ?>" />
 						<input type="hidden" name="status" value="<?php echo esc_textarea($tickets[0]->status) ?>" />
 						<input type="hidden" name="agent" value="<?php echo esc_textarea($tickets[0]->agent) ?>" />
 						<tr><th>ID: <?php echo esc_textarea($tickets[0]->id) ?></th></tr>
@@ -104,7 +103,7 @@ function wdesk_tickets()
 								</select>
 							</th>
 						</tr>
-						<tr><th><?php _e('User', 'wdesk') ?>: <?php echo esc_textarea($ticket_user[0]->name) ?></th></tr>
+						<tr><th><?php _e('User', 'wdesk') ?>: <?php echo esc_textarea($tickets[0]->user_name) ?></th></tr>
 						<tr><th><?php _e('Created', 'wdesk') ?>: <?php echo esc_textarea($tickets[0]->created) ?></th></tr>
 						<tr>
 							<th>
@@ -121,7 +120,7 @@ function wdesk_tickets()
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 			<input type="hidden" name="ticket" value="<?php echo esc_textarea($tickets[0]->id) ?>"/>
 			<input type="hidden" name="subject" value="<?php echo esc_textarea($tickets[0]->subject) ?>"/>
-			<input type="hidden" name="user" value="<?php echo esc_textarea($tickets[0]->user) ?>" />
+			<input type="hidden" name="user-email" value="<?php echo esc_textarea($tickets[0]->user_email) ?>" />
 			<input type="hidden" name="thread-user" value="<?php echo esc_textarea(wp_get_current_user()->display_name) ?>" />
 			<textarea type="text" name="thread" id="thread" placeholder="<?php _e('Please, describe your problem', 'wdesk') ?>" value="" style="height: 170px;" required></textarea>
 			<br>
@@ -171,8 +170,6 @@ function wdesk_tickets()
 							in_array($ticket->department, $wp_user_groups) ||
 							current_user_can('administrator')
 						) {
-							$id = $ticket->user;
-							$user_name = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE id = '$id'"));
 							$agent = get_user_by('id', $ticket->agent);
 							$agent = (isset($agent->display_name)) ? $agent->display_name : '';
 							$id = $ticket->department;
@@ -181,7 +178,7 @@ function wdesk_tickets()
 								<tr>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
-										searchParams.set(`id`, `<?php echo esc_textarea($ticket->id) ?>`);
+										searchParams.set(`token`, `<?php echo esc_textarea($ticket->token) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->id) ?></a></th>
 									<th>
@@ -203,10 +200,10 @@ function wdesk_tickets()
 									<th><?php echo (isset($department[0]->name)) ? $department[0]->name : '' ?></th>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
-										searchParams.set(`id`, `<?php echo esc_textarea($ticket->id) ?>`);
+										searchParams.set(`token`, `<?php echo esc_textarea($ticket->token) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->subject) ?></a></th>
-									<th><?php echo esc_textarea($user_name[0]->name) ?></th>
+									<th><?php echo esc_textarea($ticket->user_name) ?></th>
 									<th><?php echo esc_textarea($agent) ?></th>
 									<th>
 										<form method="post">
