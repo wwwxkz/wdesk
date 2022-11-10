@@ -182,23 +182,47 @@ function wdesk_department()
 	}
 }
 
-function wdesk_helper_send_mail($to, $subject, $message) 
+function wdesk_setting()
 {
-    $headers[] = 'From: ';
-    wp_mail($to, $subject, $message, $headers);
+	if (isset($_POST['wdesk-setting-update'])) {
+        global $wpdb;
+		$wpdb->update(
+			'wdesk_settings',
+			array(
+				'value' => sanitize_text_field($_POST['name']),
+			), array(
+				'id' => 0,
+			)
+		);
+		$wpdb->update(
+			'wdesk_settings',
+			array(
+				'value' => sanitize_email($_POST['email']),
+			), array(
+				'id' => 1,
+			)
+		);
+	}
 }
 
-
+function wdesk_helper_send_mail($to, $subject, $message) 
+{
+	global $wpdb;
+	$settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+    $headers[] = "From: $settings[1]->value";
+    wp_mail($to, $subject, $message, $headers);
+}
 
 function wdesk_helper_recover_password($to)
 {
     global $wpdb;
+    $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
     $users = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE email = '$to';");
     if (isset($users[0])) {
         $password = $users[0]->password;
 		$subject =  __('Recover your helpdesk access password', 'wdesk');
 		$message = __('Your password is: ', 'wdesk') . $password;
-		$headers[] = 'From: ';
+		$headers[] = "From: $settings[1]->value";
 		wp_mail($to, $subject, $message, $headers);
     }
     echo '<script>alert("' . __('If your user is found in the database we will send you a email with its password. If not, sign-in as usual to access the helpdesk', 'wdesk') . '")</script>';

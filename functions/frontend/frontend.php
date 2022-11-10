@@ -8,4 +8,6 @@ add_action('admin_menu', 'wdesk_ticket');
 add_action('template_redirect', 'wdesk_ticket');
 add_action('admin_menu', 'wdesk_department');
 add_action('template_redirect', 'wdesk_department');
+add_action('admin_menu', 'wdesk_setting');
+add_action('template_redirect', 'wdesk_setting');
 ?>

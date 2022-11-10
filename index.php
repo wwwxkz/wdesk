@@ -14,6 +14,7 @@ define('WDESK_LOCAL', plugin_dir_path(__FILE__));
 require_once(WDESK_LOCAL . 'functions/frontend/frontend.php');
 require_once(WDESK_LOCAL . 'functions/tickets/tickets.php');
 require_once(WDESK_LOCAL . 'functions/departments/departments.php');
+require_once(WDESK_LOCAL . 'functions/settings/settings.php');
 
 add_action( 'plugins_loaded', 'wdesk_init' );
 
@@ -27,6 +28,7 @@ function wdesk(){
 	add_menu_page( 'Helpdesk', 'Helpdesk', 'manage_options', 'helpdesk', 'helpdesk', 'dashicons-editor-ul', 10 );
 	add_submenu_page( 'helpdesk', __('Tickets', 'wdesk'), __('Tickets', 'wdesk'), 'read', 'wdesk_tickets', 'wdesk_tickets' );
 	add_submenu_page( 'helpdesk', __('Departments', 'wdesk'), __('Departments', 'wdesk'), 'read', 'wdesk_departments', 'wdesk_departments' );
+	add_submenu_page( 'helpdesk', __('Settings', 'wdesk'), __('Settings', 'wdesk'), 'read', 'wdesk_settings', 'wdesk_settings' );
 	remove_submenu_page('helpdesk','helpdesk');
 }		
 
@@ -68,6 +70,25 @@ function wdesk_activation(){
 		UNIQUE KEY id (id)
 	) $charset_collate3;";
 	dbDelta($sql3);
+	$table4 = "wdesk_settings"; 
+	$charset_collate4 = $wpdb->get_charset_collate();
+	$sql4 = "CREATE TABLE $table4 (
+		id mediumint(9) NOT NULL,
+		setting tinytext NOT NULL,
+		value tinytext NOT NULL,
+		UNIQUE KEY id (id)
+	) $charset_collate4;";
+	dbDelta($sql4);
+	$wpdb->insert($table4, array(
+		'id' => 0,
+		'setting' => 'Helpdesk name',
+		'value' => 'ExemCompany'
+	));
+	$wpdb->insert($table4, array(
+		'id' => 1,
+		'setting' => 'Sender email',
+		'value' => 'email@example.com'
+	));
 }
 
 ?>
