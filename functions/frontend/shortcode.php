@@ -6,7 +6,7 @@ function wdesk_shortcode() {
         global $wpdb;
         $email = $_COOKIE["wdesk-user-email"];
         $password = $_COOKIE["wdesk-user-password"];
-        $user = $wpdb->get_results ("SELECT * FROM `wdesk_users` WHERE email = '$email' AND password = '$password'");
+        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = '$email' AND password = '$password'"));
         if(empty($user)) {
             echo '<script>alert("' . __('This user does not exist', 'wdesk') . '")</script>';
 			unset($_COOKIE['wdesk-user-email']);
@@ -82,7 +82,7 @@ function wdesk_shortcode_login() {
 function wdesk_shortcode_tickets($users) {
 	global $wpdb;
 	$id = $users[0]->id;
-	$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user = '$id'");
+	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user = '$id'"));
     $return = '';
     $return .= '
 		<div id="wdesk-shortcode-tickets">
@@ -119,7 +119,7 @@ function wdesk_shortcode_tickets($users) {
 					$agent = (isset($agent->display_name)) ? $agent->display_name : '';
 					if ($ticket->status != "Closed") {
 						$id = $ticket->department;
-						$department = $wpdb->get_results ("SELECT * FROM `wdesk_departments` WHERE id = '$id'");
+						$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
 						$return .= '
 							<tr>
 								<th><a href="?id=' . $ticket->id . '"><p>' 	. $ticket->id . '</p></a></th>
@@ -162,7 +162,7 @@ function wdesk_shortcode_ticket($users) {
 	if (isset($_GET['id'])) {
 		global $wpdb;
 		$id = $_GET['id'];
-		$ticket = $wpdb->get_results ("SELECT * FROM `wdesk_tickets` WHERE id = '$id'");
+		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = '$id'"));
 		$return .= '
 		<script>
 			document.getElementById(`wdesk-shortcode-tickets`).style.display = `none`; 
@@ -286,7 +286,7 @@ function wdesk_shortcode_new_ticket($users) {
 			<div style="display: flex; flex-direction: column;">
 				<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 				';
-				$departments = $wpdb->get_results ("SELECT * FROM `wdesk_departments`");
+				$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
 				$return .= '<select name="department">';
 					foreach ($departments as $department) {
 						$return .= '<option value="' . $department->id . '">' . $department->name . '</option>';

@@ -5,18 +5,18 @@ function wdesk_tickets()
     global $wpdb;
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
-		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE id = '$id'");
+		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = '$id'"));
 		$id = $tickets[0]->user;
-		$ticket_user = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE id = '$id'");
+		$ticket_user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE id = '$id'"));
 		?>
 		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: row; justify-content: space-between;">
-			<h2>Ticket <?php echo $tickets[0]->id ?></h2>
+			<h2>Ticket <?php echo esc_textarea($tickets[0]->id) ?></h2>
 		</div>
 		<div style="display: flex; flex-direction: row;">
 			<table class="wp-list-table widefat fixed striped table-view-list" style="height: -moz-available; height: -webkit-fill-available;">
 				<thead>
 					<tr>
-						<th colspan="4"><?php echo $tickets[0]->subject ?></th>
+						<th colspan="4"><?php echo esc_textarea($tickets[0]->subject) ?></th>
 						<th><?php _e('User', 'wdesk') ?></th>
 						<th><?php _e('File', 'wdesk') ?></th>
 					</tr>
@@ -27,13 +27,13 @@ function wdesk_tickets()
 				foreach ($thread as $res) {
 					?>
 					<tr>
-						<th colspan="4"><?php echo $res[0] ?></th>
-						<th><?php echo $res[1] ?></th>
+						<th colspan="4"><?php echo esc_textarea($res[0]) ?></th>
+						<th><?php echo esc_textarea($res[1]) ?></th>
 						<th>
 						<?php 
 						if (isset($res[2]) && $res[2] != '') {
 							?>
-							<a href="<?php echo $res[2] ?>"><?php _e('Download', 'wdesk') ?></a> 
+							<a href="<?php echo esc_textarea($res[2]) ?>"><?php _e('Download', 'wdesk') ?></a> 
 							<?php
 						} 
 						?>
@@ -53,10 +53,10 @@ function wdesk_tickets()
 				</thead>
 				<tbody>
 					<form method="post">
-						<input type="hidden" name="ticket" value="<?php echo $tickets[0]->id ?>" />
-						<input type="hidden" name="status" value="<?php echo $tickets[0]->status ?>" />
-						<input type="hidden" name="agent" value="<?php echo $tickets[0]->agent ?>" />
-						<tr><th>ID: <?php echo $tickets[0]->id ?></th></tr>
+						<input type="hidden" name="ticket" value="<?php echo esc_textarea($tickets[0]->id) ?>" />
+						<input type="hidden" name="status" value="<?php echo esc_textarea($tickets[0]->status) ?>" />
+						<input type="hidden" name="agent" value="<?php echo esc_textarea($tickets[0]->agent) ?>" />
+						<tr><th>ID: <?php echo esc_textarea($tickets[0]->id) ?></th></tr>
 						<tr>
 							<th>
 								<label><?php _e('Status', 'wdesk') ?>:</label>
@@ -73,16 +73,16 @@ function wdesk_tickets()
 						<tr>
 							<th>
 								<?php 
-								$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
+								$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
 								$id = $tickets[0]->department;
-								$ticket_department = $wpdb->get_results("SELECT * FROM `wdesk_departments` WHERE id = '$id'");
+								$ticket_department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
 								?>
 								<label><?php _e('Department', 'wdesk') ?>:</label>
 								<br>
 								<select name="department">
 									<option value=""><?php _e('Select', 'wdesk') ?>...</option>
 									<?php foreach ($departments as $department) { ?>
-										<option value="<?php echo $department->id ?>" <?php echo ($department->id == $tickets[0]->department) ? 'selected' : ''; ?> ><?php echo $department->name ?></option>
+										<option value="<?php echo esc_textarea($department->id) ?>" <?php echo ($department->id == $tickets[0]->department) ? 'selected' : ''; ?> ><?php echo $department->name ?></option>
 									<?php } ?>
 								</select>
 							</th>
@@ -99,13 +99,13 @@ function wdesk_tickets()
 									<?php 
 									$users = get_users();
 									foreach ($users as $user) { ?>
-										<option value="<?php echo $user->id ?>" <?php echo ($user->id == $tickets[0]->agent) ? 'selected' : ''; ?> ><?php echo $user->display_name ?></option>
+										<option value="<?php echo esc_textarea($user->id) ?>" <?php echo ($user->id == $tickets[0]->agent) ? 'selected' : ''; ?> ><?php echo esc_textarea($user->display_name) ?></option>
 										<?php } ?>
 								</select>
 							</th>
 						</tr>
-						<tr><th><?php _e('User', 'wdesk') ?>: <?php echo $ticket_user[0]->name ?></th></tr>
-						<tr><th><?php _e('Created', 'wdesk') ?>: <?php echo $tickets[0]->created ?></th></tr>
+						<tr><th><?php _e('User', 'wdesk') ?>: <?php echo esc_textarea($ticket_user[0]->name) ?></th></tr>
+						<tr><th><?php _e('Created', 'wdesk') ?>: <?php echo esc_textarea($tickets[0]->created) ?></th></tr>
 						<tr>
 							<th>
 								<input type="submit" class="button action" name="wdesk-ticket-status" value="<?php _e('Update', 'wdesk') ?>" />
@@ -119,10 +119,10 @@ function wdesk_tickets()
 		</div>
 		<h2><?php _e('Answer ticket', 'wdesk') ?></h2>
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
-			<input type="hidden" name="ticket" value="<?php echo $tickets[0]->id ?>"/>
-			<input type="hidden" name="subject" value="<?php echo $tickets[0]->subject ?>"/>
-			<input type="hidden" name="user" value="<?php echo $tickets[0]->user ?>" />
-			<input type="hidden" name="thread-user" value="<?php echo wp_get_current_user()->display_name; ?>" />
+			<input type="hidden" name="ticket" value="<?php echo esc_textarea($tickets[0]->id) ?>"/>
+			<input type="hidden" name="subject" value="<?php echo esc_textarea($tickets[0]->subject) ?>"/>
+			<input type="hidden" name="user" value="<?php echo esc_textarea($tickets[0]->user) ?>" />
+			<input type="hidden" name="thread-user" value="<?php echo esc_textarea(wp_get_current_user()->display_name) ?>" />
 			<textarea type="text" name="thread" id="thread" placeholder="<?php _e('Please, describe your problem', 'wdesk') ?>" value="" style="height: 170px;" required></textarea>
 			<br>
 			<input type="file" name="file" />
@@ -132,11 +132,11 @@ function wdesk_tickets()
 	<?php
 	} else {
 		$sql = "SELECT * FROM wdesk_tickets";
-		$total = $wpdb->get_var( "SELECT COUNT(1) FROM (${sql}) AS combined_table" );
+		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(1) FROM (${sql}) AS combined_table"));
 		$items_per_page = 20;
 		$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
 		$offset = ( $page * $items_per_page ) - $items_per_page;
-		$tickets = $wpdb->get_results( $sql . " ORDER BY id LIMIT ${offset}, ${items_per_page}" );
+		$tickets = $wpdb->get_results($wpdb->prepare($sql . " ORDER BY id LIMIT ${offset}, ${items_per_page}"));
 		?>
 		<div style="float: left; margin-top: 15px; padding: 0;">
 			<h2><?php _e('Tickets', 'wdesk') ?></h2>
@@ -155,7 +155,7 @@ function wdesk_tickets()
 				</thead>
 				<tbody>
 					<?php
-					$departments = $wpdb->get_results ("SELECT * FROM `wdesk_departments`");
+					$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
 					$wp_user = wp_get_current_user();
 					$wp_user_id = $wp_user->id;
 					$wp_user_groups = array();
@@ -172,18 +172,18 @@ function wdesk_tickets()
 							current_user_can('administrator')
 						) {
 							$id = $ticket->user;
-							$user_name = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE id = '$id'");
+							$user_name = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE id = '$id'"));
 							$agent = get_user_by('id', $ticket->agent);
 							$agent = (isset($agent->display_name)) ? $agent->display_name : '';
 							$id = $ticket->department;
-							$department = $wpdb->get_results("SELECT * FROM `wdesk_departments` WHERE id = '$id'");
+							$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
 							?>
 								<tr>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
-										searchParams.set(`id`, `<?php echo $ticket->id ?>`);
+										searchParams.set(`id`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
-									})();return false;"><?php echo $ticket->id ?></a></th>
+									})();return false;"><?php echo esc_textarea($ticket->id) ?></a></th>
 									<th>
 										<?php
 											if ($ticket->status == 'Open') {
@@ -199,24 +199,24 @@ function wdesk_tickets()
 											}
 										?>
 									</th>
-									<th><?php echo $ticket->created ?></th>
+									<th><?php echo esc_textarea($ticket->created) ?></th>
 									<th><?php echo (isset($department[0]->name)) ? $department[0]->name : '' ?></th>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
-										searchParams.set(`id`, `<?php echo $ticket->id ?>`);
+										searchParams.set(`id`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
-									})();return false;"><?php echo $ticket->subject ?></a></th>
-									<th><?php echo $user_name[0]->name ?></th>
-									<th><?php echo $agent ?></th>
+									})();return false;"><?php echo esc_textarea($ticket->subject) ?></a></th>
+									<th><?php echo esc_textarea($user_name[0]->name) ?></th>
+									<th><?php echo esc_textarea($agent) ?></th>
 									<th>
 										<form method="post">
-											<input type="submit" name="<?php echo $ticket->id ?>-ticket-delete" value="<?php _e('Delete', 'wdesk') ?>" class="button action">  
+											<input type="submit" name="<?php echo esc_textarea($ticket->id) ?>-ticket-delete" value="<?php _e('Delete', 'wdesk') ?>" class="button action">  
 										</form>
 									</th>
 								</tr>
 							<?php
 								if (isset($_POST[$ticket->id . '-ticket-delete'])) {
-									$wpdb->get_results("DELETE FROM wdesk_tickets WHERE id=$ticket->id");
+									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets WHERE id=$ticket->id"));
 									echo "<script>window.location.reload()</script>";
 								}
 							}

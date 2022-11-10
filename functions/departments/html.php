@@ -7,18 +7,18 @@ function wdesk_departments() {
 		<div style="display: flex; flex-direction: row;">
 			<?php 
 				global $wpdb;
-				$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
+				$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
 				foreach ($departments as $department) { ?>
 					<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px; height: -webkit-fill-available;">
 						<thead>
 							<tr>
-								<th><?php _e('Department', 'wdesk') ?> <?php echo $department->id ?></th>
+								<th><?php _e('Department', 'wdesk') ?> <?php echo esc_textarea($department->id) ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<form method="post">
-								<input type="hidden" name="id" value="<?php echo $department->id ?>"/>
-								<tr><th><?php _e('Name', 'wdesk') ?>: <br><input type="text" name="name" placeholder="<?php _e('Department name', 'wdesk') ?>" value="<?php echo $department->name ?>" style="padding: 0 8px; margin: 0;"/></th></tr>
+								<input type="hidden" name="id" value="<?php echo esc_textarea($department->id) ?>"/>
+								<tr><th><?php _e('Name', 'wdesk') ?>: <br><input type="text" name="name" placeholder="<?php _e('Department name', 'wdesk') ?>" value="<?php echo esc_textarea($department->name) ?>" style="padding: 0 8px; margin: 0;"/></th></tr>
 								<tr>
 									<th>
 										Agents
@@ -31,15 +31,15 @@ function wdesk_departments() {
 											<div>
 											<?php
 											if (in_array($agent->id, $department_agents)) { ?>
-												<input type="checkbox" name="agents[]" value="<?php echo $agent->id ?>" style="margin: 3px 0px 0px 0px;" checked />
+												<input type="checkbox" name="agents[]" value="<?php echo esc_textarea($agent->id) ?>" style="margin: 3px 0px 0px 0px;" checked />
 											<?php
 											} else {
 											?>
-												<input type="checkbox" name="agents[]" value="<?php echo $agent->id ?>" style="margin: 3px 0px 0px 0px;" />
+												<input type="checkbox" name="agents[]" value="<?php echo esc_textarea($agent->id) ?>" style="margin: 3px 0px 0px 0px;" />
 											<?php
 											}
 											?>
-												<label for="<?php echo $agent->id ?>"><?php echo $agent->display_name ?></label>
+												<label for="<?php echo esc_textarea($agent->id) ?>"><?php echo esc_textarea($agent->display_name) ?></label>
 											</div>
 										<?php
 										}
