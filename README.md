@@ -15,3 +15,10 @@
 1 - Or use languages/wdesk.pot
 2 - Poedit
 3 - New branch 'add/fix/update language-name_variant short description'
+
+### Dev
+
+- [ ] INSERT wdesk_settings example data IF NOT EXIST
+- [ ] Download thread as pdf, csv, and html
+- [ ] Improve security
+- [ ] Replace cookie by tokens
