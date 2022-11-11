@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the wdesk plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: wdesk 0.1\n"
+"Project-Id-Version: wdesk 0.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-10T17:38:18-03:00\n"
+"POT-Creation-Date: 2022-11-11T12:43:56-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wdesk\n"
@@ -36,9 +36,9 @@ msgid "Departments"
 msgstr ""
 
 #: functions/departments/html.php:15
-#: functions/frontend/shortcode.php:105
-#: functions/frontend/shortcode.php:159
-#: functions/frontend/shortcode.php:402
+#: functions/frontend/shortcode.php:125
+#: functions/frontend/shortcode.php:179
+#: functions/frontend/shortcode.php:422
 #: functions/tickets/html.php:79
 #: functions/tickets/html.php:148
 msgid "Department"
@@ -46,8 +46,8 @@ msgstr ""
 
 #: functions/departments/html.php:21
 #: functions/departments/html.php:70
-#: functions/frontend/shortcode.php:101
-#: functions/frontend/shortcode.php:370
+#: functions/frontend/shortcode.php:121
+#: functions/frontend/shortcode.php:390
 msgid "Name"
 msgstr ""
 
@@ -79,283 +79,287 @@ msgstr ""
 msgid "Email already in use"
 msgstr ""
 
-#: functions/frontend/script.php:31
+#: functions/frontend/script.php:32
 msgid "User updated"
 msgstr ""
 
-#: functions/frontend/script.php:42
-#: functions/frontend/script.php:46
+#: functions/frontend/script.php:44
+#: functions/frontend/script.php:48
 msgid "Registered successfully"
 msgstr ""
 
-#: functions/frontend/script.php:47
+#: functions/frontend/script.php:49
 msgid "Acess the helpdesk with your email and password"
 msgstr ""
 
-#: functions/frontend/script.php:51
+#: functions/frontend/script.php:53
 msgid "User does not exist"
 msgstr ""
 
-#: functions/frontend/script.php:66
+#: functions/frontend/script.php:68
 msgid "Password incorrect or user does not exist"
 msgstr ""
 
-#: functions/frontend/script.php:128
+#: functions/frontend/script.php:131
 msgid "Your already have a ticket open, wait until you ticket is solved or close it to create another"
 msgstr ""
 
-#: functions/frontend/script.php:242
+#: functions/frontend/script.php:245
 msgid "Recover your helpdesk access password"
 msgstr ""
 
-#: functions/frontend/script.php:249
+#: functions/frontend/script.php:252
 msgid "If your user is found in the database we will send you a email with an OTP code and URL to reset your password. If not, sign-in or submit a ticket as a guest"
 msgstr ""
 
-#: functions/frontend/script.php:256
+#: functions/frontend/script.php:259
 msgid "Ticket update"
 msgstr ""
 
-#: functions/frontend/script.php:269
-#: functions/frontend/script.php:270
-#: functions/frontend/shortcode.php:92
-#: functions/frontend/shortcode.php:223
-#: functions/frontend/shortcode.php:290
+#: functions/frontend/script.php:272
+#: functions/frontend/script.php:273
+#: functions/frontend/shortcode.php:112
+#: functions/frontend/shortcode.php:243
+#: functions/frontend/shortcode.php:310
 msgid "Ticket"
 msgstr ""
 
-#: functions/frontend/script.php:269
+#: functions/frontend/script.php:272
 msgid "was updated"
 msgstr ""
 
-#: functions/frontend/shortcode.php:14
+#: functions/frontend/shortcode.php:17
 msgid "This user does not exist"
 msgstr ""
 
-#: functions/frontend/shortcode.php:41
+#: functions/frontend/shortcode.php:50
+msgid "Invalid OTP code"
+msgstr ""
+
+#: functions/frontend/shortcode.php:61
 msgid "Guest log-in"
 msgstr ""
 
-#: functions/frontend/shortcode.php:45
+#: functions/frontend/shortcode.php:65
 msgid "Send ticket as a guest"
 msgstr ""
 
-#: functions/frontend/shortcode.php:46
+#: functions/frontend/shortcode.php:66
 msgid "Sign-in"
 msgstr ""
 
-#: functions/frontend/shortcode.php:49
-#: functions/frontend/shortcode.php:66
-#: functions/frontend/shortcode.php:98
-#: functions/frontend/shortcode.php:367
+#: functions/frontend/shortcode.php:69
+#: functions/frontend/shortcode.php:86
+#: functions/frontend/shortcode.php:118
+#: functions/frontend/shortcode.php:387
 msgid "Email"
 msgstr ""
 
-#: functions/frontend/shortcode.php:50
-#: functions/frontend/shortcode.php:67
-#: functions/frontend/shortcode.php:99
-#: functions/frontend/shortcode.php:368
+#: functions/frontend/shortcode.php:70
+#: functions/frontend/shortcode.php:87
+#: functions/frontend/shortcode.php:119
+#: functions/frontend/shortcode.php:388
 msgid "Valid email adress"
 msgstr ""
 
-#: functions/frontend/shortcode.php:52
-#: functions/frontend/shortcode.php:69
+#: functions/frontend/shortcode.php:72
+#: functions/frontend/shortcode.php:89
 msgid "Password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:53
-#: functions/frontend/shortcode.php:70
-#: functions/frontend/shortcode.php:374
+#: functions/frontend/shortcode.php:73
+#: functions/frontend/shortcode.php:90
+#: functions/frontend/shortcode.php:394
 msgid "A strong password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:55
+#: functions/frontend/shortcode.php:75
 msgid "Confirm your password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:56
+#: functions/frontend/shortcode.php:76
 msgid "Repeat your password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:58
-#: functions/frontend/shortcode.php:434
+#: functions/frontend/shortcode.php:78
+#: functions/frontend/shortcode.php:454
 msgid "Register"
 msgstr ""
 
-#: functions/frontend/shortcode.php:63
-#: functions/frontend/shortcode.php:72
-#: functions/frontend/shortcode.php:96
+#: functions/frontend/shortcode.php:83
+#: functions/frontend/shortcode.php:92
+#: functions/frontend/shortcode.php:116
 msgid "Log-in"
 msgstr ""
 
-#: functions/frontend/shortcode.php:75
+#: functions/frontend/shortcode.php:95
 msgid "Forgot your password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:77
+#: functions/frontend/shortcode.php:97
 msgid "Last email used to acess"
 msgstr ""
 
-#: functions/frontend/shortcode.php:78
+#: functions/frontend/shortcode.php:98
 msgid "Send email with the password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:102
-#: functions/frontend/shortcode.php:371
+#: functions/frontend/shortcode.php:122
+#: functions/frontend/shortcode.php:391
 msgid "Full name"
 msgstr ""
 
-#: functions/frontend/shortcode.php:114
-#: functions/frontend/shortcode.php:158
-#: functions/frontend/shortcode.php:411
+#: functions/frontend/shortcode.php:134
+#: functions/frontend/shortcode.php:178
+#: functions/frontend/shortcode.php:431
 #: functions/tickets/html.php:149
 msgid "Subject"
 msgstr ""
 
-#: functions/frontend/shortcode.php:115
-#: functions/frontend/shortcode.php:412
+#: functions/frontend/shortcode.php:135
+#: functions/frontend/shortcode.php:432
 msgid "Ticket subject"
 msgstr ""
 
-#: functions/frontend/shortcode.php:117
-#: functions/frontend/shortcode.php:414
+#: functions/frontend/shortcode.php:137
+#: functions/frontend/shortcode.php:434
 msgid "Description"
 msgstr ""
 
-#: functions/frontend/shortcode.php:118
-#: functions/frontend/shortcode.php:415
+#: functions/frontend/shortcode.php:138
+#: functions/frontend/shortcode.php:435
 msgid "Ticket thread start"
 msgstr ""
 
-#: functions/frontend/shortcode.php:122
-#: functions/frontend/shortcode.php:276
-#: functions/frontend/shortcode.php:343
-#: functions/frontend/shortcode.php:419
+#: functions/frontend/shortcode.php:142
+#: functions/frontend/shortcode.php:296
+#: functions/frontend/shortcode.php:363
+#: functions/frontend/shortcode.php:439
 #: functions/tickets/html.php:129
 msgid "Send"
 msgstr ""
 
-#: functions/frontend/shortcode.php:138
-#: functions/frontend/shortcode.php:227
-#: functions/frontend/shortcode.php:294
-#: functions/frontend/shortcode.php:362
-#: functions/frontend/shortcode.php:396
+#: functions/frontend/shortcode.php:158
+#: functions/frontend/shortcode.php:247
+#: functions/frontend/shortcode.php:314
+#: functions/frontend/shortcode.php:382
+#: functions/frontend/shortcode.php:416
 #: functions/tickets/html.php:141
 #: index.php:29
 msgid "Tickets"
 msgstr ""
 
-#: functions/frontend/shortcode.php:144
+#: functions/frontend/shortcode.php:164
 msgid "New"
 msgstr ""
 
-#: functions/frontend/shortcode.php:149
+#: functions/frontend/shortcode.php:169
 msgid "Profile"
 msgstr ""
 
-#: functions/frontend/shortcode.php:156
+#: functions/frontend/shortcode.php:176
 #: functions/tickets/html.php:61
 #: functions/tickets/html.php:146
 msgid "Status"
 msgstr ""
 
-#: functions/frontend/shortcode.php:157
+#: functions/frontend/shortcode.php:177
 #: functions/tickets/html.php:107
 #: functions/tickets/html.php:147
 msgid "Created"
 msgstr ""
 
-#: functions/frontend/shortcode.php:160
+#: functions/frontend/shortcode.php:180
 #: functions/tickets/html.php:94
 #: functions/tickets/html.php:151
 msgid "Agent"
 msgstr ""
 
-#: functions/frontend/shortcode.php:161
+#: functions/frontend/shortcode.php:181
 #: functions/tickets/html.php:152
 msgid "Actions"
 msgstr ""
 
-#: functions/frontend/shortcode.php:176
+#: functions/frontend/shortcode.php:196
 #: functions/tickets/html.php:65
 #: functions/tickets/html.php:187
 msgid "Open"
 msgstr ""
 
-#: functions/frontend/shortcode.php:178
+#: functions/frontend/shortcode.php:198
 #: functions/tickets/html.php:66
 #: functions/tickets/html.php:189
 msgid "Waiting user"
 msgstr ""
 
-#: functions/frontend/shortcode.php:180
+#: functions/frontend/shortcode.php:200
 #: functions/tickets/html.php:67
 #: functions/tickets/html.php:191
 msgid "Waiting agent"
 msgstr ""
 
-#: functions/frontend/shortcode.php:182
+#: functions/frontend/shortcode.php:202
 #: functions/tickets/html.php:68
 #: functions/tickets/html.php:193
 msgid "Closed"
 msgstr ""
 
-#: functions/frontend/shortcode.php:193
-#: functions/frontend/shortcode.php:231
-#: functions/frontend/shortcode.php:298
+#: functions/frontend/shortcode.php:213
+#: functions/frontend/shortcode.php:251
+#: functions/frontend/shortcode.php:318
 msgid "Close"
 msgstr ""
 
-#: functions/frontend/shortcode.php:241
-#: functions/frontend/shortcode.php:308
+#: functions/frontend/shortcode.php:261
+#: functions/frontend/shortcode.php:328
 #: functions/tickets/html.php:18
 #: functions/tickets/html.php:106
 #: functions/tickets/html.php:150
 msgid "User"
 msgstr ""
 
-#: functions/frontend/shortcode.php:242
-#: functions/frontend/shortcode.php:309
+#: functions/frontend/shortcode.php:262
+#: functions/frontend/shortcode.php:329
 #: functions/tickets/html.php:19
 msgid "File"
 msgstr ""
 
-#: functions/frontend/shortcode.php:255
-#: functions/frontend/shortcode.php:322
+#: functions/frontend/shortcode.php:275
+#: functions/frontend/shortcode.php:342
 #: functions/tickets/html.php:34
 msgid "Download"
 msgstr ""
 
-#: functions/frontend/shortcode.php:272
-#: functions/frontend/shortcode.php:339
+#: functions/frontend/shortcode.php:292
+#: functions/frontend/shortcode.php:359
 msgid "Describe your case"
 msgstr ""
 
-#: functions/frontend/shortcode.php:347
+#: functions/frontend/shortcode.php:367
 msgid "No ticket found"
 msgstr ""
 
-#: functions/frontend/shortcode.php:357
+#: functions/frontend/shortcode.php:377
 msgid "User profile"
 msgstr ""
 
-#: functions/frontend/shortcode.php:373
+#: functions/frontend/shortcode.php:393
 msgid "New password"
 msgstr ""
 
-#: functions/frontend/shortcode.php:376
+#: functions/frontend/shortcode.php:396
 msgid "Save"
 msgstr ""
 
-#: functions/frontend/shortcode.php:377
+#: functions/frontend/shortcode.php:397
 msgid "Logout"
 msgstr ""
 
-#: functions/frontend/shortcode.php:391
+#: functions/frontend/shortcode.php:411
 msgid "New ticket"
 msgstr ""
 
-#: functions/frontend/shortcode.php:437
+#: functions/frontend/shortcode.php:457
 msgid "Password are not equal"
 msgstr ""
 
