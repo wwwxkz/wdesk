@@ -3,7 +3,7 @@
 function wdesk_shortcode() {
     $return = '';
     if(isset($_GET['otp'])) {
-    	$return .= wdesk_shortcode_otp($_GET['otp']);
+    	$return .= wdesk_shortcode_otp(sanitize_text_field($_GET['otp']));
     }
     elseif(isset($_GET['ticket'])) {
     	$return .= wdesk_shortcode_ticket_guest(sanitize_text_field($_GET['ticket']));
