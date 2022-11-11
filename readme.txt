@@ -3,7 +3,7 @@ Contributors: wxkz
 Donate link: https://github.com/wwwxkz/wallets
 Tags: helpdesk, support
 Requires at least: 5.0
-Tested up to: 6.0
+Tested up to: 6.1
 Stable tag: 0.2
 Requires PHP: 7.0
 License: GPLv2 or later

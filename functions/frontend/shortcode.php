@@ -7,7 +7,7 @@ function wdesk_shortcode() {
     } else {
 		if (isset($_COOKIE["wdesk-user-email"]) && isset($_COOKIE["wdesk-user-password"])) {
 	        global $wpdb;
-	        $email = $_COOKIE["wdesk-user-email"];
+	        $email = sanitize_email($_COOKIE["wdesk-user-email"]);
 	        $password = $_COOKIE["wdesk-user-password"];
 	        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = '$email' AND password = '$password'"));
 	        if(empty($user)) {
@@ -209,7 +209,7 @@ function wdesk_shortcode_ticket($users) {
 	$return = '';
 	if (isset($_GET['token'])) {
 		global $wpdb;
-		$token = $_GET['token'];
+		$token = sanitize_text_field($_GET['token']);
 		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
 		$return .= '
 		<script>

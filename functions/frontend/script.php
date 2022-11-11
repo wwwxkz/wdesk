@@ -85,7 +85,7 @@ function wdesk_ticket()
 				'agent' => sanitize_text_field($_POST['agent']),
 				'department' => sanitize_text_field($_POST['department']),
 			), array(
-				'id' => $_POST['ticket'],
+				'id' => sanitize_text_field($_POST['ticket']),
 			)
 		);	
 	}

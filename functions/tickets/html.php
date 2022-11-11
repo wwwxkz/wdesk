@@ -4,7 +4,7 @@ function wdesk_tickets()
 {
     global $wpdb;
 	if (isset($_GET['token'])) {
-		$token = $_GET['token'];
+		$token = sanitize_text_field($_GET['token']);
 		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
 		?>
 		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: row; justify-content: space-between;">
