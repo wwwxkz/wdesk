@@ -109,7 +109,8 @@ function wdesk_ticket()
 		$thread_user = sanitize_text_field($_POST['thread-user']);
 		$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
 		$thread = serialize([[sanitize_textarea_field($_POST['thread']), $thread_user, $file]]);
-		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user_email = '$thread_user' and status != 'Closed'");
+		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user_email = '$user_email' and status != 'Closed'");
+		$token = uniqid();
 		if(count($tickets) <= 0) {
 			$wpdb->insert(
 				'wdesk_tickets',
@@ -118,12 +119,12 @@ function wdesk_ticket()
 					'thread' => $thread,
 					'user_email' => $user_email,
 					'user_name' => $thread_user,
-					'token' => uniqid(),
+					'token' => $token,
 					'status' => 'Open',
 					'department' => sanitize_text_field($_POST['department'])
 				)
 			);
-			wdesk_helper_notify_user($tickets[0]->token);
+			wdesk_helper_notify_user($token);
 		} else {
 			echo "<script>alert('" . __('Your already have a ticket open, wait until you ticket is solved or close it to create another', 'wdesk') . "')</script>";
 		}

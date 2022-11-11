@@ -96,10 +96,10 @@ function wdesk_shortcode_guest() {
 			})();return false;" value="' . __('Log-in', 'wdesk') . '" />
 			<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 				<label>' . __('Email', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-				<input type="text" name="user-email" value="" placeholder="' . __('Valid email adress', 'wdesk') . '" required />
+				<input type="text" name="user-email" placeholder="' . __('Valid email adress', 'wdesk') . '" required />
 				<br>
 				<label>' . __('Name', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-				<input type="text" name="thread-name" value="" placeholder="' . __('Full name', 'wdesk') . '" required />
+				<input type="text" name="thread-user" placeholder="' . __('Full name', 'wdesk') . '" required />
 				<br>
 				<div style="display: flex; flex-direction: column;">
 					<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
@@ -115,7 +115,7 @@ function wdesk_shortcode_guest() {
 					<input type="text" name="subject" value="" placeholder="' . __('Ticket subject', 'wdesk') . '" required />
 					<br>
 					<label>' . __('Description', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-					<textarea type="text" name="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" value="" style="height: 170px;" required></textarea>
+					<textarea type="text" name="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" style="height: 170px;" required></textarea>
 					<br>
 					<input type="file" name="file" />
 					<br>
@@ -397,7 +397,7 @@ function wdesk_shortcode_new_ticket($users) {
 		</div>
 		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
 			<input type="hidden" name="user-email" value="'. $users[0]->email .'">
-			<input type="hidden" name="thread-name" value="'. $users[0]->name .'">
+			<input type="hidden" name="thread-user" value="'. $users[0]->name .'">
 			<div style="display: flex; flex-direction: column;">
 				<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 				';
