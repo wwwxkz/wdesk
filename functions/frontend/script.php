@@ -17,18 +17,20 @@ function wdesk_user()
 		} else {
 			if (isset($_POST['id'])) {
 				$id = sanitize_text_field($_POST['id']);
+				$password = sha1(base64_encode($_POST["password"]));
 				$wpdb->replace(
 					'wdesk_users',
 					array(
 						'id' => $id,
 						'email' => $email,
 						'name' => $name,
-						'password' => sha1(base64_encode($_POST["password"]))                        
+						'password' => $password                 
 					)
 				);
 				setcookie("wdesk-user-email", $email, time() + 3600);
 				setcookie("wdesk-user-password", $password, time() + 3600);
 				echo "<script>alert('" . __('User updated', 'wdesk') . "')</script>";
+				echo "<script>window.location = window.location.pathname</script>";
 				return 0;
 			} else {
 				$password = sha1(base64_encode($_POST["password"]));

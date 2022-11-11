@@ -3,7 +3,7 @@
 /*
 Plugin Name: 	wdesk
 Description: 	Plugin developed to track inquiries in a Helpdesk platform inside Wordpress
-Version: 		0.2
+Version: 		0.3
 Author: 		Marcelo Rodrigues Campos
 Author URI: 	https://github.com/wwwxkz
 Text Domain:	wdesk
@@ -18,13 +18,13 @@ require_once(WDESK_LOCAL . 'functions/settings/settings.php');
 
 add_action( 'plugins_loaded', 'wdesk_init' );
 
-function wdesk_init()
-{
+function wdesk_init() {
 	add_action('admin_menu', 'wdesk');
+	add_action('wdesk_cron_hook', 'wdesk_cron');
 	load_plugin_textdomain('wdesk', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
-function wdesk(){
+function wdesk() {
 	add_menu_page( 'Helpdesk', 'Helpdesk', 'manage_options', 'helpdesk', 'helpdesk', 'dashicons-editor-ul', 10 );
 	add_submenu_page( 'helpdesk', __('Tickets', 'wdesk'), __('Tickets', 'wdesk'), 'read', 'wdesk_tickets', 'wdesk_tickets' );
 	if (current_user_can('administrator')) {
@@ -35,7 +35,7 @@ function wdesk(){
 }		
 
 register_activation_hook(__FILE__, 'wdesk_activation');
-function wdesk_activation(){
+function wdesk_activation() {
 	global $wpdb;
 	$table1 = "wdesk_users"; 
 	$charset_collate1 = $wpdb->get_charset_collate();
@@ -99,6 +99,55 @@ function wdesk_activation(){
 		'setting' => 'Helpdesk url',
 		'value' => 'https://www.wordpress.org/'
 	));
+}
+
+register_deactivation_hook(__FILE__, 'wdesk_deactivation');
+function wdesk_deactivation() {
+	$timestamp = wp_next_scheduled( 'wdesk_cron_hook' );
+	wp_unschedule_event( $timestamp, 'wdesk_cron_hook' );
+}
+
+register_uninstall_hook(__FILE__, 'wdesk_uninstall');
+function wdesk_uninstall() {
+    global $wpdb;
+    $wpdb->query(
+    	$wpdb->prepare("
+    		DROP TABLE IF EXISTS wdesk_users;
+    	")
+   	);
+   	$wpdb->query(
+    	$wpdb->prepare("
+    		DROP TABLE IF EXISTS wdesk_departments;
+    	")
+   	);
+   	$wpdb->query(
+    	$wpdb->prepare("
+    		DROP TABLE IF EXISTS wdesk_tickets;
+    	")
+   	);
+   	$wpdb->query(
+    	$wpdb->prepare("
+    		DROP TABLE IF EXISTS wdesk_settings;
+    	")
+   	);
+}
+
+add_filter('cron_schedules', 'wdesk_cron_interval');
+function wdesk_cron_interval($schedules) { 
+    $schedules['five_minutes'] = array(
+        'interval' => 300,
+        'display'  => esc_html__('Every Five Minutes') 
+    );
+    return $schedules;
+}
+
+function wdesk_cron() {
+	global $wpdb;
+	$wpdb->query("UPDATE `wdesk_users` SET `otp` = NULL WHERE `otp` IS NOT NULL; ");
+}
+
+if (!wp_next_scheduled('wdesk_cron_hook')) {
+	wp_schedule_event(time(), 'five_minutes', 'wdesk_cron_hook');
 }
 
 ?>

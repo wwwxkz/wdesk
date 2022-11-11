@@ -2,7 +2,10 @@
 
 function wdesk_shortcode() {
     $return = '';
-    if(isset($_GET['ticket'])) {
+    if(isset($_GET['otp'])) {
+    	$return .= wdesk_shortcode_otp($_GET['otp']);
+    }
+    elseif(isset($_GET['ticket'])) {
     	$return .= wdesk_shortcode_ticket_guest(sanitize_text_field($_GET['ticket']));
     } else {
 		if (isset($_COOKIE["wdesk-user-email"]) && isset($_COOKIE["wdesk-user-password"])) {
@@ -30,6 +33,23 @@ function wdesk_shortcode() {
     $return .= wdesk_shortcode_script_masks();
     $return .= wdesk_shortcode_style();
     return $return;
+}
+
+function wdesk_shortcode_otp($otp) {
+	$return = '';
+	global $wpdb;
+	$users = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE `otp` = '$otp';"));
+	if(isset($users[0])) {
+		$return .= wdesk_shortcode_profile($users);
+		$return .= '
+		<script>
+			document.getElementById(`wdesk-shortcode-profile`).style.display = `block`;
+		</script>
+		';
+	} else {
+		$return .= '<h1 style="color: #1a447a; flex-grow: 1;">' . __('Invalid OTP code', 'wdesk') . '</h1>';
+	}
+	return $return;
 }
 
 function wdesk_shortcode_login() {
