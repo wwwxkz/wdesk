@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-11T12:43:56-03:00\n"
+"POT-Creation-Date: 2022-11-11T15:02:40-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wdesk\n"
@@ -116,8 +116,12 @@ msgstr ""
 msgid "Ticket update"
 msgstr ""
 
+#: functions/frontend/script.php:262
+msgid "Access the helpdesk by using your email and password or using the url"
+msgstr ""
+
 #: functions/frontend/script.php:272
-#: functions/frontend/script.php:273
+#: functions/frontend/script.php:275
 #: functions/frontend/shortcode.php:112
 #: functions/frontend/shortcode.php:243
 #: functions/frontend/shortcode.php:310

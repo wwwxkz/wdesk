@@ -259,7 +259,7 @@ function wdesk_helper_notify_user($token)
 	$subject = __('Ticket update', 'wdesk');
     $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
 	$url = $settings[2]->value;
-	$message = __("Access the helpdesk by using your email and password or using the url $url?token=$token", 'wdesk');
+	$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?token=$token";
 	(isset($tickets[0]->user_email) && $tickets[0]->user_email != "") ? wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message) : '';
 }
 
@@ -272,7 +272,7 @@ function wdesk_helper_notify_agent($ticket_id)
 	$subject = __('Ticket', 'wdesk') . " $id " . __('was updated', 'wdesk');
     $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
 	$url = $settings[2]->value;
-	$message = __('Ticket', 'wdesk') . "$id." . "Access the helpdesk by using the url $url";
+	$message = __('Ticket', 'wdesk') . "$id." . __("Access the helpdesk by using the url") . " $url";
 	(isset($agent->user_email) && $agent->user_email != "") ? wdesk_helper_send_mail($agent->user_email, $subject, $message) : '';
 }
 
