@@ -188,7 +188,6 @@ function wdesk_department()
 		$agents = isset($_POST['agents']) ? (array) $_POST['agents'] : array();
 		$agents = array_map('sanitize_text_field', $agents );
 		$actual_agents = $wpdb->get_results("SELECT agent_id FROM `wdesk_departments_agents` WHERE `department_id` = '$department_id'");
-		print_r($actual_agents);
 		foreach ($agents as $agent) {	
 			if (!in_array($agent, $actual_agents)) {
 				$wpdb->insert(
