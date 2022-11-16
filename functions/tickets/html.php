@@ -220,6 +220,7 @@ function wdesk_tickets()
 								</tr>
 							<?php
 								if (isset($_POST[$ticket->id . '-ticket-delete'])) {
+									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets_threads WHERE ticket_id=$ticket->id"));
 									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets WHERE id=$ticket->id"));
 									echo "<script>window.location.reload()</script>";
 								}
