@@ -165,12 +165,14 @@ function wdesk_department()
 		);
 	}
 	if (isset($_POST['wdesk-department-update'])) {
+		$agents = isset($_POST['agents']) ? (array) $_POST['agents'] : array();
+		$agents = array_map( 'sanitize_text_field', $agents );
         global $wpdb;
 		$wpdb->update(
 			'wdesk_departments',
 			array(
 				'name' => sanitize_text_field($_POST['name']),
-				'agents' => (isset($_POST['agents'])) ? serialize($_POST['agents']) : array(),
+				'agents' => serialize($agents),
 			), array(
 				'id' => sanitize_text_field($_POST['id']),
 			)
