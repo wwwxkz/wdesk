@@ -159,8 +159,10 @@ function wdesk_tickets()
 					$wp_user_id = $wp_user->id;
 					$wp_user_groups = array();
 					foreach ($departments as $department) {
-						if (in_array($wp_user_id, unserialize($department->agents))) {
-							array_push($wp_user_groups, $department->id);
+						if (is_array($department->agents)) {
+							if (in_array($wp_user_id, unserialize($department->agents))) {
+								array_push($wp_user_groups, $department->id);
+							}
 						}
 					}
 					foreach ($tickets as $i => $ticket) {
