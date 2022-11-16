@@ -55,17 +55,23 @@ function wdesk_activation() {
 	$sql2 = "CREATE TABLE $table2 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		name tinytext NOT NULL,
-		agents varchar(255),
 		UNIQUE KEY id (id)
 	) $charset_collate2;";
 	dbDelta($sql2);
-	$table3 = "wdesk_tickets"; 
+	$table3 = "wdesk_departments_agents"; 
 	$charset_collate3 = $wpdb->get_charset_collate();
 	$sql3 = "CREATE TABLE $table3 (
+		department_id mediumint(9) NOT NULL,
+		agent_id mediumint(9) NOT NULL,
+		FOREIGN KEY (department_id) REFERENCES wdesk_departments(id)
+	) $charset_collate3;";
+	dbDelta($sql3);
+	$table4 = "wdesk_tickets"; 
+	$charset_collate4 = $wpdb->get_charset_collate();
+	$sql4 = "CREATE TABLE $table4 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		created timestamp NOT NULL default CURRENT_TIMESTAMP,
 		subject tinytext NOT NULL,
-		thread mediumtext NOT NULL,
 		status varchar(255),
 		agent varchar(255),
 		department varchar(255),
@@ -73,28 +79,39 @@ function wdesk_activation() {
 		user_name varchar(255) NOT NULL,
 		token varchar(255) NOT NULL,
 		UNIQUE KEY id (id)
-	) $charset_collate3;";
-	dbDelta($sql3);
-	$table4 = "wdesk_settings"; 
-	$charset_collate4 = $wpdb->get_charset_collate();
-	$sql4 = "CREATE TABLE $table4 (
+	) $charset_collate4;";
+	dbDelta($sql4);
+	$table5 = "wdesk_tickets_threads"; 
+	$charset_collate5 = $wpdb->get_charset_collate();
+	$sql5 = "CREATE TABLE $table5 (
+		ticket_id mediumint(9) NOT NULL,
+		created timestamp NOT NULL default CURRENT_TIMESTAMP,
+		text varchar(255) NOT NULL,
+		file varchar(255) NOT NULL,
+		user_name varchar(255) NOT NULL,
+		FOREIGN KEY (ticket_id) REFERENCES wdesk_tickets(id)
+	) $charset_collate5;";
+	dbDelta($sql5);
+	$table6 = "wdesk_settings"; 
+	$charset_collate6 = $wpdb->get_charset_collate();
+	$sql6 = "CREATE TABLE $table6 (
 		id mediumint(9) NOT NULL,
 		setting tinytext NOT NULL,
 		value tinytext NOT NULL,
 		UNIQUE KEY id (id)
-	) $charset_collate4;";
-	dbDelta($sql4);
-	$wpdb->insert($table4, array(
+	) $charset_collate6;";
+	dbDelta($sql6);
+	$wpdb->insert($table6, array(
 		'id' => 0,
 		'setting' => 'Helpdesk name',
 		'value' => 'ExemCompany'
 	));
-	$wpdb->insert($table4, array(
+	$wpdb->insert($table6, array(
 		'id' => 1,
 		'setting' => 'Sender email',
 		'value' => 'email@example.com'
 	));
-	$wpdb->insert($table4, array(
+	$wpdb->insert($table6, array(
 		'id' => 2,
 		'setting' => 'Helpdesk url',
 		'value' => 'https://www.wordpress.org/'
@@ -103,8 +120,8 @@ function wdesk_activation() {
 
 register_deactivation_hook(__FILE__, 'wdesk_deactivation');
 function wdesk_deactivation() {
-	$timestamp = wp_next_scheduled( 'wdesk_cron_hook' );
-	wp_unschedule_event( $timestamp, 'wdesk_cron_hook' );
+	$timestamp = wp_next_scheduled('wdesk_cron_hook');
+	wp_unschedule_event($timestamp, 'wdesk_cron_hook');
 }
 
 register_uninstall_hook(__FILE__, 'wdesk_uninstall');
@@ -120,9 +137,19 @@ function wdesk_uninstall() {
     		DROP TABLE IF EXISTS wdesk_departments;
     	")
    	);
+	$wpdb->query(
+    	$wpdb->prepare("
+    		DROP TABLE IF EXISTS wdesk_departments_agents;
+    	")
+   	);
    	$wpdb->query(
     	$wpdb->prepare("
     		DROP TABLE IF EXISTS wdesk_tickets;
+    	")
+   	);
+	$wpdb->query(
+    	$wpdb->prepare("
+    		DROP TABLE IF EXISTS wdesk_tickets_threads;
     	")
    	);
    	$wpdb->query(

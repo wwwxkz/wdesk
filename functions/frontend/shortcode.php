@@ -263,16 +263,17 @@ function wdesk_shortcode_ticket($users) {
 			</tr>
 		</thead>
 		';
-		$thread = unserialize($ticket[0]->thread);
+		$ticket_id = $ticket[0]->id;
+		$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = '$ticket_id'"));
 		$return .= '<tbody>';
-		foreach ($thread as $res) {
+		foreach ($thread as $response) {
 			$return .= '
 			<tr>
-				<th colspan="4">' . $res[0] . '</th>
-				<th>' . $res[1] . '</th>
+				<th colspan="4">' . $response->text . '</th>
+				<th>' . $response->user_name . '</th>
 				<th>';
-				if (isset($res[2]) && $res[2] != '') {
-					$return .= '<a href="' . $res[2] . '">' . __('Download', 'wdesk') . '</a>';
+				if (isset($response->file) && $response->file != '') {
+					$return .= '<a href="' . $response->file . '">' . __('Download', 'wdesk') . '</a>';
 				}
 				$return .= '
 				</th>

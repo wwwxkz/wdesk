@@ -109,8 +109,6 @@ function wdesk_ticket()
         global $wpdb;
         $user_email = sanitize_email($_POST['user-email']);
 		$thread_user = sanitize_text_field($_POST['thread-user']);
-		$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
-		$thread = serialize([[sanitize_textarea_field($_POST['thread']), $thread_user, $file]]);
 		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE user_email = '$user_email' and status != 'Closed'");
 		$token = uniqid();
 		if(count($tickets) <= 0) {
@@ -118,12 +116,22 @@ function wdesk_ticket()
 				'wdesk_tickets',
 				array(
 					'subject' => sanitize_text_field($_POST['subject']),
-					'thread' => $thread,
 					'user_email' => $user_email,
 					'user_name' => $thread_user,
 					'token' => $token,
 					'status' => 'Open',
 					'department' => sanitize_text_field($_POST['department'])
+				)
+			);
+			$text = sanitize_textarea_field($_POST['thread']);
+			$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
+			$wpdb->insert(
+				'wdesk_tickets_threads',
+				array(
+					'ticket_id' => $wpdb->insert_id,
+					'text' => $text,
+					'file' => $file,
+					'user_name' => $thread_user
 				)
 			);
 			wdesk_helper_notify_user($token);
@@ -133,23 +141,22 @@ function wdesk_ticket()
 	}
     if (isset($_POST['wdesk-ticket-update'])) {
         global $wpdb;
-		$id = sanitize_text_field($_POST['ticket']);
-		$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE id = '$id'");
-		$thread = $tickets[0]->thread;
-		$thread = unserialize($thread);
+		$token = sanitize_text_field($_GET['token']);
+		$ticket_id = sanitize_text_field($_POST['ticket']);
+		$text = sanitize_textarea_field($_POST['thread']);		
+		$user_name = sanitize_text_field($_POST['thread-user']);		
 		$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
-		array_push($thread, [sanitize_textarea_field($_POST['thread']), sanitize_text_field($_POST['thread-user']), $file]);
-		$thread = serialize($thread);
-		$wpdb->update(
-			'wdesk_tickets',
+		$wpdb->insert(
+			'wdesk_tickets_threads',
 			array(
-				'thread' => $thread,
-			), array (
-				'id' => sanitize_text_field($_POST['ticket']),
+				'ticket_id' => $ticket_id,
+				'text' => $text,
+				'file' => $file,
+				'user_name' => $user_name
 			)
 		);
-		wdesk_helper_notify_user($tickets[0]->token);
-		wdesk_helper_notify_agent($id);
+		wdesk_helper_notify_user($token);
+		wdesk_helper_notify_agent($ticket_id);
 	}
 }
 
@@ -165,25 +172,45 @@ function wdesk_department()
 		);
 	}
 	if (isset($_POST['wdesk-department-update'])) {
-		$agents = isset($_POST['agents']) ? (array) $_POST['agents'] : array();
-		$agents = array_map( 'sanitize_text_field', $agents );
         global $wpdb;
+		$department_id = sanitize_text_field($_POST['id']);
+		$wpdb->query(
+			$wpdb->prepare("DELETE FROM `wdesk_departments_agents` WHERE `department_id` = %s", $department_id)
+		);
 		$wpdb->update(
 			'wdesk_departments',
 			array(
 				'name' => sanitize_text_field($_POST['name']),
-				'agents' => serialize($agents),
 			), array(
-				'id' => sanitize_text_field($_POST['id']),
+				'id' => $department_id,
 			)
 		);
+		$agents = isset($_POST['agents']) ? (array) $_POST['agents'] : array();
+		$agents = array_map('sanitize_text_field', $agents );
+		$actual_agents = $wpdb->get_results("SELECT agent_id FROM `wdesk_departments_agents` WHERE `department_id` = '$department_id'");
+		print_r($actual_agents);
+		foreach ($agents as $agent) {	
+			if (!in_array($agent, $actual_agents)) {
+				$wpdb->insert(
+					'wdesk_departments_agents',
+					array(
+						'department_id' => $department_id,
+						'agent_id' => $agent,
+					)
+				);	
+			}
+		}
 	}
-	if (isset($_POST['wdesk-departments-delete'])) {
+	if (isset($_POST['wdesk-department-delete'])) {
         global $wpdb;
+		$department_id = sanitize_text_field($_POST['id']);
+		$wpdb->query(
+			$wpdb->prepare("DELETE FROM `wdesk_departments_agents` WHERE `department_id` = %s", $department_id)
+		);
 		$wpdb->delete(
 			'wdesk_departments',
 			array(
-				'id' => sanitize_text_field($_POST['id']),
+				'id' => $department_id,
 			)
 		);
 	}

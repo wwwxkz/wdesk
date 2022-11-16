@@ -5,6 +5,7 @@ function wdesk_tickets()
     global $wpdb;
 	if (isset($_GET['token'])) {
 		$token = sanitize_text_field($_GET['token']);
+		$ticket = sanitize_text_field($_GET['ticket']);
 		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
 		?>
 		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: row; justify-content: space-between;">
@@ -21,17 +22,17 @@ function wdesk_tickets()
 				</thead>
 				<tbody>
 				<?php
-				$thread = unserialize($tickets[0]->thread); 
-				foreach ($thread as $res) {
+				$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = '$ticket'"));
+				foreach ($thread as $response) {
 					?>
 					<tr>
-						<th colspan="4"><?php echo esc_textarea($res[0]) ?></th>
-						<th><?php echo esc_textarea($res[1]) ?></th>
+						<th colspan="4"><?php echo esc_textarea($response->text) ?></th>
+						<th><?php echo esc_textarea($response->user_name) ?></th>
 						<th>
 						<?php 
-						if (isset($res[2]) && $res[2] != '') {
+						if (isset($response->file) && $response->file != '') {
 							?>
-							<a href="<?php echo esc_textarea($res[2]) ?>"><?php _e('Download', 'wdesk') ?></a> 
+							<a href="<?php echo esc_textarea($response->file) ?>"><?php _e('Download', 'wdesk') ?></a> 
 							<?php
 						} 
 						?>
@@ -159,9 +160,11 @@ function wdesk_tickets()
 					$wp_user_id = $wp_user->id;
 					$wp_user_groups = array();
 					foreach ($departments as $department) {
-						if (is_array($department->agents)) {
-							if (in_array($wp_user_id, unserialize($department->agents))) {
-								array_push($wp_user_groups, $department->id);
+						if (isset($department->agents)) {
+							if (is_array($department->agents)) {
+								if (in_array($wp_user_id, unserialize($department->agents))) {
+									array_push($wp_user_groups, $department->id);
+								}
 							}
 						}
 					}
@@ -181,6 +184,7 @@ function wdesk_tickets()
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
 										searchParams.set(`token`, `<?php echo esc_textarea($ticket->token) ?>`);
+										searchParams.set(`ticket`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->id) ?></a></th>
 									<th>
@@ -203,6 +207,7 @@ function wdesk_tickets()
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
 										searchParams.set(`token`, `<?php echo esc_textarea($ticket->token) ?>`);
+										searchParams.set(`ticket`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->subject) ?></a></th>
 									<th><?php echo esc_textarea($ticket->user_name) ?></th>

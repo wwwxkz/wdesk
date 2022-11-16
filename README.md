@@ -17,11 +17,19 @@
 
 ### Progress
 
+- [X] Add guest users using tokens
+- [X] Remove serialized in the DB
+- [ ] Refactor urlparams
 - [ ] INSERT wdesk_settings example data IF NOT EXIST
 - [ ] Download thread as pdf, csv, and html
 - [ ] Improve security
-- [ ] Replace cookie by tokens
+- [ ] Replace cookies by session
 - [ ] Refactor frontend/script and frontend.php
 - [ ] Department email
 - [ ] Ticket notes
 - [ ] Admin only thread inside ticket
+- [ ] Use token with id
+- [ ] Token expires
+- [ ] Padronize variables and function names
+- [ ] Remove main script from frontend
+- [ ] Refactor security

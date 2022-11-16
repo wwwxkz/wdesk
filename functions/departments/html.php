@@ -24,13 +24,16 @@ function wdesk_departments() {
 										Agents
 										<?php 
 										$agents = get_users();
-										$department_agents = unserialize($department->agents);
-										$department_agents = (isset($department_agents) && is_array($department_agents)) ? $department_agents : array();
+										$department_agents = $wpdb->get_results($wpdb->prepare("SELECT agent_id FROM `wdesk_departments_agents` WHERE `department_id` = $department->id"));
+										$department_agents_array = array();
+										foreach ($department_agents as $department_agent) {
+											array_push($department_agents_array, $department_agent->agent_id);
+										}
 										foreach ($agents as $agent) {
 											?>
 											<div>
 											<?php
-											if (in_array($agent->id, $department_agents)) { ?>
+											if (in_array($agent->id, $department_agents_array)) { ?>
 												<input type="checkbox" name="agents[]" value="<?php echo esc_textarea($agent->id) ?>" style="margin: 3px 0px 0px 0px;" checked />
 											<?php
 											} else {
