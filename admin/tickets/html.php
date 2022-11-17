@@ -179,7 +179,7 @@ function wdesk_tickets()
 							$agent = get_user_by('id', $ticket->agent);
 							$agent = (isset($agent->display_name)) ? $agent->display_name : '';
 							$id = $ticket->department;
-							$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s"), $id);
+							$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s", $id));
 							?>
 								<tr>
 									<th><a onclick="(function(){

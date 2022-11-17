@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wdesk 2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
-"POT-Creation-Date: 2022-11-17T10:33:49-03:00\n"
-"PO-Revision-Date: 2022-11-17 10:34-0300\n"
+"POT-Creation-Date: 2022-11-17T11:20:10-03:00\n"
+"PO-Revision-Date: 2022-11-17 11:20-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -35,67 +35,193 @@ msgstr "Marcelo Rodrigues Campos"
 msgid "https://github.com/wwwxkz"
 msgstr "https://github.com/wwwxkz"
 
-#: functions/departments/html.php:6 index.php:31
+#: admin/departments/html.php:6 index.php:32
 msgid "Departments"
 msgstr "Departamentos"
 
-#: functions/departments/html.php:15 functions/frontend/shortcode.php:125
-#: functions/frontend/shortcode.php:179 functions/frontend/shortcode.php:423
-#: functions/tickets/html.php:80 functions/tickets/html.php:150
+#: admin/departments/html.php:15 admin/tickets/html.php:80
+#: admin/tickets/html.php:150 shortcode/shortcode_shortcode.php:125
+#: shortcode/shortcode_shortcode.php:179 shortcode/shortcode_shortcode.php:423
 msgid "Department"
 msgstr "Departamento"
 
-#: functions/departments/html.php:21 functions/departments/html.php:73
-#: functions/frontend/shortcode.php:121 functions/frontend/shortcode.php:391
+#: admin/departments/html.php:21 admin/departments/html.php:73
+#: shortcode/shortcode_shortcode.php:121 shortcode/shortcode_shortcode.php:391
 msgid "Name"
 msgstr "Nome"
 
-#: functions/departments/html.php:21 functions/departments/html.php:73
+#: admin/departments/html.php:21 admin/departments/html.php:73
 msgid "Department name"
 msgstr "Nome do departamento"
 
-#: functions/departments/html.php:54 functions/settings/html.php:38
-#: functions/tickets/html.php:111
+#: admin/departments/html.php:54 admin/settings/html.php:38
+#: admin/tickets/html.php:111
 msgid "Update"
 msgstr "Atualizar"
 
-#: functions/departments/html.php:55 functions/tickets/html.php:218
+#: admin/departments/html.php:55 admin/tickets/html.php:218
 msgid "Delete"
 msgstr "Deletar"
 
-#: functions/departments/html.php:68
+#: admin/departments/html.php:68
 msgid "New department"
 msgstr "Novo departamento"
 
-#: functions/departments/html.php:76
+#: admin/departments/html.php:76
 msgid "Create"
 msgstr "Criar"
 
-#: functions/frontend/script.php:15
+#: admin/settings/html.php:8 index.php:33
+msgid "Settings"
+msgstr "Configurações"
+
+#: admin/settings/html.php:13
+msgid "General"
+msgstr "Geral"
+
+#: admin/settings/html.php:20
+msgid "Helpdesk"
+msgstr "Helpdesk"
+
+#: admin/settings/html.php:21
+msgid "Helpdesk name"
+msgstr "Nome do helpdesk"
+
+#: admin/settings/html.php:26
+msgid "Sender"
+msgstr "Remetente"
+
+#: admin/settings/html.php:27
+msgid "Sender email"
+msgstr "Email do remetente"
+
+#: admin/settings/html.php:32
+msgid "URL"
+msgstr "URL"
+
+#: admin/settings/html.php:33
+msgid "Helpdesk url"
+msgstr "Url do helpdesk"
+
+#: admin/tickets/html.php:19 admin/tickets/html.php:107
+#: admin/tickets/html.php:152 shortcode/shortcode_shortcode.php:261
+#: shortcode/shortcode_shortcode.php:329
+msgid "User"
+msgstr "Usuário"
+
+#: admin/tickets/html.php:20 script/helpers.php:78
+#: shortcode/shortcode_shortcode.php:262 shortcode/shortcode_shortcode.php:330
+msgid "File"
+msgstr "Arquivo"
+
+#: admin/tickets/html.php:35 admin/tickets/html.php:113
+#: shortcode/shortcode_shortcode.php:276 shortcode/shortcode_shortcode.php:343
+msgid "Download"
+msgstr "Download"
+
+#: admin/tickets/html.php:50
+msgid "Details"
+msgstr "Detalhes"
+
+#: admin/tickets/html.php:62 admin/tickets/html.php:148
+#: shortcode/shortcode_shortcode.php:176
+msgid "Status"
+msgstr "Status"
+
+#: admin/tickets/html.php:65 admin/tickets/html.php:83
+#: admin/tickets/html.php:98
+msgid "Select"
+msgstr "Selecionar"
+
+#: admin/tickets/html.php:66 admin/tickets/html.php:194
+#: shortcode/shortcode_shortcode.php:196
+msgid "Open"
+msgstr "Em aberto"
+
+#: admin/tickets/html.php:67 admin/tickets/html.php:196
+#: shortcode/shortcode_shortcode.php:198
+msgid "Waiting user"
+msgstr "Esperando usuário"
+
+#: admin/tickets/html.php:68 admin/tickets/html.php:198
+#: shortcode/shortcode_shortcode.php:200
+msgid "Waiting agent"
+msgstr "Esperando agente"
+
+#: admin/tickets/html.php:69 admin/tickets/html.php:200
+#: shortcode/shortcode_shortcode.php:202
+msgid "Closed"
+msgstr "Encerrado"
+
+#: admin/tickets/html.php:95 admin/tickets/html.php:153
+#: shortcode/shortcode_shortcode.php:180
+msgid "Agent"
+msgstr "Agente"
+
+#: admin/tickets/html.php:108 admin/tickets/html.php:149 script/helpers.php:76
+#: shortcode/shortcode_shortcode.php:177
+msgid "Created"
+msgstr "Criado"
+
+#: admin/tickets/html.php:112
+msgid "Notify"
+msgstr "Notificar"
+
+#: admin/tickets/html.php:121
+msgid "Answer ticket"
+msgstr "Responder chamado"
+
+#: admin/tickets/html.php:127
+msgid "Please, describe your problem"
+msgstr "Por favor, descreva seu problema"
+
+#: admin/tickets/html.php:131 shortcode/shortcode_shortcode.php:142
+#: shortcode/shortcode_shortcode.php:297 shortcode/shortcode_shortcode.php:364
+#: shortcode/shortcode_shortcode.php:440
+msgid "Send"
+msgstr "Enviar"
+
+#: admin/tickets/html.php:143 index.php:30
+#: shortcode/shortcode_shortcode.php:158 shortcode/shortcode_shortcode.php:247
+#: shortcode/shortcode_shortcode.php:315 shortcode/shortcode_shortcode.php:383
+#: shortcode/shortcode_shortcode.php:417
+msgid "Tickets"
+msgstr "Chamados"
+
+#: admin/tickets/html.php:151 shortcode/shortcode_shortcode.php:134
+#: shortcode/shortcode_shortcode.php:178 shortcode/shortcode_shortcode.php:432
+msgid "Subject"
+msgstr "Assunto"
+
+#: admin/tickets/html.php:154 shortcode/shortcode_shortcode.php:181
+msgid "Actions"
+msgstr "Ações"
+
+#: script/functions.php:15
 msgid "Email already in use"
 msgstr "Email já em uso"
 
-#: functions/frontend/script.php:32
+#: script/functions.php:32
 msgid "User updated"
 msgstr "Usuário atualizado"
 
-#: functions/frontend/script.php:44 functions/frontend/script.php:48
+#: script/functions.php:44 script/functions.php:48
 msgid "Registered successfully"
 msgstr "Registrado com sucesso"
 
-#: functions/frontend/script.php:49
+#: script/functions.php:49
 msgid "Acess the helpdesk with your email and password"
 msgstr "Acesse o helpdesk com seu email e senha"
 
-#: functions/frontend/script.php:53
+#: script/functions.php:53
 msgid "User does not exist"
 msgstr "Usuário não existe"
 
-#: functions/frontend/script.php:68
+#: script/functions.php:68
 msgid "Password incorrect or user does not exist"
 msgstr "Senha incorreta ou usuário não existe"
 
-#: functions/frontend/script.php:139
+#: script/functions.php:139
 msgid ""
 "Your already have a ticket open, wait until you ticket is solved or close it "
 "to create another"
@@ -103,31 +229,30 @@ msgstr ""
 "Você já tem um chamado em aberto, espere até que se chamado seja solucionado "
 "ou o encerre para criar outro"
 
-#: functions/frontend/script.php:265
+#: script/helpers.php:15
 msgid "Ticket update"
 msgstr "Atualização no chamado"
 
-#: functions/frontend/script.php:268
+#: script/helpers.php:18
 msgid "Access the helpdesk by using your email and password or using the url"
 msgstr ""
 "Acesse o helpdesk usando seu email e senha ou utilizando a url a seguir"
 
-#: functions/frontend/script.php:277 functions/frontend/script.php:280
-#: functions/frontend/script.php:321 functions/frontend/script.php:325
-#: functions/frontend/shortcode.php:112 functions/frontend/shortcode.php:243
-#: functions/frontend/shortcode.php:311
+#: script/helpers.php:27 script/helpers.php:30 script/helpers.php:71
+#: script/helpers.php:75 shortcode/shortcode_shortcode.php:112
+#: shortcode/shortcode_shortcode.php:243 shortcode/shortcode_shortcode.php:311
 msgid "Ticket"
 msgstr "Chamado"
 
-#: functions/frontend/script.php:277
+#: script/helpers.php:27
 msgid "was updated"
 msgstr "foi atualizado"
 
-#: functions/frontend/script.php:299
+#: script/helpers.php:49
 msgid "Recover your helpdesk access password"
 msgstr "Recupere sua senha de acesso ao helpdesk"
 
-#: functions/frontend/script.php:306
+#: script/helpers.php:56
 msgid ""
 "If your user is found in the database we will send you a email with an OTP "
 "code and URL to reset your password. If not, sign-in or submit a ticket as a "
@@ -137,268 +262,142 @@ msgstr ""
 "código OTP e uma URL para você resetar sua senha. Caso não, registre-se ou "
 "envie um chamado como convidado"
 
-#: functions/frontend/script.php:326 functions/frontend/shortcode.php:177
-#: functions/tickets/html.php:108 functions/tickets/html.php:149
-msgid "Created"
-msgstr "Criado"
-
-#: functions/frontend/script.php:327
+#: script/helpers.php:77
 msgid "Text"
 msgstr "Texto"
 
-#: functions/frontend/script.php:328 functions/frontend/shortcode.php:262
-#: functions/frontend/shortcode.php:330 functions/tickets/html.php:20
-msgid "File"
-msgstr "Arquivo"
-
-#: functions/frontend/script.php:329
+#: script/helpers.php:79
 msgid "Username"
 msgstr "Usuário"
 
-#: functions/frontend/shortcode.php:17
+#: shortcode/shortcode_shortcode.php:17
 msgid "This user does not exist"
 msgstr "Usuário não existe"
 
-#: functions/frontend/shortcode.php:50
+#: shortcode/shortcode_shortcode.php:50
 msgid "Invalid OTP code"
 msgstr "Código OTP invalido"
 
-#: functions/frontend/shortcode.php:61
+#: shortcode/shortcode_shortcode.php:61
 msgid "Guest log-in"
 msgstr "Logar-se como convidado"
 
-#: functions/frontend/shortcode.php:65
+#: shortcode/shortcode_shortcode.php:65
 msgid "Send ticket as a guest"
 msgstr "Enviar chamado como convidado"
 
-#: functions/frontend/shortcode.php:66
+#: shortcode/shortcode_shortcode.php:66
 msgid "Sign-in"
 msgstr "Registrar"
 
-#: functions/frontend/shortcode.php:69 functions/frontend/shortcode.php:86
-#: functions/frontend/shortcode.php:118 functions/frontend/shortcode.php:388
+#: shortcode/shortcode_shortcode.php:69 shortcode/shortcode_shortcode.php:86
+#: shortcode/shortcode_shortcode.php:118 shortcode/shortcode_shortcode.php:388
 msgid "Email"
 msgstr "Email"
 
-#: functions/frontend/shortcode.php:70 functions/frontend/shortcode.php:87
-#: functions/frontend/shortcode.php:119 functions/frontend/shortcode.php:389
+#: shortcode/shortcode_shortcode.php:70 shortcode/shortcode_shortcode.php:87
+#: shortcode/shortcode_shortcode.php:119 shortcode/shortcode_shortcode.php:389
 msgid "Valid email adress"
 msgstr "Email valido"
 
-#: functions/frontend/shortcode.php:72 functions/frontend/shortcode.php:89
+#: shortcode/shortcode_shortcode.php:72 shortcode/shortcode_shortcode.php:89
 msgid "Password"
 msgstr "Senha"
 
-#: functions/frontend/shortcode.php:73 functions/frontend/shortcode.php:90
-#: functions/frontend/shortcode.php:395
+#: shortcode/shortcode_shortcode.php:73 shortcode/shortcode_shortcode.php:90
+#: shortcode/shortcode_shortcode.php:395
 msgid "A strong password"
 msgstr "Uma senha forte"
 
-#: functions/frontend/shortcode.php:75
+#: shortcode/shortcode_shortcode.php:75
 msgid "Confirm your password"
 msgstr "Confirme sua senha"
 
-#: functions/frontend/shortcode.php:76
+#: shortcode/shortcode_shortcode.php:76
 msgid "Repeat your password"
 msgstr "Repita sua senha"
 
-#: functions/frontend/shortcode.php:78 functions/frontend/shortcode.php:455
+#: shortcode/shortcode_shortcode.php:78 shortcode/shortcode_shortcode.php:455
 msgid "Register"
 msgstr "Registre-se"
 
-#: functions/frontend/shortcode.php:83 functions/frontend/shortcode.php:92
-#: functions/frontend/shortcode.php:116
+#: shortcode/shortcode_shortcode.php:83 shortcode/shortcode_shortcode.php:92
+#: shortcode/shortcode_shortcode.php:116
 msgid "Log-in"
 msgstr "Logar-se"
 
-#: functions/frontend/shortcode.php:95
+#: shortcode/shortcode_shortcode.php:95
 msgid "Forgot your password"
 msgstr "Esqueceu a senha"
 
-#: functions/frontend/shortcode.php:97
+#: shortcode/shortcode_shortcode.php:97
 msgid "Last email used to acess"
 msgstr "Ultimo email usado para acessar"
 
-#: functions/frontend/shortcode.php:98
+#: shortcode/shortcode_shortcode.php:98
 msgid "Send email with the password"
 msgstr "Enviar email com a senha"
 
-#: functions/frontend/shortcode.php:122 functions/frontend/shortcode.php:392
+#: shortcode/shortcode_shortcode.php:122 shortcode/shortcode_shortcode.php:392
 msgid "Full name"
 msgstr "Nome completo"
 
-#: functions/frontend/shortcode.php:134 functions/frontend/shortcode.php:178
-#: functions/frontend/shortcode.php:432 functions/tickets/html.php:151
-msgid "Subject"
-msgstr "Assunto"
-
-#: functions/frontend/shortcode.php:135 functions/frontend/shortcode.php:433
+#: shortcode/shortcode_shortcode.php:135 shortcode/shortcode_shortcode.php:433
 msgid "Ticket subject"
 msgstr "Assunto do chamado"
 
-#: functions/frontend/shortcode.php:137 functions/frontend/shortcode.php:435
+#: shortcode/shortcode_shortcode.php:137 shortcode/shortcode_shortcode.php:435
 msgid "Description"
 msgstr "Descrição"
 
-#: functions/frontend/shortcode.php:138 functions/frontend/shortcode.php:436
+#: shortcode/shortcode_shortcode.php:138 shortcode/shortcode_shortcode.php:436
 msgid "Ticket thread start"
 msgstr "Inicio do thread do chamado"
 
-#: functions/frontend/shortcode.php:142 functions/frontend/shortcode.php:297
-#: functions/frontend/shortcode.php:364 functions/frontend/shortcode.php:440
-#: functions/tickets/html.php:131
-msgid "Send"
-msgstr "Enviar"
-
-#: functions/frontend/shortcode.php:158 functions/frontend/shortcode.php:247
-#: functions/frontend/shortcode.php:315 functions/frontend/shortcode.php:383
-#: functions/frontend/shortcode.php:417 functions/tickets/html.php:143
-#: index.php:29
-msgid "Tickets"
-msgstr "Chamados"
-
-#: functions/frontend/shortcode.php:164
+#: shortcode/shortcode_shortcode.php:164
 msgid "New"
 msgstr "Novo"
 
-#: functions/frontend/shortcode.php:169
+#: shortcode/shortcode_shortcode.php:169
 msgid "Profile"
 msgstr "Perfil"
 
-#: functions/frontend/shortcode.php:176 functions/tickets/html.php:62
-#: functions/tickets/html.php:148
-msgid "Status"
-msgstr "Status"
-
-#: functions/frontend/shortcode.php:180 functions/tickets/html.php:95
-#: functions/tickets/html.php:153
-msgid "Agent"
-msgstr "Agente"
-
-#: functions/frontend/shortcode.php:181 functions/tickets/html.php:154
-msgid "Actions"
-msgstr "Ações"
-
-#: functions/frontend/shortcode.php:196 functions/tickets/html.php:66
-#: functions/tickets/html.php:194
-msgid "Open"
-msgstr "Em aberto"
-
-#: functions/frontend/shortcode.php:198 functions/tickets/html.php:67
-#: functions/tickets/html.php:196
-msgid "Waiting user"
-msgstr "Esperando usuário"
-
-#: functions/frontend/shortcode.php:200 functions/tickets/html.php:68
-#: functions/tickets/html.php:198
-msgid "Waiting agent"
-msgstr "Esperando agente"
-
-#: functions/frontend/shortcode.php:202 functions/tickets/html.php:69
-#: functions/tickets/html.php:200
-msgid "Closed"
-msgstr "Encerrado"
-
-#: functions/frontend/shortcode.php:213 functions/frontend/shortcode.php:251
-#: functions/frontend/shortcode.php:319
+#: shortcode/shortcode_shortcode.php:213 shortcode/shortcode_shortcode.php:251
+#: shortcode/shortcode_shortcode.php:319
 msgid "Close"
 msgstr "Encerrar"
 
-#: functions/frontend/shortcode.php:261 functions/frontend/shortcode.php:329
-#: functions/tickets/html.php:19 functions/tickets/html.php:107
-#: functions/tickets/html.php:152
-msgid "User"
-msgstr "Usuário"
-
-#: functions/frontend/shortcode.php:276 functions/frontend/shortcode.php:343
-#: functions/tickets/html.php:35 functions/tickets/html.php:113
-msgid "Download"
-msgstr "Download"
-
-#: functions/frontend/shortcode.php:293 functions/frontend/shortcode.php:360
+#: shortcode/shortcode_shortcode.php:293 shortcode/shortcode_shortcode.php:360
 msgid "Describe your case"
 msgstr "Descreva seu caso"
 
-#: functions/frontend/shortcode.php:368
+#: shortcode/shortcode_shortcode.php:368
 msgid "No ticket found"
 msgstr "Nenhum chamado encontrado"
 
-#: functions/frontend/shortcode.php:378
+#: shortcode/shortcode_shortcode.php:378
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: functions/frontend/shortcode.php:394
+#: shortcode/shortcode_shortcode.php:394
 msgid "New password"
 msgstr "Nova senha"
 
-#: functions/frontend/shortcode.php:397
+#: shortcode/shortcode_shortcode.php:397
 msgid "Save"
 msgstr "Salvar"
 
-#: functions/frontend/shortcode.php:398
+#: shortcode/shortcode_shortcode.php:398
 msgid "Logout"
 msgstr "Sair"
 
-#: functions/frontend/shortcode.php:412
+#: shortcode/shortcode_shortcode.php:412
 msgid "New ticket"
 msgstr "Novo chamado"
 
-#: functions/frontend/shortcode.php:458
+#: shortcode/shortcode_shortcode.php:458
 msgid "Password are not equal"
 msgstr "Senhas não condizem"
-
-#: functions/settings/html.php:8 index.php:32
-msgid "Settings"
-msgstr "Configurações"
-
-#: functions/settings/html.php:13
-msgid "General"
-msgstr "Geral"
-
-#: functions/settings/html.php:20
-msgid "Helpdesk"
-msgstr "Helpdesk"
-
-#: functions/settings/html.php:21
-msgid "Helpdesk name"
-msgstr "Nome do helpdesk"
-
-#: functions/settings/html.php:26
-msgid "Sender"
-msgstr "Remetente"
-
-#: functions/settings/html.php:27
-msgid "Sender email"
-msgstr "Email do remetente"
-
-#: functions/settings/html.php:32
-msgid "URL"
-msgstr "URL"
-
-#: functions/settings/html.php:33
-msgid "Helpdesk url"
-msgstr "Url do helpdesk"
-
-#: functions/tickets/html.php:50
-msgid "Details"
-msgstr "Detalhes"
-
-#: functions/tickets/html.php:65 functions/tickets/html.php:83
-#: functions/tickets/html.php:98
-msgid "Select"
-msgstr "Selecionar"
-
-#: functions/tickets/html.php:112
-msgid "Notify"
-msgstr "Notificar"
-
-#: functions/tickets/html.php:121
-msgid "Answer ticket"
-msgstr "Responder chamado"
-
-#: functions/tickets/html.php:127
-msgid "Please, describe your problem"
-msgstr "Por favor, descreva seu problema"
 
 #~ msgid "You do not have acess to this page"
 #~ msgstr "Você não tem acesso a essa pagina"
