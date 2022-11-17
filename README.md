@@ -49,3 +49,4 @@
 - [ ] Max text, subject, file
 - [ ] Fields in ticket creation
 - [ ] Cron status
+- [ ] Rich text

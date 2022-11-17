@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: wdesk 2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
 "POT-Creation-Date: 2022-11-17T13:27:15-03:00\n"
-"PO-Revision-Date: 2022-11-17 13:29-0300\n"
+"PO-Revision-Date: 2022-11-17 16:40-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -117,7 +117,7 @@ msgstr "Arquivo"
 
 #: admin/tickets/html.php:21 script/helpers.php:78
 msgid "Note"
-msgstr "Observaçãp"
+msgstr "Observação"
 
 #: admin/tickets/html.php:22 admin/tickets/html.php:170
 #: shortcode/shortcode_shortcode.php:181
