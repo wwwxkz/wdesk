@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wdesk 2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
-"POT-Creation-Date: 2022-11-17T11:20:10-03:00\n"
-"PO-Revision-Date: 2022-11-17 11:20-0300\n"
+"POT-Creation-Date: 2022-11-17T13:27:15-03:00\n"
+"PO-Revision-Date: 2022-11-17 13:29-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -39,8 +39,8 @@ msgstr "https://github.com/wwwxkz"
 msgid "Departments"
 msgstr "Departamentos"
 
-#: admin/departments/html.php:15 admin/tickets/html.php:80
-#: admin/tickets/html.php:150 shortcode/shortcode_shortcode.php:125
+#: admin/departments/html.php:15 admin/tickets/html.php:108
+#: admin/tickets/html.php:166 shortcode/shortcode_shortcode.php:125
 #: shortcode/shortcode_shortcode.php:179 shortcode/shortcode_shortcode.php:423
 msgid "Department"
 msgstr "Departamento"
@@ -55,11 +55,12 @@ msgid "Department name"
 msgstr "Nome do departamento"
 
 #: admin/departments/html.php:54 admin/settings/html.php:38
-#: admin/tickets/html.php:111
+#: admin/tickets/html.php:139
 msgid "Update"
 msgstr "Atualizar"
 
-#: admin/departments/html.php:55 admin/tickets/html.php:218
+#: admin/departments/html.php:55 admin/tickets/html.php:45
+#: admin/tickets/html.php:234
 msgid "Delete"
 msgstr "Deletar"
 
@@ -103,99 +104,108 @@ msgstr "URL"
 msgid "Helpdesk url"
 msgstr "Url do helpdesk"
 
-#: admin/tickets/html.php:19 admin/tickets/html.php:107
-#: admin/tickets/html.php:152 shortcode/shortcode_shortcode.php:261
+#: admin/tickets/html.php:19 admin/tickets/html.php:135
+#: admin/tickets/html.php:168 shortcode/shortcode_shortcode.php:261
 #: shortcode/shortcode_shortcode.php:329
 msgid "User"
 msgstr "Usuário"
 
-#: admin/tickets/html.php:20 script/helpers.php:78
+#: admin/tickets/html.php:20 script/helpers.php:79
 #: shortcode/shortcode_shortcode.php:262 shortcode/shortcode_shortcode.php:330
 msgid "File"
 msgstr "Arquivo"
 
-#: admin/tickets/html.php:35 admin/tickets/html.php:113
+#: admin/tickets/html.php:21 script/helpers.php:78
+msgid "Note"
+msgstr "Observaçãp"
+
+#: admin/tickets/html.php:22 admin/tickets/html.php:170
+#: shortcode/shortcode_shortcode.php:181
+msgid "Actions"
+msgstr "Ações"
+
+#: admin/tickets/html.php:37 admin/tickets/html.php:141
 #: shortcode/shortcode_shortcode.php:276 shortcode/shortcode_shortcode.php:343
 msgid "Download"
 msgstr "Download"
 
-#: admin/tickets/html.php:50
+#: admin/tickets/html.php:59
+msgid "Answer ticket"
+msgstr "Responder chamado"
+
+#: admin/tickets/html.php:65
+msgid "Please, describe your problem"
+msgstr "Por favor, descreva seu problema"
+
+#: admin/tickets/html.php:69 admin/tickets/html.php:71
+#: shortcode/shortcode_shortcode.php:142 shortcode/shortcode_shortcode.php:297
+#: shortcode/shortcode_shortcode.php:364 shortcode/shortcode_shortcode.php:440
+msgid "Send"
+msgstr "Enviar"
+
+#: admin/tickets/html.php:69
+msgid "note"
+msgstr "observação"
+
+#: admin/tickets/html.php:78
 msgid "Details"
 msgstr "Detalhes"
 
-#: admin/tickets/html.php:62 admin/tickets/html.php:148
+#: admin/tickets/html.php:90 admin/tickets/html.php:164
 #: shortcode/shortcode_shortcode.php:176
 msgid "Status"
 msgstr "Status"
 
-#: admin/tickets/html.php:65 admin/tickets/html.php:83
-#: admin/tickets/html.php:98
+#: admin/tickets/html.php:93 admin/tickets/html.php:111
+#: admin/tickets/html.php:126
 msgid "Select"
 msgstr "Selecionar"
 
-#: admin/tickets/html.php:66 admin/tickets/html.php:194
+#: admin/tickets/html.php:94 admin/tickets/html.php:210
 #: shortcode/shortcode_shortcode.php:196
 msgid "Open"
 msgstr "Em aberto"
 
-#: admin/tickets/html.php:67 admin/tickets/html.php:196
+#: admin/tickets/html.php:95 admin/tickets/html.php:212
 #: shortcode/shortcode_shortcode.php:198
 msgid "Waiting user"
 msgstr "Esperando usuário"
 
-#: admin/tickets/html.php:68 admin/tickets/html.php:198
+#: admin/tickets/html.php:96 admin/tickets/html.php:214
 #: shortcode/shortcode_shortcode.php:200
 msgid "Waiting agent"
 msgstr "Esperando agente"
 
-#: admin/tickets/html.php:69 admin/tickets/html.php:200
+#: admin/tickets/html.php:97 admin/tickets/html.php:216
 #: shortcode/shortcode_shortcode.php:202
 msgid "Closed"
 msgstr "Encerrado"
 
-#: admin/tickets/html.php:95 admin/tickets/html.php:153
+#: admin/tickets/html.php:123 admin/tickets/html.php:169
 #: shortcode/shortcode_shortcode.php:180
 msgid "Agent"
 msgstr "Agente"
 
-#: admin/tickets/html.php:108 admin/tickets/html.php:149 script/helpers.php:76
+#: admin/tickets/html.php:136 admin/tickets/html.php:165 script/helpers.php:76
 #: shortcode/shortcode_shortcode.php:177
 msgid "Created"
 msgstr "Criado"
 
-#: admin/tickets/html.php:112
+#: admin/tickets/html.php:140
 msgid "Notify"
 msgstr "Notificar"
 
-#: admin/tickets/html.php:121
-msgid "Answer ticket"
-msgstr "Responder chamado"
-
-#: admin/tickets/html.php:127
-msgid "Please, describe your problem"
-msgstr "Por favor, descreva seu problema"
-
-#: admin/tickets/html.php:131 shortcode/shortcode_shortcode.php:142
-#: shortcode/shortcode_shortcode.php:297 shortcode/shortcode_shortcode.php:364
-#: shortcode/shortcode_shortcode.php:440
-msgid "Send"
-msgstr "Enviar"
-
-#: admin/tickets/html.php:143 index.php:30
+#: admin/tickets/html.php:159 index.php:30
 #: shortcode/shortcode_shortcode.php:158 shortcode/shortcode_shortcode.php:247
 #: shortcode/shortcode_shortcode.php:315 shortcode/shortcode_shortcode.php:383
 #: shortcode/shortcode_shortcode.php:417
 msgid "Tickets"
 msgstr "Chamados"
 
-#: admin/tickets/html.php:151 shortcode/shortcode_shortcode.php:134
+#: admin/tickets/html.php:167 shortcode/shortcode_shortcode.php:134
 #: shortcode/shortcode_shortcode.php:178 shortcode/shortcode_shortcode.php:432
 msgid "Subject"
 msgstr "Assunto"
-
-#: admin/tickets/html.php:154 shortcode/shortcode_shortcode.php:181
-msgid "Actions"
-msgstr "Ações"
 
 #: script/functions.php:15
 msgid "Email already in use"
@@ -266,7 +276,7 @@ msgstr ""
 msgid "Text"
 msgstr "Texto"
 
-#: script/helpers.php:79
+#: script/helpers.php:80
 msgid "Username"
 msgstr "Usuário"
 
