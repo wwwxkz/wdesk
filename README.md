@@ -50,3 +50,5 @@
 - [ ] Fields in ticket creation
 - [ ] Cron status
 - [ ] Rich text
+- [ ] Color scheme
+- [ ] Due date notify

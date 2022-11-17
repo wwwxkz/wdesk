@@ -42,7 +42,7 @@ https://github.com/wwwxkz/wdesk
 
 == Upgrade Notice ==
 
-= 0.2 =
+= 0.3 =
 Usability
 
 = 0.2 =
