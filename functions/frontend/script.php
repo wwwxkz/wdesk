@@ -158,6 +158,9 @@ function wdesk_ticket()
 		wdesk_helper_notify_user($token);
 		wdesk_helper_notify_agent($ticket_id);
 	}
+	if (isset($_POST['wdesk-ticket-download'])) {
+		wdesk_helper_download_ticket_csv(sanitize_text_field($_POST['ticket']));
+	}
 }
 
 function wdesk_department()
@@ -310,4 +313,35 @@ function wdesk_helper_save_file($file)
     if ($uploaded_file) {
         return $uploaded_file['url'];
     }
+}
+
+function wdesk_helper_download_ticket_csv($ticket_id) {
+	global $wpdb;
+    // Set filename
+    $file = 'ticket-' . $ticket_id;
+    // Get thread of the ticket
+    $csv = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
+    // Set header .csv
+	$header['0'] = 'Ticket ID';
+	$header['1'] = 'Created';
+    $header['2'] = 'Text';
+    $header['3'] = 'File';
+    $header['4'] = 'Username';
+    // Serialize object to .csv
+    $output = '"' . implode('";"', $header) . '";' . "\n";
+    foreach ($csv as $row) {
+        $output .= '"' . implode('";"', (array) $row) . '";' . "\n";
+    }
+    $output .= "\n";
+    // Output as .csv
+    $filename = $file . "_" . date("Y-m-d_H-i", time()) . ".csv";
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Cache-Control: private", false);
+    header("Content-type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=\"" . $filename . ".csv\";");
+    header("Content-Transfer-Encoding: binary");
+    print $output;
+    exit;
 }

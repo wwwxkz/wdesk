@@ -110,6 +110,7 @@ function wdesk_tickets()
 							<th>
 								<input type="submit" class="button action" name="wdesk-ticket-status" value="<?php _e('Update', 'wdesk') ?>" />
 								<input type="submit" class="button action" name="wdesk-ticket-notify" value="<?php _e('Notify', 'wdesk') ?>" />
+								<input type="submit" class="button action" name="wdesk-ticket-download" value="<?php _e('Download', 'wdesk') ?>" />
 							</th>
 						</tr>
 						
