@@ -2,7 +2,7 @@
 
 function wdesk_settings() {
 	global $wpdb;
-	$settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	?>
 	<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: column; justify-content: space-between;">
 	<h2><?php _e('Settings', 'wdesk') ?></h2>

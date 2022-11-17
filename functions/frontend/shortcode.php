@@ -38,7 +38,7 @@ function wdesk_shortcode() {
 function wdesk_shortcode_otp($otp) {
 	$return = '';
 	global $wpdb;
-	$users = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE `otp` = '$otp';"));
+	$users = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE `otp` = %s;", $otp));
 	if(isset($users[0])) {
 		$return .= wdesk_shortcode_profile($users);
 		$return .= '
@@ -124,7 +124,7 @@ function wdesk_shortcode_guest() {
 				<div style="display: flex; flex-direction: column;">
 					<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 					';
-					$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
+					$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
 					$return .= '<select name="department">';
 						foreach ($departments as $department) {
 							$return .= '<option value="' . $department->id . '">' . $department->name . '</option>';
@@ -150,7 +150,7 @@ function wdesk_shortcode_guest() {
 function wdesk_shortcode_tickets($users) {
 	global $wpdb;
 	$email = $users[0]->email;
-	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = '$email'"));
+	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s"), $email);
     $return = '';
     $return .= '
 		<div id="wdesk-shortcode-tickets">
@@ -230,7 +230,7 @@ function wdesk_shortcode_ticket($users) {
 	if (isset($_GET['token'])) {
 		global $wpdb;
 		$token = sanitize_text_field($_GET['token']);
-		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
+		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
 		$return .= '
 		<script>
 			document.getElementById(`wdesk-shortcode-tickets`).style.display = `none`; 
@@ -264,7 +264,7 @@ function wdesk_shortcode_ticket($users) {
 		</thead>
 		';
 		$ticket_id = $ticket[0]->id;
-		$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = '$ticket_id'"));
+		$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
 		$return .= '<tbody>';
 		foreach ($thread as $response) {
 			$return .= '
@@ -303,7 +303,7 @@ function wdesk_shortcode_ticket($users) {
 
 function wdesk_shortcode_ticket_guest($token) {
 	global $wpdb;
-	$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
+	$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
 	$return = '';
 	if (isset($ticket[0])) {
 		$return .= '
@@ -422,7 +422,7 @@ function wdesk_shortcode_new_ticket($users) {
 			<div style="display: flex; flex-direction: column;">
 				<label>' . __('Department', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 				';
-				$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
+				$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
 				$return .= '<select name="department">';
 					foreach ($departments as $department) {
 						$return .= '<option value="' . $department->id . '">' . $department->name . '</option>';

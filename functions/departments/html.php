@@ -7,7 +7,7 @@ function wdesk_departments() {
 		<div style="display: flex; flex-direction: row;">
 			<?php 
 				global $wpdb;
-				$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
+				$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
 				foreach ($departments as $department) { ?>
 					<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px; height: -webkit-fill-available;">
 						<thead>
@@ -24,7 +24,7 @@ function wdesk_departments() {
 										Agents
 										<?php 
 										$agents = get_users();
-										$department_agents = $wpdb->get_results($wpdb->prepare("SELECT agent_id FROM `wdesk_departments_agents` WHERE `department_id` = $department->id"));
+										$department_agents = $wpdb->get_results($wpdb->prepare("SELECT agent_id FROM `wdesk_departments_agents` WHERE `department_id` = %s", $department->id));
 										$department_agents_array = array();
 										foreach ($department_agents as $department_agent) {
 											array_push($department_agents_array, $department_agent->agent_id);

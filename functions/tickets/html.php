@@ -6,7 +6,7 @@ function wdesk_tickets()
 	if (isset($_GET['token'])) {
 		$token = sanitize_text_field($_GET['token']);
 		$ticket = sanitize_text_field($_GET['ticket']);
-		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = '$token'"));
+		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
 		?>
 		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: row; justify-content: space-between;">
 			<h2>Ticket <?php echo esc_textarea($tickets[0]->id) ?></h2>
@@ -22,7 +22,7 @@ function wdesk_tickets()
 				</thead>
 				<tbody>
 				<?php
-				$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = '$ticket'"));
+				$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket));
 				foreach ($thread as $response) {
 					?>
 					<tr>
@@ -73,9 +73,9 @@ function wdesk_tickets()
 						<tr>
 							<th>
 								<?php 
-								$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
+								$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
 								$id = $tickets[0]->department;
-								$ticket_department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
+								$ticket_department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s", $id));
 								?>
 								<label><?php _e('Department', 'wdesk') ?>:</label>
 								<br>
@@ -132,11 +132,11 @@ function wdesk_tickets()
 	<?php
 	} else {
 		$sql = "SELECT * FROM wdesk_tickets";
-		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(1) FROM (${sql}) AS combined_table"));
+		$total = $wpdb->get_var("SELECT COUNT(1) FROM (${sql}) AS combined_table");
 		$items_per_page = 20;
 		$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
 		$offset = ( $page * $items_per_page ) - $items_per_page;
-		$tickets = $wpdb->get_results($wpdb->prepare($sql . " ORDER BY id LIMIT ${offset}, ${items_per_page}"));
+		$tickets = $wpdb->get_results($sql . " ORDER BY id LIMIT ${offset}, ${items_per_page}");
 		?>
 		<div style="float: left; margin-top: 15px; padding: 0;">
 			<h2><?php _e('Tickets', 'wdesk') ?></h2>
@@ -155,7 +155,7 @@ function wdesk_tickets()
 				</thead>
 				<tbody>
 					<?php
-					$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments`"));
+					$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
 					$wp_user = wp_get_current_user();
 					$wp_user_id = $wp_user->id;
 					$wp_user_groups = array();
@@ -178,7 +178,7 @@ function wdesk_tickets()
 							$agent = get_user_by('id', $ticket->agent);
 							$agent = (isset($agent->display_name)) ? $agent->display_name : '';
 							$id = $ticket->department;
-							$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
+							$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s"), $id);
 							?>
 								<tr>
 									<th><a onclick="(function(){
@@ -220,8 +220,8 @@ function wdesk_tickets()
 								</tr>
 							<?php
 								if (isset($_POST[$ticket->id . '-ticket-delete'])) {
-									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets_threads WHERE ticket_id=$ticket->id"));
-									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets WHERE id=$ticket->id"));
+									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets_threads WHERE ticket_id = %s", $ticket->id));
+									$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets WHERE id = %s", $ticket->id));
 									echo "<script>window.location.reload()</script>";
 								}
 							}

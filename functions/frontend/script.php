@@ -249,7 +249,7 @@ function wdesk_setting()
 function wdesk_helper_send_mail($to, $subject, $message) 
 {
 	global $wpdb;
-	$settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$email = $settings[1]->value;
     $headers[] = "From: $email";
     wp_mail($to, $subject, $message, $headers);
@@ -258,7 +258,7 @@ function wdesk_helper_send_mail($to, $subject, $message)
 function wdesk_helper_recover_password($email)
 {
     global $wpdb;
-    $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+    $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
     $users = $wpdb->get_results("SELECT * FROM `wdesk_users` WHERE email = '$email';");
     if (isset($users[0])) {
     	$otp = uniqid();
@@ -285,7 +285,7 @@ function wdesk_helper_notify_user($token)
 	global $wpdb;
 	$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE token = '$token'");
 	$subject = __('Ticket update', 'wdesk');
-    $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+    $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$url = $settings[2]->value;
 	$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?token=$token";
 	(isset($tickets[0]->user_email) && $tickets[0]->user_email != "") ? wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message) : '';
@@ -298,7 +298,7 @@ function wdesk_helper_notify_agent($ticket_id)
 	$tickets = $wpdb->get_results("SELECT * FROM `wdesk_tickets` WHERE id = '$id'");
 	$agent = get_user_by('id', $tickets[0]->agent);
 	$subject = __('Ticket', 'wdesk') . " $id " . __('was updated', 'wdesk');
-    $settings = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings`"));
+    $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$url = $settings[2]->value;
 	$message = __('Ticket', 'wdesk') . "$id." . __("Access the helpdesk by using the url") . " $url";
 	(isset($agent->user_email) && $agent->user_email != "") ? wdesk_helper_send_mail($agent->user_email, $subject, $message) : '';

@@ -127,36 +127,12 @@ function wdesk_deactivation() {
 register_uninstall_hook(__FILE__, 'wdesk_uninstall');
 function wdesk_uninstall() {
     global $wpdb;
-    $wpdb->query(
-    	$wpdb->prepare("
-    		DROP TABLE IF EXISTS wdesk_users;
-    	")
-   	);
-   	$wpdb->query(
-    	$wpdb->prepare("
-    		DROP TABLE IF EXISTS wdesk_departments;
-    	")
-   	);
-	$wpdb->query(
-    	$wpdb->prepare("
-    		DROP TABLE IF EXISTS wdesk_departments_agents;
-    	")
-   	);
-   	$wpdb->query(
-    	$wpdb->prepare("
-    		DROP TABLE IF EXISTS wdesk_tickets;
-    	")
-   	);
-	$wpdb->query(
-    	$wpdb->prepare("
-    		DROP TABLE IF EXISTS wdesk_tickets_threads;
-    	")
-   	);
-   	$wpdb->query(
-    	$wpdb->prepare("
-    		DROP TABLE IF EXISTS wdesk_settings;
-    	")
-   	);
+    $wpdb->query("DROP TABLE IF EXISTS wdesk_users;");
+   	$wpdb->query("DROP TABLE IF EXISTS wdesk_departments;");
+	$wpdb->query("DROP TABLE IF EXISTS wdesk_departments_agents;");
+   	$wpdb->query("DROP TABLE IF EXISTS wdesk_tickets;");
+	$wpdb->query("DROP TABLE IF EXISTS wdesk_tickets_threads;");
+   	$wpdb->query("DROP TABLE IF EXISTS wdesk_settings;");
 }
 
 add_filter('cron_schedules', 'wdesk_cron_interval');
@@ -178,5 +154,3 @@ if (!wp_next_scheduled('wdesk_cron_hook')) {
 }
 
 ?>
-
-
