@@ -105,17 +105,17 @@ function wdesk_activation() {
 		UNIQUE KEY id (id)
 	) $charset_collate6;";
 	dbDelta($sql6);
-	$wpdb->insert($table6, array(
+	$wpdb->replace($table6, array(
 		'id' => 0,
 		'setting' => 'Helpdesk name',
 		'value' => 'ExemCompany'
 	));
-	$wpdb->insert($table6, array(
+	$wpdb->replace($table6, array(
 		'id' => 1,
 		'setting' => 'Sender email',
 		'value' => 'email@example.com'
 	));
-	$wpdb->insert($table6, array(
+	$wpdb->replace($table6, array(
 		'id' => 2,
 		'setting' => 'Helpdesk url',
 		'value' => 'https://www.wordpress.org/'
