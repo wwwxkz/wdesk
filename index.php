@@ -11,10 +11,11 @@ Domain Path:	/languages
 */
 
 define('WDESK_LOCAL', plugin_dir_path(__FILE__));
-require_once(WDESK_LOCAL . 'functions/frontend/frontend.php');
-require_once(WDESK_LOCAL . 'functions/tickets/tickets.php');
-require_once(WDESK_LOCAL . 'functions/departments/departments.php');
-require_once(WDESK_LOCAL . 'functions/settings/settings.php');
+require_once(WDESK_LOCAL . 'script/script.php');
+require_once(WDESK_LOCAL . 'shortcode/shortcode.php');
+require_once(WDESK_LOCAL . 'admin/tickets/tickets.php');
+require_once(WDESK_LOCAL . 'admin/departments/departments.php');
+require_once(WDESK_LOCAL . 'admin/settings/settings.php');
 
 add_action( 'plugins_loaded', 'wdesk_init' );
 

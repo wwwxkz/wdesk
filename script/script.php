@@ -1,7 +1,5 @@
 <?php
-require_once(WDESK_LOCAL . 'functions/frontend/script.php');
-require_once(WDESK_LOCAL . 'functions/frontend/shortcode.php');
-add_shortcode('wdesk', 'wdesk_shortcode');
+require_once(WDESK_LOCAL . 'script/functions.php');
 add_action('admin_menu', 'wdesk_user');
 add_action('template_redirect', 'wdesk_user');
 add_action('admin_menu', 'wdesk_ticket');

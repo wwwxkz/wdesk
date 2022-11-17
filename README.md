@@ -19,6 +19,7 @@
 
 - [X] Add guest users using tokens
 - [X] Remove serialized in the DB
+- [X] Remove main script from frontend
 - [ ] Refactor urlparams
 - [ ] INSERT wdesk_settings example data IF NOT EXIST
 - [ ] Improve security
@@ -27,7 +28,6 @@
 - [ ] Use token with id
 - [ ] Token expires
 - [ ] Padronize variables and function names
-- [ ] Remove main script from frontend
 - [ ] Refactor security
 
 ### Features
