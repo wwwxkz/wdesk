@@ -88,6 +88,7 @@ function wdesk_activation() {
 		ticket_id mediumint(9) NOT NULL,
 		created timestamp NOT NULL default CURRENT_TIMESTAMP,
 		text varchar(255) NOT NULL,
+		note tinyint(1) DEFAULT 0,
 		file varchar(255) NOT NULL,
 		user_name varchar(255) NOT NULL,
 		FOREIGN KEY (ticket_id) REFERENCES wdesk_tickets(id)

@@ -75,8 +75,9 @@ function wdesk_helper_download_ticket_csv($ticket_id) {
 	$header['0'] = __('Ticket', 'wdesk') . 'ID';
 	$header['1'] = __('Created', 'wdesk');
     $header['2'] = __('Text', 'wdesk');
-    $header['3'] = __('File', 'wdesk');
-    $header['4'] = __('Username', 'wdesk');
+    $header['3'] = __('Note', 'wdesk');
+    $header['4'] = __('File', 'wdesk');
+    $header['5'] = __('Username', 'wdesk');
     // Serialize object to .csv
     $output = '"' . implode('";"', $header) . '";' . "\n";
     foreach ($csv as $row) {

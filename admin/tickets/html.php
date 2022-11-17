@@ -1,5 +1,4 @@
 <?php
-
 function wdesk_tickets()
 {
     global $wpdb;
@@ -12,37 +11,56 @@ function wdesk_tickets()
 			<h2>Ticket <?php echo esc_textarea($tickets[0]->id) ?></h2>
 		</div>
 		<div style="display: flex; flex-direction: row;">
-			<table class="wp-list-table widefat fixed striped table-view-list" style="height: -moz-available; height: -webkit-fill-available;">
-				<thead>
-					<tr>
-						<th colspan="4"><?php echo esc_textarea($tickets[0]->subject) ?></th>
-						<th><?php _e('User', 'wdesk') ?></th>
-						<th><?php _e('File', 'wdesk') ?></th>
-					</tr>
-				</thead>
-				<tbody>
-				<?php
-				$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket));
-				foreach ($thread as $response) {
-					?>
-					<tr>
-						<th colspan="4"><?php echo esc_textarea($response->text) ?></th>
-						<th><?php echo esc_textarea($response->user_name) ?></th>
-						<th>
-						<?php 
-						if (isset($response->file) && $response->file != '') {
-							?>
-							<a href="<?php echo esc_textarea($response->file) ?>"><?php _e('Download', 'wdesk') ?></a> 
-							<?php
-						} 
-						?>
-						</th>
-					</tr>
+			<div style="width: 100%;">
+				<table class="wp-list-table widefat fixed striped table-view-list" style="height: -moz-available; height: -webkit-fill-available;">
+					<thead>
+						<tr>
+							<th colspan="8"><?php echo esc_textarea($tickets[0]->subject) ?></th>
+							<th><?php _e('User', 'wdesk') ?></th>
+							<th><?php _e('File', 'wdesk') ?></th>
+							<th><?php _e('Note', 'wdesk') ?></th>
+						</tr>
+					</thead>
+					<tbody>
 					<?php
-				}
-				?>
-				</tbody>
-			</table>
+					$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket));
+					foreach ($thread as $response) {
+						?>
+						<tr <?php echo ($response->note) ? 'style="background-color: antiquewhite;"' : '' ?>>
+							<th colspan="8"><?php echo esc_textarea($response->text) ?></th>
+							<th><?php echo esc_textarea($response->user_name) ?></th>
+							<th>
+							<?php 
+							if (isset($response->file) && $response->file != '') {
+								?>
+								<a href="<?php echo esc_textarea($response->file) ?>"><?php _e('Download', 'wdesk') ?></a> 
+								<?php
+							} 
+							?>
+							</th>
+							<th><?php echo esc_textarea($response->note) ?></th>
+						</tr>
+						<?php
+					}
+					?>
+					</tbody>
+				</table>
+				<br>
+				<h2><?php _e('Answer ticket', 'wdesk') ?></h2>
+				<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+					<input type="hidden" name="ticket" value="<?php echo esc_textarea($tickets[0]->id) ?>"/>
+					<input type="hidden" name="subject" value="<?php echo esc_textarea($tickets[0]->subject) ?>"/>
+					<input type="hidden" name="user-email" value="<?php echo esc_textarea($tickets[0]->user_email) ?>" />
+					<input type="hidden" name="thread-user" value="<?php echo esc_textarea(wp_get_current_user()->display_name) ?>" />
+					<textarea type="text" name="thread" id="thread" placeholder="<?php _e('Please, describe your problem', 'wdesk') ?>" value="" style="height: 170px;" required></textarea>
+					<br>
+					<input type="file" name="file" />
+					<br>
+					<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-note" value="<?php _e('Send', 'wdesk') ?> <?php _e('note', 'wdesk') ?>">
+					<br>
+					<input style="width: 100%;" type="submit" class="button-primary action" name="wdesk-ticket-update" value="<?php _e('Send', 'wdesk') ?>">
+				</form>	
+			</div>
 			&nbsp;
 			<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px; height: -webkit-fill-available;">
 				<thead>
@@ -118,18 +136,6 @@ function wdesk_tickets()
 				</tbody>
 			</table>
 		</div>
-		<h2><?php _e('Answer ticket', 'wdesk') ?></h2>
-		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
-			<input type="hidden" name="ticket" value="<?php echo esc_textarea($tickets[0]->id) ?>"/>
-			<input type="hidden" name="subject" value="<?php echo esc_textarea($tickets[0]->subject) ?>"/>
-			<input type="hidden" name="user-email" value="<?php echo esc_textarea($tickets[0]->user_email) ?>" />
-			<input type="hidden" name="thread-user" value="<?php echo esc_textarea(wp_get_current_user()->display_name) ?>" />
-			<textarea type="text" name="thread" id="thread" placeholder="<?php _e('Please, describe your problem', 'wdesk') ?>" value="" style="height: 170px;" required></textarea>
-			<br>
-			<input type="file" name="file" />
-			<br>
-			<input style="width: 100%;" type="submit" class="button action" name="wdesk-ticket-update" value="<?php _e('Send', 'wdesk') ?>">
-		</form>	
 	<?php
 	} else {
 		$sql = "SELECT * FROM wdesk_tickets";
@@ -214,7 +220,7 @@ function wdesk_tickets()
 									<th><?php echo esc_textarea($ticket->user_name) ?></th>
 									<th><?php echo esc_textarea($agent) ?></th>
 									<th>
-										<form method="post">
+										<form method="post" style="margin-bottom: 0;">
 											<input type="submit" name="<?php echo esc_textarea($ticket->id) ?>-ticket-delete" value="<?php _e('Delete', 'wdesk') ?>" class="button action">  
 										</form>
 									</th>

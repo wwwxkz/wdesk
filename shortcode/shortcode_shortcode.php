@@ -150,7 +150,7 @@ function wdesk_shortcode_guest() {
 function wdesk_shortcode_tickets($users) {
 	global $wpdb;
 	$email = $users[0]->email;
-	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s"), $email);
+	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s", $email));
     $return = '';
     $return .= '
 		<div id="wdesk-shortcode-tickets">
@@ -257,19 +257,19 @@ function wdesk_shortcode_ticket($users) {
 		<table>
 		<thead>
 			<tr>
-				<th colspan="4">' . $ticket[0]->subject . '</th>
+				<th colspan="8">' . $ticket[0]->subject . '</th>
 				<th>' . __('User', 'wdesk') . '</th>
 				<th>' . __('File', 'wdesk') . '</th>
 			</tr>
 		</thead>
 		';
 		$ticket_id = $ticket[0]->id;
-		$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
+		$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s AND note = 0", $ticket_id));
 		$return .= '<tbody>';
 		foreach ($thread as $response) {
 			$return .= '
 			<tr>
-				<th colspan="4">' . $response->text . '</th>
+				<th colspan="8">' . $response->text . '</th>
 				<th>' . $response->user_name . '</th>
 				<th>';
 				if (isset($response->file) && $response->file != '') {
