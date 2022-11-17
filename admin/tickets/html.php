@@ -19,6 +19,7 @@ function wdesk_tickets()
 							<th><?php _e('User', 'wdesk') ?></th>
 							<th><?php _e('File', 'wdesk') ?></th>
 							<th><?php _e('Note', 'wdesk') ?></th>
+							<th><?php _e('Actions', 'wdesk') ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -39,8 +40,17 @@ function wdesk_tickets()
 							?>
 							</th>
 							<th><?php echo esc_textarea($response->note) ?></th>
+							<th>
+								<form method="post">
+									<input type="submit" name="<?php echo esc_textarea($response->id) ?>-thread-delete" value="<?php _e('Delete', 'wdesk') ?>" class="button action">
+								</form>
+							</th>
 						</tr>
 						<?php
+						if (isset($_POST[$response->id . '-thread-delete'])) {
+							$wpdb->get_results($wpdb->prepare("DELETE FROM wdesk_tickets_threads WHERE id = %s", $response->id));
+							echo "<script>window.location.reload()</script>";
+						}
 					}
 					?>
 					</tbody>

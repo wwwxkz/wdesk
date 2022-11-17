@@ -33,7 +33,7 @@
 ### Features
 
 - [X] Download ticket as .csv
-- [ ] Ticket notes
+- [X] Ticket notes
 - [ ] Date format
 - [ ] Tags
 - [ ] Department email

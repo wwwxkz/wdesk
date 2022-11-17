@@ -85,13 +85,15 @@ function wdesk_activation() {
 	$table5 = "wdesk_tickets_threads"; 
 	$charset_collate5 = $wpdb->get_charset_collate();
 	$sql5 = "CREATE TABLE $table5 (
+		id mediumint(9) NOT NULL AUTO_INCREMENT, 
 		ticket_id mediumint(9) NOT NULL,
 		created timestamp NOT NULL default CURRENT_TIMESTAMP,
 		text varchar(255) NOT NULL,
 		note tinyint(1) DEFAULT 0,
 		file varchar(255) NOT NULL,
 		user_name varchar(255) NOT NULL,
-		FOREIGN KEY (ticket_id) REFERENCES wdesk_tickets(id)
+		FOREIGN KEY (ticket_id) REFERENCES wdesk_tickets(id),
+		UNIQUE KEY id (id)
 	) $charset_collate5;";
 	dbDelta($sql5);
 	$table6 = "wdesk_settings"; 
