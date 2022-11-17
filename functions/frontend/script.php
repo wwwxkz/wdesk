@@ -318,15 +318,15 @@ function wdesk_helper_save_file($file)
 function wdesk_helper_download_ticket_csv($ticket_id) {
 	global $wpdb;
     // Set filename
-    $file = 'ticket-' . $ticket_id;
+    $file = __('Ticket', 'wdesk') . '-' . $ticket_id;
     // Get thread of the ticket
     $csv = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
     // Set header .csv
-	$header['0'] = 'Ticket ID';
-	$header['1'] = 'Created';
-    $header['2'] = 'Text';
-    $header['3'] = 'File';
-    $header['4'] = 'Username';
+	$header['0'] = __('Ticket', 'wdesk') . 'ID';
+	$header['1'] = __('Created', 'wdesk');
+    $header['2'] = __('Text', 'wdesk');
+    $header['3'] = __('File', 'wdesk');
+    $header['4'] = __('Username', 'wdesk');
     // Serialize object to .csv
     $output = '"' . implode('";"', $header) . '";' . "\n";
     foreach ($csv as $row) {
