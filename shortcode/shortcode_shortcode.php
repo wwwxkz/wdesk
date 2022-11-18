@@ -12,7 +12,7 @@ function wdesk_shortcode() {
 	        global $wpdb;
 	        $email = sanitize_email($_COOKIE["wdesk-user-email"]);
 	        $password = $_COOKIE["wdesk-user-password"];
-	        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = '$email' AND password = '$password'"));
+	        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = %s AND password = %s", array($email, $password)));
 	        if(empty($user)) {
 	            echo '<script>alert("' . __('This user does not exist', 'wdesk') . '")</script>';
 				unset($_COOKIE['wdesk-user-email']);
@@ -187,7 +187,7 @@ function wdesk_shortcode_tickets($users) {
 					$agent = (isset($agent->display_name)) ? $agent->display_name : '';
 					if ($ticket->status != "Closed") {
 						$id = $ticket->department;
-						$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = '$id'"));
+						$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s", $id));
 						$return .= '
 							<tr>
 								<th><a href="?token=' . $ticket->token . '"><p>' 	. $ticket->id . '</p></a></th>
