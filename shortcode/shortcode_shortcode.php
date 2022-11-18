@@ -179,6 +179,7 @@ function wdesk_shortcode_tickets($users) {
 						<th scope="col">#</th>
 						<th scope="col">' . __('Status', 'wdesk') . '</th>
 						<th scope="col">' . __('Created', 'wdesk') . '</th>
+						<th scope="col">' . __('Last update', 'wdesk') . '</th>
 						<th scope="col">' . __('Subject', 'wdesk') . '</th>
 						<th scope="col">' . __('Department', 'wdesk') . '</th>
 						<th scope="col">' . __('Agent', 'wdesk') . '</th>
@@ -207,10 +208,11 @@ function wdesk_shortcode_tickets($users) {
 								}
 								$return .= '
 								</p></th>	
-								<th><p>' 									. $ticket->created . '</p></th>
+								<th><p>' . $ticket->created . '</p></th>
+								<th><p>' . $ticket->last_update . '</p></th>
 								<th><a href="?ticket=' . $ticket->id . '"><p>' 	. $ticket->subject . '</p></a></th>
-								<th><p>' 									. $department[0]->name . '</p></th>
-								<th><p>' 									. $agent . '</p></th>
+								<th><p>' . $department[0]->name . '</p></th>
+								<th><p>' . $agent . '</p></th>
 								<th>
 									<form method="post" enctype="multipart/form-data">
 										<input type="hidden" name="ticket" value="' . $ticket->id . '" />

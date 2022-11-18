@@ -133,6 +133,7 @@ function wdesk_tickets()
 						</tr>
 						<tr><th><?php _e('User', 'wdesk') ?>: <?php echo esc_textarea($tickets[0]->user_name) ?></th></tr>
 						<tr><th><?php _e('Created', 'wdesk') ?>: <?php echo esc_textarea($tickets[0]->created) ?></th></tr>
+						<tr><th><?php _e('Last update', 'wdesk') ?>: <?php echo esc_textarea($tickets[0]->last_update) ?></th></tr>
 						<tr>
 							<th>
 								<input type="submit" class="button action" name="wdesk-ticket-status" value="<?php _e('Update', 'wdesk') ?>" />
@@ -168,6 +169,7 @@ function wdesk_tickets()
 						<th>#</th>
 						<th><?php _e('Status', 'wdesk') ?></th>
 						<th><?php _e('Created', 'wdesk') ?></th>
+						<th><?php _e('Last update', 'wdesk') ?></th>
 						<th><?php _e('Department', 'wdesk') ?></th>
 						<th><?php _e('Subject', 'wdesk') ?></th>
 						<th><?php _e('User', 'wdesk') ?></th>
@@ -224,6 +226,7 @@ function wdesk_tickets()
 										?>
 									</th>
 									<th><?php echo esc_textarea($ticket->created) ?></th>
+									<th><?php echo esc_textarea($ticket->last_update) ?></th>
 									<th><?php echo (isset($department[0]->name)) ? $department[0]->name : '' ?></th>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);

@@ -78,6 +78,7 @@ function wdesk_activation() {
 		department varchar(255),
 		user_email varchar(255) NOT NULL,
 		user_name varchar(255) NOT NULL,
+		last_update timestamp NOT NULL default CURRENT_TIMESTAMP,
 		token varchar(255) NOT NULL,
 		UNIQUE KEY id (id)
 	) $charset_collate4;";

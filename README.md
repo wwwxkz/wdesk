@@ -23,8 +23,8 @@
 	- [X] Remove main script from frontend
 	- [X] INSERT wdesk_settings example data IF NOT EXIST
 - [ ] Refactor frontend/script and frontend.php
-	- [ ] Padronize variables and function names
-	- [ ] Replace colspan by css
+	- [X] Padronize variables and function names
+	- [X] Replace colspan by css
 - [ ] Improve security
 	- [X] Replace cookies by session
 	- [X] Refactor urlparams
@@ -38,7 +38,7 @@
 	- [X] Download ticket as .csv
 	- [X] Ticket notes
 	- [ ] Search and filter
-	- [ ] Last update
+	- [X] Last update
 	- [ ] Tags
 	- [ ] Department email
 	- [ ] Due date

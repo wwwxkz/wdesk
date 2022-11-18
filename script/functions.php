@@ -132,6 +132,7 @@ function wdesk_ticket()
 					'user_name' => $thread_user
 				)
 			);
+			$wpdb->query($wpdb->prepare("UPDATE `wdesk_tickets` SET `last_update`= NOW() WHERE `id` = %s", $wpdb->insert_id));
 			wdesk_helper_notify_user($token);
 		} else {
 			echo "<script>alert('" . __('Your already have a ticket open, wait until you ticket is solved or close it to create another', 'wdesk') . "')</script>";
@@ -152,12 +153,12 @@ function wdesk_ticket()
 				'user_name' => $user_name
 			)
 		);
+		$wpdb->query($wpdb->prepare("UPDATE `wdesk_tickets` SET `last_update`= NOW() WHERE `id` = %s", $ticket_id));
 		wdesk_helper_notify_user($ticket_id);
 		wdesk_helper_notify_agent($ticket_id);
 	}
 	if (isset($_POST['wdesk-ticket-note'])) {
         global $wpdb;
-		$token = sanitize_text_field($_GET['token']);
 		$ticket_id = sanitize_text_field($_POST['ticket']);
 		$text = sanitize_textarea_field($_POST['thread']);		
 		$user_name = sanitize_text_field($_POST['thread-user']);		
@@ -172,6 +173,7 @@ function wdesk_ticket()
 				'user_name' => $user_name
 			)
 		);
+		$wpdb->query($wpdb->prepare("UPDATE `wdesk_tickets` SET `last_update`= NOW() WHERE `id` = %s", $ticket_id));
 	}
 	if (isset($_POST['wdesk-ticket-download'])) {
 		wdesk_helper_download_ticket_csv(sanitize_text_field($_POST['ticket']));
