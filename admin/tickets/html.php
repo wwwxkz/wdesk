@@ -14,11 +14,11 @@ function wdesk_tickets()
 				<table class="wp-list-table widefat fixed striped table-view-list" style="height: -moz-available; height: -webkit-fill-available;">
 					<thead>
 						<tr>
-							<th colspan="8"><?php echo esc_textarea($tickets[0]->subject) ?></th>
-							<th><?php _e('User', 'wdesk') ?></th>
-							<th><?php _e('File', 'wdesk') ?></th>
-							<th><?php _e('Note', 'wdesk') ?></th>
-							<th><?php _e('Actions', 'wdesk') ?></th>
+							<th colspan="100%"><?php echo esc_textarea($tickets[0]->subject) ?></th>
+							<th colspan="10"><?php _e('User', 'wdesk') ?></th>
+							<th colspan="8"><?php _e('File', 'wdesk') ?></th>
+							<th colspan="5"><?php _e('Note', 'wdesk') ?></th>
+							<th colspan="8"><?php _e('Actions', 'wdesk') ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -27,9 +27,9 @@ function wdesk_tickets()
 					foreach ($thread as $response) {
 						?>
 						<tr <?php echo ($response->note) ? 'style="background-color: antiquewhite;"' : '' ?>>
-							<th colspan="8"><?php echo esc_textarea($response->text) ?></th>
-							<th><?php echo esc_textarea($response->user_name) ?></th>
-							<th>
+							<th colspan="100%"><?php echo esc_textarea($response->text) ?></th>
+							<th colspan="10"><?php echo esc_textarea($response->user_name) ?></th>
+							<th colspan="8">
 							<?php 
 							if (isset($response->file) && $response->file != '') {
 								?>
@@ -38,8 +38,8 @@ function wdesk_tickets()
 							} 
 							?>
 							</th>
-							<th><?php echo esc_textarea($response->note) ?></th>
-							<th>
+							<th colspan="5"><?php echo esc_textarea($response->note) ?></th>
+							<th colspan="8">
 								<form method="post">
 									<input type="submit" name="<?php echo esc_textarea($response->id) ?>-thread-delete" value="<?php _e('Delete', 'wdesk') ?>" class="button action">
 								</form>

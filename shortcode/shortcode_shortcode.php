@@ -261,9 +261,9 @@ function wdesk_shortcode_ticket() {
 		<table>
 		<thead>
 			<tr>
-				<th colspan="8">' . $ticket[0]->subject . '</th>
-				<th>' . __('User', 'wdesk') . '</th>
-				<th>' . __('File', 'wdesk') . '</th>
+				<th colspan="100%">' . $ticket[0]->subject . '</th>
+				<th colspan="1">' . __('User', 'wdesk') . '</th>
+				<th colspan="1">' . __('File', 'wdesk') . '</th>
 			</tr>
 		</thead>
 		';
@@ -273,9 +273,9 @@ function wdesk_shortcode_ticket() {
 		foreach ($thread as $response) {
 			$return .= '
 			<tr>
-				<th colspan="8">' . $response->text . '</th>
-				<th>' . $response->user_name . '</th>
-				<th>';
+				<th colspan="100%">' . $response->text . '</th>
+				<th colspan="1">' . $response->user_name . '</th>
+				<th colspan="1">';
 				if (isset($response->file) && $response->file != '') {
 					$return .= '<a href="' . $response->file . '">' . __('Download', 'wdesk') . '</a>';
 				}
@@ -329,9 +329,9 @@ function wdesk_shortcode_ticket_guest($ticket_id, $token) {
 		<table>
 		<thead>
 			<tr>
-				<th colspan="8">' . $ticket[0]->subject . '</th>
-				<th>' . __('User', 'wdesk') . '</th>
-				<th>' . __('File', 'wdesk') . '</th>
+				<th colspan="100%">' . $ticket[0]->subject . '</th>
+				<th colspan="1">' . __('User', 'wdesk') . '</th>
+				<th colspan="1">' . __('File', 'wdesk') . '</th>
 			</tr>
 		</thead>
 		';
@@ -341,9 +341,9 @@ function wdesk_shortcode_ticket_guest($ticket_id, $token) {
 		foreach ($thread as $response) {
 			$return .= '
 			<tr>
-				<th colspan="8">' . $response->text . '</th>
-				<th>' . $response->user_name . '</th>
-				<th>';
+				<th colspan="100%">' . $response->text . '</th>
+				<th colspan="1">' . $response->user_name . '</th>
+				<th colspan="1">';
 				if (isset($response->file) && $response->file != '') {
 					$return .= '<a href="' . $response->file . '">' . __('Download', 'wdesk') . '</a>';
 				}
