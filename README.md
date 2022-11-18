@@ -21,9 +21,9 @@
 - [X] Remove serialized in the DB
 - [X] Remove main script from frontend
 - [X] INSERT wdesk_settings example data IF NOT EXIST
+- [X] Replace cookies by session
 - [ ] Refactor urlparams
 - [ ] Improve security
-- [ ] Replace cookies by session
 - [ ] Refactor frontend/script and frontend.php
 - [ ] Use token with id
 - [ ] Token expires

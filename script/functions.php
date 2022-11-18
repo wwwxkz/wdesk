@@ -1,5 +1,6 @@
 <?php
 require_once(WDESK_LOCAL . 'script/helpers.php');
+session_start();
 function wdesk_user()
 {
     if (isset($_POST['wdesk-user-recover'])) {
@@ -27,8 +28,8 @@ function wdesk_user()
 						'password' => $password                 
 					)
 				);
-				setcookie("wdesk-user-email", $email, time() + 3600);
-				setcookie("wdesk-user-password", $password, time() + 3600);
+				$_SESSION['wdesk-user-email'] = $email;
+				$_SESSION['wdesk-user-password'] = $password;
 				echo "<script>alert('" . __('User updated', 'wdesk') . "')</script>";
 				echo "<script>window.location = window.location.pathname</script>";
 				return 0;
@@ -42,8 +43,8 @@ function wdesk_user()
 					)
 				);
 				echo "<script>alert('" . __('Registered successfully', 'wdesk') . "')</script>";
-				setcookie("wdesk-user-email", $email, time() + 3600);
-				setcookie("wdesk-user-password", $password, time() + 3600);
+				$_SESSION['wdesk-user-email'] = $email;
+				$_SESSION['wdesk-user-password'] = $password;
 				header("refresh: 1");
 				$subject = __('Registered successfully', 'wdesk');
 				$message = __('Acess the helpdesk with your email and password', 'wdesk');
@@ -60,8 +61,8 @@ function wdesk_user()
         $password = sha1(base64_encode($_POST['password']));
         $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = %s AND password = %s", array($email, $password)));
         if (!empty($result)) {
-            setcookie("wdesk-user-email", $email, time() + 3600);
-            setcookie("wdesk-user-password", $password, time() + 3600);
+			$_SESSION['wdesk-user-email'] = $email;
+			$_SESSION['wdesk-user-password'] = $password;
             header("refresh: 1");
         }
         else {
@@ -69,10 +70,7 @@ function wdesk_user()
         }
     }
     if (isset($_POST['wdesk-user-logout'])) {
-        unset($_COOKIE['wdesk-user-email']);
-        unset($_COOKIE['wdesk-user-password']);
-        setcookie('wdesk-user-email', null, -1); 
-        setcookie('wdesk-user-password', null, -1); 
+        session_destroy();
     }
 }
 

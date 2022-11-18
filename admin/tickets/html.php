@@ -156,7 +156,13 @@ function wdesk_tickets()
 		$tickets = $wpdb->get_results($sql . " ORDER BY id LIMIT ${offset}, ${items_per_page}");
 		?>
 		<div style="float: left; margin-top: 15px; padding: 0;">
-			<h2><?php _e('Tickets', 'wdesk') ?></h2>
+			<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+				<h2><?php _e('Tickets', 'wdesk') ?></h2>
+				<div>
+					<input type="text" placeholder="<?php _e('Subject', 'wdesk') ?>, <?php _e('User', 'wdesk') ?>" />
+					<input type="submit" class="button action" value="<?php _e('Search', 'wdesk') ?>" />
+				</div>
+			</div>
 			<table class="wp-list-table widefat fixed striped table-view-list">
 				<thead>
 					<tr>

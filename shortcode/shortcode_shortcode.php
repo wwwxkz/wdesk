@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 function wdesk_shortcode() {
     $return = '';
     if(isset($_GET['otp'])) {
@@ -8,17 +8,14 @@ function wdesk_shortcode() {
     elseif(isset($_GET['ticket'])) {
     	$return .= wdesk_shortcode_ticket_guest(sanitize_text_field($_GET['ticket']));
     } else {
-		if (isset($_COOKIE["wdesk-user-email"]) && isset($_COOKIE["wdesk-user-password"])) {
+		if (isset($_SESSION["wdesk-user-email"]) && isset($_SESSION["wdesk-user-password"])) {
 	        global $wpdb;
-	        $email = sanitize_email($_COOKIE["wdesk-user-email"]);
-	        $password = $_COOKIE["wdesk-user-password"];
+	        $email = sanitize_email($_SESSION["wdesk-user-email"]);
+	        $password = $_SESSION["wdesk-user-password"];
 	        $user = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = %s AND password = %s", array($email, $password)));
 	        if(empty($user)) {
 	            echo '<script>alert("' . __('This user does not exist', 'wdesk') . '")</script>';
-				unset($_COOKIE['wdesk-user-email']);
-				unset($_COOKIE['wdesk-user-password']);
-				setcookie('wdesk-user-email', null, -1); 
-				setcookie('wdesk-user-password', null, -1); 
+				session_destroy();
 				header("Refresh:0");
 	        }
 	        $return .= wdesk_shortcode_tickets($user);
@@ -69,6 +66,9 @@ function wdesk_shortcode_login() {
 							<label>' . __('Email', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 							<input required type="email" name="email" placeholder="' . __('Valid email adress', 'wdesk') . '" />
 							<br>
+							<label>' . __('Name', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
+							<input required type="text" name="name" placeholder="' . __('Full name', 'wdesk') . '" />
+							<br>
 							<label>' . __('Password', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
 							<input onchange="confirmPassword();" type="password" required name="password" id="password" placeholder="' . __('A strong password', 'wdesk') . '" />
 							<br>
@@ -93,7 +93,7 @@ function wdesk_shortcode_login() {
 						</div>
 					</form>
 					<h1 style="color: #1a447a;">' . __('Forgot your password', 'wdesk') . '?</h1>
-					<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+					<form method="post" style="display: flex; flex-direction: column;">
 						<input type="text" required name="email" placeholder="' . __('Last email used to acess', 'wdesk') . '" style="margin-bottom: 15px;"/>
 						<input type="submit" required class="button action" name="wdesk-user-recover" value="' . __('Send email with the password', 'wdesk') . '" />
 					</form>
@@ -382,7 +382,7 @@ function wdesk_shortcode_profile($users) {
 				document.getElementById(`wdesk-shortcode-new`).style.display = `none`;
 			})();return false;" value="' . __('Tickets', 'wdesk') . '" />
 		</div>
-		<form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+		<form method="post" style="display: flex; flex-direction: column;">
 			<input type="hidden" name="id" value="'. $users[0]->id .'">
 			<div style="display: flex; flex-direction: column;">
 				<label>' . __('Email', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
