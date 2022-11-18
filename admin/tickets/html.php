@@ -2,10 +2,9 @@
 function wdesk_tickets()
 {
     global $wpdb;
-	if (isset($_GET['token'])) {
-		$token = sanitize_text_field($_GET['token']);
-		$ticket = sanitize_text_field($_GET['ticket']);
-		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
+	if (isset($_GET['ticket'])) {
+		$ticket_id = sanitize_text_field($_GET['ticket']);
+		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
 		?>
 		<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: row; justify-content: space-between;">
 			<h2>Ticket <?php echo esc_textarea($tickets[0]->id) ?></h2>
@@ -24,7 +23,7 @@ function wdesk_tickets()
 					</thead>
 					<tbody>
 					<?php
-					$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket));
+					$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
 					foreach ($thread as $response) {
 						?>
 						<tr <?php echo ($response->note) ? 'style="background-color: antiquewhite;"' : '' ?>>
@@ -206,7 +205,6 @@ function wdesk_tickets()
 								<tr>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
-										searchParams.set(`token`, `<?php echo esc_textarea($ticket->token) ?>`);
 										searchParams.set(`ticket`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->id) ?></a></th>
@@ -229,7 +227,6 @@ function wdesk_tickets()
 									<th><?php echo (isset($department[0]->name)) ? $department[0]->name : '' ?></th>
 									<th><a onclick="(function(){
 										var searchParams = new URLSearchParams(window.location.search);
-										searchParams.set(`token`, `<?php echo esc_textarea($ticket->token) ?>`);
 										searchParams.set(`ticket`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->subject) ?></a></th>

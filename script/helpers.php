@@ -8,14 +8,15 @@ function wdesk_helper_send_mail($to, $subject, $message)
     wp_mail($to, $subject, $message, $headers);
 }
 
-function wdesk_helper_notify_user($token) 
+function wdesk_helper_notify_user($ticket_id) 
 {
 	global $wpdb;
-	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
+	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
 	$subject = __('Ticket update', 'wdesk');
     $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$url = $settings[2]->value;
-	$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?token=$token";
+	$token = $tickets[0]->token;
+	$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?ticket=$ticket_id&token=$token";
 	(isset($tickets[0]->user_email) && $tickets[0]->user_email != "") ? wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message) : '';
 }
 

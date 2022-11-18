@@ -139,7 +139,6 @@ function wdesk_ticket()
 	}
     if (isset($_POST['wdesk-ticket-update'])) {
         global $wpdb;
-		$token = sanitize_text_field($_GET['token']);
 		$ticket_id = sanitize_text_field($_POST['ticket']);
 		$text = sanitize_textarea_field($_POST['thread']);		
 		$user_name = sanitize_text_field($_POST['thread-user']);		
@@ -153,7 +152,7 @@ function wdesk_ticket()
 				'user_name' => $user_name
 			)
 		);
-		wdesk_helper_notify_user($token);
+		wdesk_helper_notify_user($ticket_id);
 		wdesk_helper_notify_agent($ticket_id);
 	}
 	if (isset($_POST['wdesk-ticket-note'])) {

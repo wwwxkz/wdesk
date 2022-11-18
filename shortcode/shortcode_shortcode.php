@@ -2,12 +2,16 @@
 session_start();
 function wdesk_shortcode() {
     $return = '';
-    if(isset($_GET['otp'])) {
+    if (isset($_GET['otp'])) {
     	$return .= wdesk_shortcode_otp(sanitize_text_field($_GET['otp']));
     }
-    elseif(isset($_GET['ticket'])) {
-    	$return .= wdesk_shortcode_ticket_guest(sanitize_text_field($_GET['ticket']));
-    } else {
+    elseif (isset($_GET['ticket']) && isset($_GET['token'])) {
+    	$return .= wdesk_shortcode_ticket_guest(sanitize_text_field($_GET['ticket']), sanitize_text_field($_GET['token']));
+    }
+    elseif (isset($_GET['ticket'])) {
+    	$return .= wdesk_shortcode_ticket();
+    }
+    else {
 		if (isset($_SESSION["wdesk-user-email"]) && isset($_SESSION["wdesk-user-password"])) {
 	        global $wpdb;
 	        $email = sanitize_email($_SESSION["wdesk-user-email"]);
@@ -16,7 +20,7 @@ function wdesk_shortcode() {
 	        if(empty($user)) {
 	            echo '<script>alert("' . __('This user does not exist', 'wdesk') . '")</script>';
 				session_destroy();
-				header("Refresh:0");
+				header("refresh: 1");
 	        }
 	        $return .= wdesk_shortcode_tickets($user);
 			$return .= wdesk_shortcode_ticket($user);
@@ -190,7 +194,7 @@ function wdesk_shortcode_tickets($users) {
 						$department = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s", $id));
 						$return .= '
 							<tr>
-								<th><a href="?token=' . $ticket->token . '"><p>' 	. $ticket->id . '</p></a></th>
+								<th><a href="?ticket=' . $ticket->token . '"><p>' 	. $ticket->id . '</p></a></th>
 								<th><p>';
 								if ($ticket->status == 'Open') {
 									$return .= __('Open', 'wdesk');
@@ -204,7 +208,7 @@ function wdesk_shortcode_tickets($users) {
 								$return .= '
 								</p></th>	
 								<th><p>' 									. $ticket->created . '</p></th>
-								<th><a href="?token=' . $ticket->token . '"><p>' 	. $ticket->subject . '</p></a></th>
+								<th><a href="?ticket=' . $ticket->id . '"><p>' 	. $ticket->subject . '</p></a></th>
 								<th><p>' 									. $department[0]->name . '</p></th>
 								<th><p>' 									. $agent . '</p></th>
 								<th>
@@ -225,12 +229,12 @@ function wdesk_shortcode_tickets($users) {
     return $return;    
 }
 
-function wdesk_shortcode_ticket($users) {
+function wdesk_shortcode_ticket() {
 	$return = '';
-	if (isset($_GET['token'])) {
+	if (isset($_GET['ticket'])) {
 		global $wpdb;
-		$token = sanitize_text_field($_GET['token']);
-		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
+		$ticket = sanitize_text_field($_GET['ticket']);
+		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket));
 		$return .= '
 		<script>
 			document.getElementById(`wdesk-shortcode-tickets`).style.display = `none`; 
@@ -301,9 +305,9 @@ function wdesk_shortcode_ticket($users) {
 	return $return;
 }
 
-function wdesk_shortcode_ticket_guest($token) {
+function wdesk_shortcode_ticket_guest($ticket_id, $token) {
 	global $wpdb;
-	$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE token = %s", $token));
+	$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s AND token = %s", array($ticket_id, $token)));
 	$return = '';
 	if (isset($ticket[0])) {
 		$return .= '
@@ -325,22 +329,23 @@ function wdesk_shortcode_ticket_guest($token) {
 		<table>
 		<thead>
 			<tr>
-				<th colspan="4">' . $ticket[0]->subject . '</th>
+				<th colspan="8">' . $ticket[0]->subject . '</th>
 				<th>' . __('User', 'wdesk') . '</th>
 				<th>' . __('File', 'wdesk') . '</th>
 			</tr>
 		</thead>
 		';
-		$thread = unserialize($ticket[0]->thread);
+		$ticket_id = $ticket[0]->id;
+		$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s AND note = 0", $ticket_id));
 		$return .= '<tbody>';
-		foreach ($thread as $res) {
+		foreach ($thread as $response) {
 			$return .= '
 			<tr>
-				<th colspan="4">' . $res[0] . '</th>
-				<th>' . $res[1] . '</th>
+				<th colspan="8">' . $response->text . '</th>
+				<th>' . $response->user_name . '</th>
 				<th>';
-				if (isset($res[2]) && $res[2] != '') {
-					$return .= '<a href="' . $res[2] . '">' . __('Download', 'wdesk') . '</a>';
+				if (isset($response->file) && $response->file != '') {
+					$return .= '<a href="' . $response->file . '">' . __('Download', 'wdesk') . '</a>';
 				}
 				$return .= '
 				</th>

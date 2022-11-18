@@ -17,38 +17,42 @@
 
 ### Progress
 
-- [X] Add guest users using tokens
-- [X] Remove serialized in the DB
-- [X] Remove main script from frontend
-- [X] INSERT wdesk_settings example data IF NOT EXIST
-- [X] Replace cookies by session
-- [ ] Refactor urlparams
-- [ ] Improve security
+- [X] Improve prototype
+	- [X] Add guest users using tokens
+	- [X] Remove serialized in the DB
+	- [X] Remove main script from frontend
+	- [X] INSERT wdesk_settings example data IF NOT EXIST
 - [ ] Refactor frontend/script and frontend.php
-- [ ] Use token with id
-- [ ] Token expires
-- [ ] Padronize variables and function names
-- [ ] Refactor security
+	- [ ] Padronize variables and function names
+	- [ ] Replace colspan by css
+- [ ] Improve security
+	- [X] Replace cookies by session
+	- [X] Refactor urlparams
+	- [X] Use token with id
+		- [ ] Token expires
+	- [ ] Refactor security
 
 ### Features
 
-- [X] Download ticket as .csv
-- [X] Ticket notes
-- [ ] Date format
-- [ ] Tags
-- [ ] Department email
-- [ ] Last update
-- [ ] Search and filter
-- [ ] Ban emails
-- [ ] Ban email providers
-- [ ] Due date
-- [ ] Time worked
-- [ ] Reports
-- [ ] Autoclose
-- [ ] Darkmode
-- [ ] Max text, subject, file
-- [ ] Fields in ticket creation
-- [ ] Cron status
-- [ ] Rich text
-- [ ] Color scheme
-- [ ] Due date notify
+- [ ] Usability improvement
+	- [X] Download ticket as .csv
+	- [X] Ticket notes
+	- [ ] Search and filter
+	- [ ] Last update
+	- [ ] Tags
+	- [ ] Department email
+	- [ ] Due date
+	- [ ] Time worked
+	- [ ] Rich text
+	- [ ] Due date notify
+- [ ] Add more customization and tools
+	- [ ] Date format
+	- [ ] Ban emails
+	- [ ] Ban email providers
+	- [ ] Reports
+	- [ ] Darkmode
+	- [ ] Max text, subject, file
+	- [ ] Fields in ticket creation
+	- [ ] Cron status
+	- [ ] Autoclose
+	- [ ] Color scheme
