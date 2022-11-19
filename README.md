@@ -1,19 +1,21 @@
 # wdesk
 
+Available in https://wordpress.org/plugins/wdesk
+
 # Support
 
 ### Environment
 
-1 - Wordpress > 5.0 PHP > 7.0
-2 - Git clone main
-3 - New branch 'feature/fix/update feature/update-name short description'
+- Wordpress > 5.0 PHP > 7.0
+- Git clone main
+- New branch 'feature/fix/update feature/update-name short description'
 
 ### Internationalization
 
-0 - ```wp i18n make-pot . languages/wdesk.pot --slug=wdesk```
-1 - Or use languages/wdesk.pot
-2 - Poedit
-3 - New branch 'add/fix/update language-name_variant short description'
+- ```wp i18n make-pot . languages/wdesk.pot --slug=wdesk```
+- Or use languages/wdesk.pot
+- Poedit
+- New branch 'add/fix/update language-name_variant short description'
 
 ### Progress
 
