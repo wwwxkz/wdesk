@@ -86,6 +86,28 @@ function wdesk_tickets()
 						<tr><th>ID: <?php echo esc_textarea($tickets[0]->id) ?></th></tr>
 						<tr>
 							<th>
+								<?php
+								$tags = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tags` WHERE id = %s", $tickets[0]->tag));
+								foreach ($tags as $tag) { ?>
+									<input type="submit" class="button action" name="wdesk-ticket-tag-remove" value="<?php echo $tag->name ?>" style="background-color: <?php echo $tag->color ?> !important; color: #ffffff !important; border-color: #ffffff !important;"/>
+								<?php 
+								}  
+								$tags = $wpdb->get_results("SELECT * FROM `wdesk_tags`");
+								?>
+								<br>
+								<label><?php _e('Tags', 'wdesk') ?>:</label>
+								<br>
+								<select name="tag">
+									<option value=""><?php _e('Select', 'wdesk') ?>...</option>
+									<?php foreach ($tags as $tag) { ?>
+										<option value="<?php echo esc_textarea($tag->id) ?>"><?php echo $tag->name ?></option>
+									<?php } ?>
+								</select>
+								<input type="submit" class="button action" name="wdesk-ticket-tag-add" value="<?php _e('Add', 'wdesk') ?>" />
+							</th>
+						</tr>
+						<tr>
+							<th>
 								<label><?php _e('Status', 'wdesk') ?>:</label>
 								<br>
 								<select name="status">
@@ -141,7 +163,6 @@ function wdesk_tickets()
 								<input type="submit" class="button action" name="wdesk-ticket-download" value="<?php _e('Download', 'wdesk') ?>" />
 							</th>
 						</tr>
-						
 					</form>
 				</tbody>
 			</table>
@@ -172,6 +193,7 @@ function wdesk_tickets()
 						<th><?php _e('Last update', 'wdesk') ?></th>
 						<th><?php _e('Department', 'wdesk') ?></th>
 						<th><?php _e('Subject', 'wdesk') ?></th>
+						<th><?php _e('Tag', 'wdesk') ?></th>
 						<th><?php _e('User', 'wdesk') ?></th>
 						<th><?php _e('Agent', 'wdesk') ?></th>
 						<th><?php _e('Actions', 'wdesk') ?></th>
@@ -233,6 +255,18 @@ function wdesk_tickets()
 										searchParams.set(`ticket`, `<?php echo esc_textarea($ticket->id) ?>`);
 										window.location.search = searchParams.toString();
 									})();return false;"><?php echo esc_textarea($ticket->subject) ?></a></th>
+									<?php 
+									$tag = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tags` WHERE id = %s", $ticket->tag));
+									?>
+									<th>
+									<?php 
+									if (!empty($tag)) {
+										?>
+										<input type="submit" value="<?php echo $tag[0]->name ?>" style="background-color: <?php echo $tag[0]->color ?> !important; color: #ffffff !important; border-color: #ffffff !important;" class="button action"> 
+										<?php
+									}
+									?>
+									</th>
 									<th><?php echo esc_textarea($ticket->user_name) ?></th>
 									<th><?php echo esc_textarea($agent) ?></th>
 									<th>

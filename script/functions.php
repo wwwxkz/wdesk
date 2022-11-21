@@ -157,6 +157,31 @@ function wdesk_ticket()
 		wdesk_helper_notify_user($ticket_id);
 		wdesk_helper_notify_agent($ticket_id);
 	}
+	if (isset($_POST['wdesk-ticket-tag-add'])) {
+        global $wpdb;
+		$ticket_id = sanitize_text_field($_POST['ticket']);
+		$tag = sanitize_text_field($_POST['tag']);
+		$wpdb->update(
+			'wdesk_tickets',
+			array(
+				'tag' => $tag,
+			), array(
+				'id' => $ticket_id,
+			)
+		);
+	}
+	if (isset($_POST['wdesk-ticket-tag-remove'])) {
+	  global $wpdb;
+		$ticket_id = sanitize_text_field($_POST['ticket']);
+		$wpdb->update(
+			'wdesk_tickets',
+			array(
+				'tag' => '',
+			), array(
+				'id' => $ticket_id,
+			)
+		);
+	}
 	if (isset($_POST['wdesk-ticket-note'])) {
         global $wpdb;
 		$ticket_id = sanitize_text_field($_POST['ticket']);
@@ -230,6 +255,43 @@ function wdesk_department()
 			'wdesk_departments',
 			array(
 				'id' => $department_id,
+			)
+		);
+	}
+}
+
+function wdesk_tag()
+{
+	if (isset($_POST['wdesk-tag-new'])) {
+        global $wpdb;
+		$wpdb->insert(
+			'wdesk_tags',
+			array(
+				'name' => sanitize_text_field($_POST['name']),
+				'color' => sanitize_text_field($_POST['color'])
+			)
+		);
+	}
+	if (isset($_POST['wdesk-tag-update'])) {
+        global $wpdb;
+		$tag_id = sanitize_text_field($_POST['id']);
+		$wpdb->update(
+			'wdesk_tags',
+			array(
+				'name' => sanitize_text_field($_POST['name']),
+				'color' => sanitize_text_field($_POST['color'])
+			), array(
+				'id' => $tag_id,
+			)
+		);
+	}
+	if (isset($_POST['wdesk-tag-delete'])) {
+        global $wpdb;
+		$tag_id = sanitize_text_field($_POST['id']);
+		$wpdb->delete(
+			'wdesk_tags',
+			array(
+				'id' => $tag_id,
 			)
 		);
 	}

@@ -15,6 +15,7 @@ require_once(WDESK_LOCAL . 'script/script.php');
 require_once(WDESK_LOCAL . 'shortcode/shortcode.php');
 require_once(WDESK_LOCAL . 'admin/tickets/tickets.php');
 require_once(WDESK_LOCAL . 'admin/departments/departments.php');
+require_once(WDESK_LOCAL . 'admin/tags/tags.php');
 require_once(WDESK_LOCAL . 'admin/settings/settings.php');
 
 add_action( 'plugins_loaded', 'wdesk_init' );
@@ -30,6 +31,7 @@ function wdesk() {
 	add_submenu_page( 'helpdesk', __('Tickets', 'wdesk'), __('Tickets', 'wdesk'), 'read', 'wdesk_tickets', 'wdesk_tickets' );
 	if (current_user_can('administrator')) {
 		add_submenu_page( 'helpdesk', __('Departments', 'wdesk'), __('Departments', 'wdesk'), 'read', 'wdesk_departments', 'wdesk_departments' );
+		add_submenu_page( 'helpdesk', __('Tags', 'wdesk'), __('Tags', 'wdesk'), 'read', 'wdesk_tags', 'wdesk_tags' );
 		add_submenu_page( 'helpdesk', __('Settings', 'wdesk'), __('Settings', 'wdesk'), 'read', 'wdesk_settings', 'wdesk_settings' );
 	}
 	remove_submenu_page('helpdesk','helpdesk');
@@ -67,25 +69,35 @@ function wdesk_activation() {
 		FOREIGN KEY (department_id) REFERENCES wdesk_departments(id)
 	) $charset_collate3;";
 	dbDelta($sql3);
-	$table4 = "wdesk_tickets"; 
+	$table4 = "wdesk_tags"; 
 	$charset_collate4 = $wpdb->get_charset_collate();
 	$sql4 = "CREATE TABLE $table4 (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		name tinytext NOT NULL,
+		color varchar(10) NOT NULL,
+		UNIQUE KEY id (id)
+	) $charset_collate4;";
+	dbDelta($sql4);
+	$table5 = "wdesk_tickets"; 
+	$charset_collate5 = $wpdb->get_charset_collate();
+	$sql5 = "CREATE TABLE $table5 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		created timestamp NOT NULL default CURRENT_TIMESTAMP,
 		subject tinytext NOT NULL,
 		status varchar(255),
 		agent varchar(255),
 		department varchar(255),
+		tag varchar(255),
 		user_email varchar(255) NOT NULL,
 		user_name varchar(255) NOT NULL,
 		last_update timestamp NOT NULL default CURRENT_TIMESTAMP,
 		token varchar(255) NOT NULL,
 		UNIQUE KEY id (id)
-	) $charset_collate4;";
-	dbDelta($sql4);
-	$table5 = "wdesk_tickets_threads"; 
-	$charset_collate5 = $wpdb->get_charset_collate();
-	$sql5 = "CREATE TABLE $table5 (
+	) $charset_collate5;";
+	dbDelta($sql5);
+	$table6 = "wdesk_tickets_threads"; 
+	$charset_collate6 = $wpdb->get_charset_collate();
+	$sql6 = "CREATE TABLE $table6 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT, 
 		ticket_id mediumint(9) NOT NULL,
 		created timestamp NOT NULL default CURRENT_TIMESTAMP,
@@ -95,28 +107,28 @@ function wdesk_activation() {
 		user_name varchar(255) NOT NULL,
 		FOREIGN KEY (ticket_id) REFERENCES wdesk_tickets(id),
 		UNIQUE KEY id (id)
-	) $charset_collate5;";
-	dbDelta($sql5);
-	$table6 = "wdesk_settings"; 
-	$charset_collate6 = $wpdb->get_charset_collate();
-	$sql6 = "CREATE TABLE $table6 (
+	) $charset_collate6;";
+	dbDelta($sql6);
+	$table7 = "wdesk_settings"; 
+	$charset_collate7 = $wpdb->get_charset_collate();
+	$sql7 = "CREATE TABLE $table7 (
 		id mediumint(9) NOT NULL,
 		setting tinytext NOT NULL,
 		value tinytext NOT NULL,
 		UNIQUE KEY id (id)
-	) $charset_collate6;";
-	dbDelta($sql6);
-	$wpdb->replace($table6, array(
+	) $charset_collate7;";
+	dbDelta($sql7);
+	$wpdb->replace($table7, array(
 		'id' => 0,
 		'setting' => 'Helpdesk name',
 		'value' => 'ExemCompany'
 	));
-	$wpdb->replace($table6, array(
+	$wpdb->replace($table7, array(
 		'id' => 1,
 		'setting' => 'Sender email',
 		'value' => 'email@example.com'
 	));
-	$wpdb->replace($table6, array(
+	$wpdb->replace($table7, array(
 		'id' => 2,
 		'setting' => 'Helpdesk url',
 		'value' => 'https://www.wordpress.org/'
@@ -135,6 +147,7 @@ function wdesk_uninstall() {
     $wpdb->query("DROP TABLE IF EXISTS wdesk_users;");
    	$wpdb->query("DROP TABLE IF EXISTS wdesk_departments;");
 	$wpdb->query("DROP TABLE IF EXISTS wdesk_departments_agents;");
+	$wpdb->query("DROP TABLE IF EXISTS wdesk_tags;");
    	$wpdb->query("DROP TABLE IF EXISTS wdesk_tickets;");
 	$wpdb->query("DROP TABLE IF EXISTS wdesk_tickets_threads;");
    	$wpdb->query("DROP TABLE IF EXISTS wdesk_settings;");
