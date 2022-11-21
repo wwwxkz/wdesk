@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-21T16:00:57-03:00\n"
+"POT-Creation-Date: 2022-11-21T16:50:20-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wdesk\n"
@@ -155,14 +155,14 @@ msgid "User"
 msgstr ""
 
 #: admin/tickets/html.php:19
-#: script/helpers.php:80
+#: script/helpers.php:81
 #: shortcode/shortcode_shortcode.php:268
 #: shortcode/shortcode_shortcode.php:336
 msgid "File"
 msgstr ""
 
 #: admin/tickets/html.php:20
-#: script/helpers.php:79
+#: script/helpers.php:80
 msgid "Note"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgstr ""
 
 #: admin/tickets/html.php:157
 #: admin/tickets/html.php:192
-#: script/helpers.php:77
+#: script/helpers.php:78
 #: shortcode/shortcode_shortcode.php:181
 msgid "Created"
 msgstr ""
@@ -330,7 +330,7 @@ msgstr ""
 #: script/helpers.php:28
 #: script/helpers.php:31
 #: script/helpers.php:72
-#: script/helpers.php:76
+#: script/helpers.php:77
 #: shortcode/shortcode_shortcode.php:116
 #: shortcode/shortcode_shortcode.php:249
 #: shortcode/shortcode_shortcode.php:317
@@ -349,11 +349,16 @@ msgstr ""
 msgid "If your user is found in the database we will send you a email with an OTP code and URL to reset your password. If not, sign-in or submit a ticket as a guest"
 msgstr ""
 
-#: script/helpers.php:78
+#: script/helpers.php:76
+#: script/helpers.php:77
+msgid "ID"
+msgstr ""
+
+#: script/helpers.php:79
 msgid "Text"
 msgstr ""
 
-#: script/helpers.php:81
+#: script/helpers.php:82
 msgid "Username"
 msgstr ""
 

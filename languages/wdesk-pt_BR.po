@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wdesk 2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
-"POT-Creation-Date: 2022-11-21T16:00:57-03:00\n"
-"PO-Revision-Date: 2022-11-21 16:07-0300\n"
+"POT-Creation-Date: 2022-11-21T16:50:20-03:00\n"
+"PO-Revision-Date: 2022-11-21 16:50-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -136,12 +136,12 @@ msgstr "Nova tag"
 msgid "User"
 msgstr "Usuário"
 
-#: admin/tickets/html.php:19 script/helpers.php:80
+#: admin/tickets/html.php:19 script/helpers.php:81
 #: shortcode/shortcode_shortcode.php:268 shortcode/shortcode_shortcode.php:336
 msgid "File"
 msgstr "Arquivo"
 
-#: admin/tickets/html.php:20 script/helpers.php:79
+#: admin/tickets/html.php:20 script/helpers.php:80
 msgid "Note"
 msgstr "Observação"
 
@@ -216,7 +216,7 @@ msgstr "Encerrado"
 msgid "Agent"
 msgstr "Agente"
 
-#: admin/tickets/html.php:157 admin/tickets/html.php:192 script/helpers.php:77
+#: admin/tickets/html.php:157 admin/tickets/html.php:192 script/helpers.php:78
 #: shortcode/shortcode_shortcode.php:181
 msgid "Created"
 msgstr "Criado"
@@ -289,7 +289,7 @@ msgstr ""
 "Acesse o helpdesk usando seu email e senha ou utilizando a url a seguir"
 
 #: script/helpers.php:28 script/helpers.php:31 script/helpers.php:72
-#: script/helpers.php:76 shortcode/shortcode_shortcode.php:116
+#: script/helpers.php:77 shortcode/shortcode_shortcode.php:116
 #: shortcode/shortcode_shortcode.php:249 shortcode/shortcode_shortcode.php:317
 msgid "Ticket"
 msgstr "Chamado"
@@ -312,11 +312,15 @@ msgstr ""
 "código OTP e uma URL para você resetar sua senha. Caso não, registre-se ou "
 "envie um chamado como convidado"
 
-#: script/helpers.php:78
+#: script/helpers.php:76 script/helpers.php:77
+msgid "ID"
+msgstr "ID"
+
+#: script/helpers.php:79
 msgid "Text"
 msgstr "Texto"
 
-#: script/helpers.php:81
+#: script/helpers.php:82
 msgid "Username"
 msgstr "Usuário"
 

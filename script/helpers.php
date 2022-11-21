@@ -73,12 +73,13 @@ function wdesk_helper_download_ticket_csv($ticket_id) {
     // Get thread of the ticket
     $csv = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
     // Set header .csv
-	$header['0'] = __('Ticket', 'wdesk') . 'ID';
-	$header['1'] = __('Created', 'wdesk');
-    $header['2'] = __('Text', 'wdesk');
-    $header['3'] = __('Note', 'wdesk');
-    $header['4'] = __('File', 'wdesk');
-    $header['5'] = __('Username', 'wdesk');
+	$header['0'] = __('ID', 'wdesk');
+	$header['1'] = __('Ticket', 'wdesk') . __('ID', 'wdesk');
+	$header['2'] = __('Created', 'wdesk');
+    $header['3'] = __('Text', 'wdesk');
+    $header['4'] = __('Note', 'wdesk');
+    $header['5'] = __('File', 'wdesk');
+    $header['6'] = __('Username', 'wdesk');
     // Serialize object to .csv
     $output = '"' . implode('";"', $header) . '";' . "\n";
     foreach ($csv as $row) {
