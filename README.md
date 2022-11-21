@@ -6,7 +6,8 @@ Available in https://wordpress.org/plugins/wdesk
 
 ### Environment
 
-- Wordpress > 5.0 PHP > 7.0
+- Wordpress > 5.0 
+- PHP > 7.0
 - Git clone main
 - New branch 'feature/fix/update feature/update-name short description'
 
