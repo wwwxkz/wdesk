@@ -42,7 +42,7 @@ Available in https://wordpress.org/plugins/wdesk
 	- [X] Ticket notes
 	- [ ] Search and filter
 	- [X] Last update
-	- [ ] Tags
+	- [X] Tags
 	- [ ] Department email
 	- [ ] Due date
 	- [ ] Time worked
