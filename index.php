@@ -3,7 +3,7 @@
 /*
 Plugin Name: 	wdesk
 Description: 	Plugin developed to track inquiries in a Helpdesk platform inside Wordpress
-Version: 		0.3
+Version: 		0.4
 Author: 		Marcelo Rodrigues Campos
 Author URI: 	https://github.com/wwwxkz
 Text Domain:	wdesk
@@ -11,21 +11,28 @@ Domain Path:	/languages
 */
 
 define('WDESK_LOCAL', plugin_dir_path(__FILE__));
+
+// Backend script
 require_once(WDESK_LOCAL . 'script/script.php');
+
+// Shortcode
 require_once(WDESK_LOCAL . 'shortcode/shortcode.php');
+
+// Admin
+require_once(WDESK_LOCAL . 'admin/tags/tags.php');
 require_once(WDESK_LOCAL . 'admin/tickets/tickets.php');
 require_once(WDESK_LOCAL . 'admin/departments/departments.php');
-require_once(WDESK_LOCAL . 'admin/tags/tags.php');
-require_once(WDESK_LOCAL . 'admin/settings/settings.php');
 
 add_action( 'plugins_loaded', 'wdesk_init' );
 
 function wdesk_init() {
 	add_action('admin_menu', 'wdesk');
 	add_action('wdesk_cron_hook', 'wdesk_cron');
+	// Load internationalizations
 	load_plugin_textdomain('wdesk', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
+// Register admin pages
 function wdesk() {
 	add_menu_page( 'Helpdesk', 'Helpdesk', 'manage_options', 'helpdesk', 'helpdesk', 'dashicons-editor-ul', 10 );
 	add_submenu_page( 'helpdesk', __('Tickets', 'wdesk'), __('Tickets', 'wdesk'), 'read', 'wdesk_tickets', 'wdesk_tickets' );
@@ -34,12 +41,17 @@ function wdesk() {
 		add_submenu_page( 'helpdesk', __('Tags', 'wdesk'), __('Tags', 'wdesk'), 'read', 'wdesk_tags', 'wdesk_tags' );
 		add_submenu_page( 'helpdesk', __('Settings', 'wdesk'), __('Settings', 'wdesk'), 'read', 'wdesk_settings', 'wdesk_settings' );
 	}
+	// Remove repeated first page
 	remove_submenu_page('helpdesk','helpdesk');
 }		
+
+// Registers activation, deactivation, and uninstall hook
 
 register_activation_hook(__FILE__, 'wdesk_activation');
 function wdesk_activation() {
 	global $wpdb;
+	
+	// Users
 	$table1 = "wdesk_users"; 
 	$charset_collate1 = $wpdb->get_charset_collate();
 	$sql1 = "CREATE TABLE $table1 (
@@ -53,6 +65,8 @@ function wdesk_activation() {
 	) $charset_collate1;";
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	dbDelta($sql1);
+	
+	// Departments
 	$table2 = "wdesk_departments"; 
 	$charset_collate2 = $wpdb->get_charset_collate();
 	$sql2 = "CREATE TABLE $table2 (
@@ -61,6 +75,8 @@ function wdesk_activation() {
 		UNIQUE KEY id (id)
 	) $charset_collate2;";
 	dbDelta($sql2);
+	
+	// Agents
 	$table3 = "wdesk_departments_agents"; 
 	$charset_collate3 = $wpdb->get_charset_collate();
 	$sql3 = "CREATE TABLE $table3 (
@@ -69,6 +85,8 @@ function wdesk_activation() {
 		FOREIGN KEY (department_id) REFERENCES wdesk_departments(id)
 	) $charset_collate3;";
 	dbDelta($sql3);
+	
+	// Tags
 	$table4 = "wdesk_tags"; 
 	$charset_collate4 = $wpdb->get_charset_collate();
 	$sql4 = "CREATE TABLE $table4 (
@@ -78,6 +96,8 @@ function wdesk_activation() {
 		UNIQUE KEY id (id)
 	) $charset_collate4;";
 	dbDelta($sql4);
+	
+	// Tickets
 	$table5 = "wdesk_tickets"; 
 	$charset_collate5 = $wpdb->get_charset_collate();
 	$sql5 = "CREATE TABLE $table5 (
@@ -95,6 +115,8 @@ function wdesk_activation() {
 		UNIQUE KEY id (id)
 	) $charset_collate5;";
 	dbDelta($sql5);
+	
+	// Threads
 	$table6 = "wdesk_tickets_threads"; 
 	$charset_collate6 = $wpdb->get_charset_collate();
 	$sql6 = "CREATE TABLE $table6 (
@@ -109,6 +131,8 @@ function wdesk_activation() {
 		UNIQUE KEY id (id)
 	) $charset_collate6;";
 	dbDelta($sql6);
+	
+	// Settings
 	$table7 = "wdesk_settings"; 
 	$charset_collate7 = $wpdb->get_charset_collate();
 	$sql7 = "CREATE TABLE $table7 (
@@ -118,6 +142,8 @@ function wdesk_activation() {
 		UNIQUE KEY id (id)
 	) $charset_collate7;";
 	dbDelta($sql7);
+	
+	// Default settings
 	$wpdb->replace($table7, array(
 		'id' => 0,
 		'setting' => 'Helpdesk name',
@@ -153,6 +179,8 @@ function wdesk_uninstall() {
    	$wpdb->query("DROP TABLE IF EXISTS wdesk_settings;");
 }
 
+// Setting up crons
+ 
 add_filter('cron_schedules', 'wdesk_cron_interval');
 function wdesk_cron_interval($schedules) { 
     $schedules['five_minutes'] = array(
@@ -164,6 +192,7 @@ function wdesk_cron_interval($schedules) {
 
 function wdesk_cron() {
 	global $wpdb;
+	// Delete all users OTP every 5 minutes
 	$wpdb->query("UPDATE `wdesk_users` SET `otp` = NULL WHERE `otp` IS NOT NULL; ");
 }
 
