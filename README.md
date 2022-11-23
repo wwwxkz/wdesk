@@ -73,7 +73,7 @@ Available in https://wordpress.org/plugins/wdesk
 - [ ] Usability improvement
 	- [X] Download ticket as .csv
 	- [X] Ticket notes
-	- [ ] Search and filter
+	- [X] Search and filter
 	- [X] Last update
 	- [X] Tags
 	- [ ] Department email

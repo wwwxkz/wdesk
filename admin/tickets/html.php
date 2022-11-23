@@ -170,6 +170,10 @@ function wdesk_tickets()
 	<?php
 	} else {
 		$sql = "SELECT * FROM wdesk_tickets";
+		if(isset($_GET['search'])) {
+			$search = sanitize_text_field($_GET['search']);
+			$sql .= $wpdb->prepare(" WHERE subject like '%%%s%%%' OR user_name like '%%%s%%%'", array($search, $search));
+		}
 		$total = $wpdb->get_var("SELECT COUNT(1) FROM (${sql}) AS combined_table");
 		$items_per_page = 20;
 		$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
@@ -180,8 +184,18 @@ function wdesk_tickets()
 			<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
 				<h2><?php _e('Tickets', 'wdesk') ?></h2>
 				<div>
-					<input type="text" placeholder="<?php _e('Subject', 'wdesk') ?>, <?php _e('User', 'wdesk') ?>" />
-					<input type="submit" class="button action" value="<?php _e('Search', 'wdesk') ?>" />
+					<input type="submit" class="button action" value="<?php _e('Reset', 'wdesk') ?>" onclick="(function(){
+						var searchParams = new URLSearchParams(window.location.search);
+						searchParams.delete('search');
+						window.location.search = searchParams.toString();
+					})();return false;" />
+					<input type="text" id="wdesk-search" placeholder="<?php _e('Subject', 'wdesk') ?>, <?php _e('User', 'wdesk') ?>" />
+					<input type="submit" class="button action" value="<?php _e('Search', 'wdesk') ?>" onclick="(function(){
+						let search = document.getElementById(`wdesk-search`).value;
+						var searchParams = new URLSearchParams(window.location.search);
+						searchParams.set(`search`, search);
+						window.location.search = searchParams.toString();
+					})();return false;" />
 				</div>
 			</div>
 			<table class="wp-list-table widefat fixed striped table-view-list">
