@@ -21,6 +21,7 @@ require_once(WDESK_LOCAL . 'shortcode/shortcode.php');
 // Admin
 require_once(WDESK_LOCAL . 'admin/tags/tags.php');
 require_once(WDESK_LOCAL . 'admin/tickets/tickets.php');
+require_once(WDESK_LOCAL . 'admin/settings/settings.php');
 require_once(WDESK_LOCAL . 'admin/departments/departments.php');
 
 add_action( 'plugins_loaded', 'wdesk_init' );
