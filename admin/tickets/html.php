@@ -2,6 +2,7 @@
 function wdesk_tickets()
 {
     global $wpdb;
+	// Get ticket info if the Ticket(id) is set
 	if (isset($_GET['ticket'])) {
 		$ticket_id = sanitize_text_field($_GET['ticket']);
 		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
@@ -23,6 +24,7 @@ function wdesk_tickets()
 					</thead>
 					<tbody>
 					<?php
+					// Find related thread messages to the ticket with ticket_id
 					$thread = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets_threads` WHERE ticket_id = %s", $ticket_id));
 					foreach ($thread as $response) {
 						?>
@@ -31,6 +33,7 @@ function wdesk_tickets()
 							<th colspan="10"><?php echo esc_textarea($response->user_name) ?></th>
 							<th colspan="8">
 							<?php 
+							// Just show download bottom if there is a file
 							if (isset($response->file) && $response->file != '') {
 								?>
 								<a href="<?php echo esc_textarea($response->file) ?>"><?php _e('Download', 'wdesk') ?></a> 
@@ -41,6 +44,7 @@ function wdesk_tickets()
 							<th colspan="5"><?php echo esc_textarea($response->note) ?></th>
 							<th colspan="8">
 								<form method="post">
+									<!-- Use [id]-thread-delete and a php foreach snippet at the bottom to create a quick delete -->
 									<input type="submit" name="<?php echo esc_textarea($response->id) ?>-thread-delete" value="<?php _e('Delete', 'wdesk') ?>" class="button action">
 								</form>
 							</th>
@@ -168,12 +172,15 @@ function wdesk_tickets()
 			</table>
 		</div>
 	<?php
+	// All tickets
 	} else {
 		$sql = "SELECT * FROM wdesk_tickets";
+		// Is search param set?
 		if(isset($_GET['search'])) {
 			$search = sanitize_text_field($_GET['search']);
 			$sql .= $wpdb->prepare(" WHERE subject like '%%%s%%%' OR user_name like '%%%s%%%'", array($search, $search));
 		}
+		// Pagination
 		$total = $wpdb->get_var("SELECT COUNT(1) FROM (${sql}) AS combined_table");
 		$items_per_page = 20;
 		$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
@@ -184,6 +191,7 @@ function wdesk_tickets()
 			<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
 				<h2><?php _e('Tickets', 'wdesk') ?></h2>
 				<div>
+					<!-- Set and Reset query params -->
 					<input type="submit" class="button action" value="<?php _e('Reset', 'wdesk') ?>" onclick="(function(){
 						var searchParams = new URLSearchParams(window.location.search);
 						searchParams.delete('search');
@@ -215,6 +223,11 @@ function wdesk_tickets()
 				</thead>
 				<tbody>
 					<?php
+					// Get all departments IDs and checks in which the user is in, 
+					// then check if the ticket has a departent attached to it,
+					// if it has, check if the user is from this department or not
+					// just users from the same department as the ticket can view it
+					// except administrators
 					$departments = $wpdb->get_results("SELECT * FROM `wdesk_departments`");
 					$wp_user = wp_get_current_user();
 					$wp_user_id = $wp_user->id;
@@ -273,7 +286,7 @@ function wdesk_tickets()
 									$tag = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tags` WHERE id = %s", $ticket->tag));
 									?>
 									<th>
-									<?php 
+									<?php
 									if (!empty($tag)) {
 										?>
 										<input type="submit" value="<?php echo $tag[0]->name ?>" style="background-color: <?php echo $tag[0]->color ?> !important; color: #ffffff !important; border-color: #ffffff !important;" class="button action"> 

@@ -89,8 +89,9 @@ function wdesk_ticket()
 			)
 		);	
 	}
+	// Notify user manually
 	if (isset($_POST['wdesk-ticket-notify'])) {
-		wdesk_helper_notify_user(sanitize_text_field($_POST['token']));
+		wdesk_helper_notify_user(sanitize_text_field($_POST['ticket']));
 	}
 	if (isset($_POST['wdesk-ticket-close'])) {
 		global $wpdb;	
@@ -108,7 +109,9 @@ function wdesk_ticket()
         $user_email = sanitize_email($_POST['user-email']);
 		$thread_user = sanitize_text_field($_POST['thread-user']);
 		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s and status != 'Closed'", $user_email));
+		// Unique ticket id (token)
 		$token = uniqid();
+		// This user_email already has tickets?
 		if(count($tickets) <= 0) {
 			$wpdb->insert(
 				'wdesk_tickets',
@@ -132,6 +135,7 @@ function wdesk_ticket()
 					'user_name' => $thread_user
 				)
 			);
+			// Success, update last_update and notify user
 			$wpdb->query($wpdb->prepare("UPDATE `wdesk_tickets` SET `last_update`= NOW() WHERE `id` = %s", $wpdb->insert_id));
 			wdesk_helper_notify_user($token);
 		} else {
@@ -182,6 +186,7 @@ function wdesk_ticket()
 			)
 		);
 	}
+	// Same as update, but with note flag set to 1
 	if (isset($_POST['wdesk-ticket-note'])) {
         global $wpdb;
 		$ticket_id = sanitize_text_field($_POST['ticket']);
@@ -219,6 +224,7 @@ function wdesk_department()
 	if (isset($_POST['wdesk-department-update'])) {
         global $wpdb;
 		$department_id = sanitize_text_field($_POST['id']);
+		// Update related agents in related DB
 		$wpdb->query(
 			$wpdb->prepare("DELETE FROM `wdesk_departments_agents` WHERE `department_id` = %s", $department_id)
 		);
@@ -299,6 +305,7 @@ function wdesk_tag()
 
 function wdesk_setting()
 {
+	// Update all 3 settings values together
 	if (isset($_POST['wdesk-setting-update'])) {
         global $wpdb;
 		$wpdb->update(

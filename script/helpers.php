@@ -29,6 +29,7 @@ function wdesk_helper_notify_agent($ticket_id)
     $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$url = $settings[2]->value;
 	$message = __('Ticket', 'wdesk') . "$ticket_id." . __("Access the helpdesk by using the url") . " $url";
+	// Notify ticket agent if it is set
 	(isset($agent->user_email) && $agent->user_email != "") ? wdesk_helper_send_mail($agent->user_email, $subject, $message) : '';
 }
 
@@ -42,11 +43,13 @@ function wdesk_helper_recover_password($email)
 		$wpdb->update(
 			'wdesk_users',
 			array(
+				// Set OTP code to be used as a password alternative while it is not reset after a scheduled time
 				'otp' => $otp,
 			), array(
 				'id' => $users[0]->id,
 			)
 		);
+		// Send email with website recover url and OTP code
 		$subject =  __('Recover your helpdesk access password', 'wdesk');
 		$url = $settings[2]->value;
 		$message = __("Access $url?recover=$otp to reset your password", 'wdesk');
@@ -62,6 +65,7 @@ function wdesk_helper_save_file($file)
     require_once(ABSPATH . 'wp-admin/includes/file.php');
     $uploaded_file = wp_handle_upload($file, array('test_form' => false));
     if ($uploaded_file) {
+		// Returns url to be saved in the DB
         return $uploaded_file['url'];
     }
 }
