@@ -82,7 +82,7 @@ Available in https://wordpress.org/plugins/wdesk
 	- [ ] Rich text
 	- [ ] Due date notify
 - [ ] Add more customization and tools
-	- [ ] Date format
+	- [X] Date format
 	- [ ] Ban emails
 	- [ ] Ban email providers
 	- [ ] Reports

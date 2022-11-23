@@ -332,6 +332,14 @@ function wdesk_setting()
 				'id' => 2,
 			)
 		);
+		$wpdb->update(
+			'wdesk_settings',
+			array(
+				'value' => sanitize_text_field($_POST['date-format']),
+			), array(
+				'id' => 3,
+			)
+		);
 	}
 }
 ?>

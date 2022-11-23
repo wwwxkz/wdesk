@@ -140,6 +140,7 @@ function wdesk_activation() {
 		id mediumint(9) NOT NULL,
 		setting tinytext NOT NULL,
 		value tinytext NOT NULL,
+		date_format tinytext NOT NULL,
 		UNIQUE KEY id (id)
 	) $charset_collate7;";
 	dbDelta($sql7);
@@ -159,6 +160,11 @@ function wdesk_activation() {
 		'id' => 2,
 		'setting' => 'Helpdesk url',
 		'value' => 'https://www.wordpress.org/'
+	));
+	$wpdb->replace($table7, array(
+		'id' => 3,
+		'setting' => 'Date format',
+		'value' => 'd-m-Y H:i:s'
 	));
 }
 

@@ -3,6 +3,8 @@ function wdesk_shortcode_component_tickets($users) {
 	global $wpdb;
 	$email = $users[0]->email;
 	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s", $email));
+	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
+	$date_format = $settings[3]->value;
     $return = '';
     $return .= '
 		<div id="wdesk-shortcode-tickets">
@@ -56,8 +58,8 @@ function wdesk_shortcode_component_tickets($users) {
 								}
 								$return .= '
 								</p></th>	
-								<th><p>' . $ticket->created . '</p></th>
-								<th><p>' . $ticket->last_update . '</p></th>
+								<th><p>' . date($date_format, strtotime($ticket->created)) . '</p></th>
+								<th><p>' . date($date_format, strtotime($ticket->last_update)) . '</p></th>
 								<th><a href="?ticket=' . $ticket->id . '"><p>' 	. $ticket->subject . '</p></a></th>
 								<th><p>' . $department[0]->name . '</p></th>
 								<th><p>' . $agent . '</p></th>

@@ -35,6 +35,25 @@ function wdesk_settings() {
 						</tr>
 						<tr>
 							<th>
+								<?php _e('Date', 'wdesk') ?>: <br>
+								<select name="date-format">
+								  <option value="d-m-Y" <?php echo ($settings[3]->value == "d-m-Y") ? 'selected' : '' ?>>d-m-Y</option>
+								  <option value="m-d-Y" <?php echo ($settings[3]->value == "m-d-Y") ? 'selected' : '' ?>>m-d-Y</option>
+								  <option value="Y-m-d" <?php echo ($settings[3]->value == "Y-m-d") ? 'selected' : '' ?>>Y-m-d</option>
+								  <option value="d/m/Y" <?php echo ($settings[3]->value == "d/m/Y") ? 'selected' : '' ?>>d/m/Y</option>
+								  <option value="m/d/Y" <?php echo ($settings[3]->value == "m/d/Y") ? 'selected' : '' ?>>m/d/Y</option>
+								  <option value="Y/m/d" <?php echo ($settings[3]->value == "Y/m/d") ? 'selected' : '' ?>>Y/m/d</option>
+								  <option value="d-m-Y H:i:s" <?php echo ($settings[3]->value == "d-m-Y H:i:s") ? 'selected' : '' ?>>d-m-Y H:i:s</option>
+								  <option value="m-d-Y H:i:s" <?php echo ($settings[3]->value == "m-d-Y H:i:s") ? 'selected' : '' ?>>m-d-Y H:i:s</option>
+								  <option value="Y-m-d H:i:s" <?php echo ($settings[3]->value == "Y-m-d H:i:s") ? 'selected' : '' ?>>Y-m-d H:i:s</option>
+								  <option value="d/m/Y H:i:s" <?php echo ($settings[3]->value == "d/m/Y H:i:s") ? 'selected' : '' ?>>d/m/Y H:i:s</option>
+								  <option value="m/d/Y H:i:s" <?php echo ($settings[3]->value == "m/d/Y H:i:s") ? 'selected' : '' ?>>m/d/Y H:i:s</option>
+								  <option value="Y/m/d H:i:s" <?php echo ($settings[3]->value == "Y/m/d H:i:s") ? 'selected' : '' ?>>Y/m/d H:i:s</option>
+								</select>
+							</th>
+						</tr>
+						<tr>
+							<th>
 								<input type="submit" class="button action" name="wdesk-setting-update" value="<?php _e('Update', 'wdesk') ?>"/>							
 							</th>
 						</tr>
