@@ -12,12 +12,17 @@ function wdesk_helper_notify_user($ticket_id)
 {
 	global $wpdb;
 	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
-	$subject = __('Ticket update', 'wdesk');
-    $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
-	$url = $settings[2]->value;
-	$token = $tickets[0]->token;
-	$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?ticket=$ticket_id&token=$token";
-	(isset($tickets[0]->user_email) && $tickets[0]->user_email != "") ? wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message) : '';
+	if (isset($tickets[0]->token) && 
+		isset($tickets[0]->user_email) && 
+		$tickets[0]->user_email != ""
+	) {
+		$subject = __('Ticket update', 'wdesk');
+		$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
+		$url = $settings[2]->value;
+		$token = $tickets[0]->token;
+		$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?ticket=$ticket_id&token=$token";
+		wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message);
+	}
 }
 
 function wdesk_helper_notify_agent($ticket_id) 
