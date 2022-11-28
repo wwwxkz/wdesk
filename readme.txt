@@ -15,6 +15,16 @@ Straightforward and fast helpdesk with multilanguage support for Wordpress
 
 Straightforward and fast helpdesk with multilanguage support for Wordpress. Tickets, Departments, and so on
 
+== Installation ==
+
+Shortcodes available
+
+`<?php echo do_shortcode( '[wdesk_guest]' ); ?>`
+`<?php echo do_shortcode( '[wdesk_access]' ); ?>`
+`<?php echo do_shortcode( '[wdesk_log_in]' ); ?>`
+`<?php echo do_shortcode( '[wdesk_sign_in]' ); ?>`
+`<?php echo do_shortcode( '[wdesk_recover]' ); ?>`
+
 == Frequently Asked Questions ==
 
 = Where can I get the source code? =
@@ -23,7 +33,14 @@ https://github.com/wwwxkz/wdesk
 
 == Screenshots ==
 
-1. desc screenshot-1.(png|jpg|jpeg|gif).
+1. Departments
+2. Settings
+3. Tags
+4. Ticket
+5. Ticket internal note
+6. Tickets
+7. Tickets all info
+8. Tickets empty
 
 == Changelog ==
 
