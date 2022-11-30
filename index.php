@@ -166,6 +166,27 @@ function wdesk_activation() {
 		'setting' => 'Date format',
 		'value' => 'd-m-Y H:i:s'
 	));
+		
+	// Settings emails
+	$table8 = "wdesk_settings_emails"; 
+	$charset_collate8 = $wpdb->get_charset_collate();
+	$sql8 = "CREATE TABLE $table8 (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		email tinytext NOT NULL,
+		UNIQUE KEY id (id)
+	) $charset_collate8;";
+	dbDelta($sql8);
+	
+	// Settings email providers
+	$table9 = "wdesk_settings_email_providers"; 
+	$charset_collate9 = $wpdb->get_charset_collate();
+	$sql9 = "CREATE TABLE $table9 (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		provider tinytext NOT NULL,
+		UNIQUE KEY id (id)
+	) $charset_collate9;";
+	dbDelta($sql9);
+
 }
 
 register_deactivation_hook(__FILE__, 'wdesk_deactivation');

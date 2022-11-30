@@ -77,14 +77,11 @@ Available in https://wordpress.org/plugins/wdesk
 	- [X] Last update
 	- [X] Tags
 	- [ ] Department email
-	- [ ] Due date
-	- [ ] Time worked
 	- [ ] Rich text
-	- [ ] Due date notify
 - [ ] Add more customization and tools
 	- [X] Date format
-	- [ ] Ban emails
-	- [ ] Ban email providers
+	- [X] Ban emails
+	- [X] Ban email providers
 	- [ ] Reports
 	- [ ] Darkmode
 	- [ ] Max text, subject, file

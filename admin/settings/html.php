@@ -60,6 +60,84 @@ function wdesk_settings() {
 					</form>
 				</tbody>
 			</table>
+			&nbsp;
+			<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px; height: -webkit-fill-available;">
+				<thead>
+					<tr>
+						<th><?php _e('Email blocklist', 'wdesk') ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<form method="post">
+						<?php 
+						$blocked_emails = $wpdb->get_results("SELECT * FROM `wdesk_settings_emails`");
+						foreach ($blocked_emails as $blocked_email) {
+							?>
+							<tr>
+								<th>
+									<div style="display: flex; flex-direction: row; justify-content: space-between;">
+										<input type="hidden" name="id" value="<?php echo esc_textarea($blocked_email->id) ?>" />
+										<label><?php echo esc_textarea($blocked_email->email) ?></label>
+										<input type="submit" class="button action" name="wdesk-setting-email-delete" value="<?php _e('Delete', 'wdesk') ?>"/>							
+									</div>
+								</th>
+							</tr>
+						<?php
+						}
+						?>
+						<tr>
+							<th>
+								<?php _e('Email', 'wdesk') ?>: <br>
+								<input type="text" name="email" placeholder="<?php _e('Full email', 'wdesk') ?>" style="padding: 0 8px; margin: 0;"/>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<input type="submit" class="button action" name="wdesk-setting-email-add" value="<?php _e('Add', 'wdesk') ?>"/>							
+							</th>
+						</tr>
+					</form>
+				</tbody>
+			</table>
+			&nbsp;
+			<table class="wp-list-table widefat fixed striped table-view-list" style="width: 400px; height: -webkit-fill-available;">
+				<thead>
+					<tr>
+						<th><?php _e('Email provider blocklist', 'wdesk') ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<form method="post">
+						<?php 
+						$blocked_providers = $wpdb->get_results("SELECT * FROM `wdesk_settings_email_providers`");
+						foreach ($blocked_providers as $blocked_provider) {
+							?>
+							<tr>
+								<th>
+									<div style="display: flex; flex-direction: row; justify-content: space-between;">
+										<input type="hidden" name="id" value="<?php echo esc_textarea($blocked_provider->id) ?>" />
+										<label><?php echo esc_textarea($blocked_provider->provider) ?></label>
+										<input type="submit" class="button action" name="wdesk-setting-email-provider-delete" value="<?php _e('Delete', 'wdesk') ?>"/>							
+									</div>
+								</th>
+							</tr>
+						<?php
+						}
+						?>
+						<tr>
+							<th>
+								<?php _e('Provider', 'wdesk') ?>: <br>
+								<input type="text" name="provider" placeholder="<?php _e('Provider without @', 'wdesk') ?>" style="padding: 0 8px; margin: 0;"/>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<input type="submit" class="button action" name="wdesk-setting-email-provider-add" value="<?php _e('Add', 'wdesk') ?>"/>							
+							</th>
+						</tr>
+					</form>
+				</tbody>
+			</table>
 		</div>
 	</div>
 <?php

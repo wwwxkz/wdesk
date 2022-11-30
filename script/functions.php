@@ -1,6 +1,7 @@
 <?php
 require_once(WDESK_LOCAL . 'script/helpers.php');
 session_start();
+
 function wdesk_user()
 {
     if (isset($_POST['wdesk-user-recover'])) {
@@ -11,48 +12,59 @@ function wdesk_user()
         global $wpdb;
         $email = sanitize_email($_POST['email']);
         $name = sanitize_text_field($_POST['name']);
-		$users = $wpdb->get_results($wpdb->prepare("SELECT 1 FROM wdesk_users WHERE email = %s;", $email));
-		if (isset($users[0]) && $users[0] >= 1 && isset($_POST['wdesk-user-register'])) {
-			echo "<script>alert('" . __('Email already in use', 'wdesk') . "')</script>";
-			return 1;
-		} else {
-			if (isset($_POST['id'])) {
-				$id = sanitize_text_field($_POST['id']);
-				$password = sha1(base64_encode($_POST["password"]));
-				$wpdb->replace(
-					'wdesk_users',
-					array(
-						'id' => $id,
-						'email' => $email,
-						'name' => $name,
-						'password' => $password                 
-					)
-				);
-				$_SESSION['wdesk-user-email'] = $email;
-				$_SESSION['wdesk-user-password'] = $password;
-				echo "<script>alert('" . __('User updated', 'wdesk') . "')</script>";
-				echo "<script>window.location = window.location.pathname</script>";
-				return 0;
+		// Is the email or provider in the blocklist?
+		$provider = substr($email, strpos($email, '@') + 1);
+		$blocked_emails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_emails` WHERE email = %s", $email));
+		$blocked_providers = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_email_providers` WHERE provider = %s", $provider));
+		if (count($blocked_providers) <= 0 && count($blocked_emails) <= 0) {
+			// Is the email being used?
+			$users = $wpdb->get_results($wpdb->prepare("SELECT 1 FROM wdesk_users WHERE email = %s;", $email));
+			if (isset($users[0]) && $users[0] >= 1 && isset($_POST['wdesk-user-register'])) {
+				echo "<script>alert('" . __('Email already in use', 'wdesk') . "')</script>";
+				return 1;
 			} else {
-				$password = sha1(base64_encode($_POST["password"]));
-				$wpdb->insert(
-					'wdesk_users',
-					array(
-						'email' => $email,
-						'password' => $password
-					)
-				);
-				echo "<script>alert('" . __('Registered successfully', 'wdesk') . "')</script>";
-				$_SESSION['wdesk-user-email'] = $email;
-				$_SESSION['wdesk-user-password'] = $password;
-				header("refresh: 1");
-				$subject = __('Registered successfully', 'wdesk');
-				$message = __('Acess the helpdesk with your email and password', 'wdesk');
-				wdesk_helper_send_mail($email, $subject, $message);
-				return 0;
+				// Update existing user
+				if (isset($_POST['id'])) {
+					$id = sanitize_text_field($_POST['id']);
+					$password = sha1(base64_encode($_POST["password"]));
+					$wpdb->replace(
+						'wdesk_users',
+						array(
+							'id' => $id,
+							'email' => $email,
+							'name' => $name,
+							'password' => $password                 
+						)
+					);
+					$_SESSION['wdesk-user-email'] = $email;
+					$_SESSION['wdesk-user-password'] = $password;
+					echo "<script>alert('" . __('User updated', 'wdesk') . "')</script>";
+					echo "<script>window.location = window.location.pathname</script>";
+					return 0;
+				// Create new user
+				} else {
+					$password = sha1(base64_encode($_POST["password"]));
+					$wpdb->insert(
+						'wdesk_users',
+						array(
+							'email' => $email,
+							'password' => $password
+						)
+					);
+					echo "<script>alert('" . __('Registered successfully', 'wdesk') . "')</script>";
+					$_SESSION['wdesk-user-email'] = $email;
+					$_SESSION['wdesk-user-password'] = $password;
+					header("refresh: 1");
+					$subject = __('Registered successfully', 'wdesk');
+					$message = __('Acess the helpdesk with your email and password', 'wdesk');
+					wdesk_helper_send_mail($email, $subject, $message);
+					return 0;
+				}
+				echo "<script>alert('" . __('User does not exist', 'wdesk') . "')</script>";
+				return 1;
 			}
-			echo "<script>alert('" . __('User does not exist', 'wdesk') . "')</script>";
-			return 1;
+		} else {
+			echo "<script>alert('" . __('Your personal email or provider is in the blocklist', 'wdesk') . "')</script>";
 		}
     }
     if (isset($_POST['wdesk-user-login'])) {
@@ -108,38 +120,46 @@ function wdesk_ticket()
         global $wpdb;
         $user_email = sanitize_email($_POST['user-email']);
 		$thread_user = sanitize_text_field($_POST['thread-user']);
-		$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s and status != 'Closed'", $user_email));
-		// Unique ticket id (token)
-		$token = uniqid();
-		// This user_email already has tickets?
-		if(count($tickets) <= 0) {
-			$wpdb->insert(
-				'wdesk_tickets',
-				array(
-					'subject' => sanitize_text_field($_POST['subject']),
-					'user_email' => $user_email,
-					'user_name' => $thread_user,
-					'token' => $token,
-					'status' => 'Open',
-					'department' => sanitize_text_field($_POST['department'])
-				)
-			);
-			$text = sanitize_textarea_field($_POST['thread']);
-			$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
-			$wpdb->insert(
-				'wdesk_tickets_threads',
-				array(
-					'ticket_id' => $wpdb->insert_id,
-					'text' => $text,
-					'file' => $file,
-					'user_name' => $thread_user
-				)
-			);
-			// Success, update last_update and notify user
-			$wpdb->query($wpdb->prepare("UPDATE `wdesk_tickets` SET `last_update`= NOW() WHERE `id` = %s", $wpdb->insert_id));
-			wdesk_helper_notify_user($token);
+		// Is provider or email in the blocklist?
+		$provider = substr($user_email, strpos($user_email, '@') + 1);
+		$blocked_emails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_emails` WHERE email = %s", $user_email));
+		$blocked_providers = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_email_providers` WHERE provider = %s", $provider));
+		if (count($blocked_providers) <= 0 && count($blocked_emails) <= 0) {
+			// This user_email already has tickets?
+			$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE user_email = %s and status != 'Closed'", $user_email));
+			if (count($tickets) <= 0) {
+				// Unique ticket id (token)
+				$token = uniqid();
+				$wpdb->insert(
+					'wdesk_tickets',
+					array(
+						'subject' => sanitize_text_field($_POST['subject']),
+						'user_email' => $user_email,
+						'user_name' => $thread_user,
+						'token' => $token,
+						'status' => 'Open',
+						'department' => sanitize_text_field($_POST['department'])
+					)
+				);
+				$text = sanitize_textarea_field($_POST['thread']);
+				$file = isset($_FILES['file']) && $_FILES['file']['error'] == 0 ? wdesk_helper_save_file($_FILES['file']) : "";
+				$wpdb->insert(
+					'wdesk_tickets_threads',
+					array(
+						'ticket_id' => $wpdb->insert_id,
+						'text' => $text,
+						'file' => $file,
+						'user_name' => $thread_user
+					)
+				);
+				// Success, update last_update and notify user
+				$wpdb->query($wpdb->prepare("UPDATE `wdesk_tickets` SET `last_update`= NOW() WHERE `id` = %s", $wpdb->insert_id));
+				wdesk_helper_notify_user($token);
+			} else {
+				echo "<script>alert('" . __('Your already have a ticket open, wait until you ticket is solved or close it to create another', 'wdesk') . "')</script>";
+			}
 		} else {
-			echo "<script>alert('" . __('Your already have a ticket open, wait until you ticket is solved or close it to create another', 'wdesk') . "')</script>";
+			echo "<script>alert('" . __('Your personal email or provider is in the blocklist', 'wdesk') . "')</script>";
 		}
 	}
     if (isset($_POST['wdesk-ticket-update'])) {
@@ -338,6 +358,42 @@ function wdesk_setting()
 				'value' => sanitize_text_field($_POST['date-format']),
 			), array(
 				'id' => 3,
+			)
+		);
+	}
+	if (isset($_POST['wdesk-setting-email-add'])) {
+        global $wpdb;
+		$wpdb->insert(
+			'wdesk_settings_emails',
+			array(
+				'email' => sanitize_text_field($_POST['email']),
+			)
+		);
+	}
+	if (isset($_POST['wdesk-setting-email-delete'])) {
+        global $wpdb;
+		$wpdb->delete(
+			'wdesk_settings_emails',
+			array(
+				'id' => sanitize_text_field($_POST['id']),
+			)
+		);
+	}
+	if (isset($_POST['wdesk-setting-email-provider-add'])) {
+        global $wpdb;
+		$wpdb->insert(
+			'wdesk_settings_email_providers',
+			array(
+				'provider' => sanitize_text_field($_POST['provider']),
+			)
+		);
+	}
+	if (isset($_POST['wdesk-setting-email-provider-delete'])) {
+        global $wpdb;
+		$wpdb->delete(
+			'wdesk_settings_email_providers',
+			array(
+				'id' => sanitize_text_field($_POST['id']),
 			)
 		);
 	}
