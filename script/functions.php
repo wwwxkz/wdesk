@@ -64,7 +64,7 @@ function wdesk_user()
 				return 1;
 			}
 		} else {
-			echo "<script>alert('" . __('Your personal email or provider is in the blocklist', 'wdesk') . "')</script>";
+			echo "<script>alert('" . __('Your personal email or provider is in our blocklist', 'wdesk') . "')</script>";
 		}
     }
     if (isset($_POST['wdesk-user-login'])) {
