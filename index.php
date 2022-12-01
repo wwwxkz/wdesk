@@ -21,8 +21,10 @@ require_once(WDESK_LOCAL . 'shortcode/shortcode.php');
 // Admin
 require_once(WDESK_LOCAL . 'admin/tags/tags.php');
 require_once(WDESK_LOCAL . 'admin/tickets/tickets.php');
+require_once(WDESK_LOCAL . 'admin/reports/reports.php');
 require_once(WDESK_LOCAL . 'admin/settings/settings.php');
 require_once(WDESK_LOCAL . 'admin/departments/departments.php');
+
 
 add_action( 'plugins_loaded', 'wdesk_init' );
 
@@ -40,6 +42,7 @@ function wdesk() {
 	if (current_user_can('administrator')) {
 		add_submenu_page( 'helpdesk', __('Departments', 'wdesk'), __('Departments', 'wdesk'), 'read', 'wdesk_departments', 'wdesk_departments' );
 		add_submenu_page( 'helpdesk', __('Tags', 'wdesk'), __('Tags', 'wdesk'), 'read', 'wdesk_tags', 'wdesk_tags' );
+		add_submenu_page( 'helpdesk', __('Reports', 'wdesk'), __('Reports', 'wdesk'), 'read', 'wdesk_reports', 'wdesk_reports' );
 		add_submenu_page( 'helpdesk', __('Settings', 'wdesk'), __('Settings', 'wdesk'), 'read', 'wdesk_settings', 'wdesk_settings' );
 	}
 	// Remove repeated first page
@@ -222,6 +225,8 @@ function wdesk_cron() {
 	global $wpdb;
 	// Delete all users OTP every 5 minutes
 	$wpdb->query("UPDATE `wdesk_users` SET `otp` = NULL WHERE `otp` IS NOT NULL; ");
+	// Close inactive tickets
+	$wpdb->query("UPDATE `wdesk_tickets` SET `status`='Closed' WHERE last_update < (NOW() - INTERVAL 1 MONTH); ");
 }
 
 if (!wp_next_scheduled('wdesk_cron_hook')) {

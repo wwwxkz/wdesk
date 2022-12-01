@@ -82,10 +82,6 @@ Available in https://wordpress.org/plugins/wdesk
 	- [X] Date format
 	- [X] Ban emails
 	- [X] Ban email providers
-	- [ ] Reports
-	- [ ] Darkmode
+	- [X] Reports
 	- [ ] Max text, subject, file
-	- [ ] Fields in ticket creation
-	- [ ] Cron status
-	- [ ] Autoclose
-	- [ ] Color scheme
+	- [X] Autoclose
