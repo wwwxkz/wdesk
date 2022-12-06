@@ -54,6 +54,18 @@ function wdesk_settings() {
 						</tr>
 						<tr>
 							<th>
+								<?php _e('Max subject', 'wdesk') ?>: <br>
+								<input type="number" name="subject" placeholder="<?php _e('Ex: 180', 'wdesk') ?>" value="<?php echo esc_html($settings[4]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<?php _e('Max thread', 'wdesk') ?>: <br>
+								<input type="number" name="thread" placeholder="<?php _e('Ex: 2800', 'wdesk') ?>" value="<?php echo esc_html($settings[5]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+							</th>
+						</tr>
+						<tr>
+							<th>
 								<input type="submit" class="button action" name="wdesk-setting-update" value="<?php _e('Update', 'wdesk') ?>"/>							
 							</th>
 						</tr>

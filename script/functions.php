@@ -360,6 +360,22 @@ function wdesk_setting()
 				'id' => 3,
 			)
 		);
+		$wpdb->update(
+			'wdesk_settings',
+			array(
+				'value' => sanitize_text_field($_POST['subject']),
+			), array(
+				'id' => 4,
+			)
+		);
+		$wpdb->update(
+			'wdesk_settings',
+			array(
+				'value' => sanitize_text_field($_POST['thread']),
+			), array(
+				'id' => 5,
+			)
+		);
 	}
 	if (isset($_POST['wdesk-setting-email-add'])) {
         global $wpdb;

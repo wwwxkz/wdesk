@@ -4,7 +4,7 @@ Donate link: https://github.com/wwwxkz/wallets
 Tags: helpdesk, support
 Requires at least: 5.0
 Tested up to: 6.1
-Stable tag: 0.4
+Stable tag: 0.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -44,6 +44,12 @@ https://github.com/wwwxkz/wdesk
 
 == Changelog ==
 
+= 0.5 =
+* Reports
+* Provider, email blocklist
+* Autoclose if inactive
+* Date formats
+
 = 0.4 =
 * Tags
 * Ticket notes
@@ -67,6 +73,12 @@ https://github.com/wwwxkz/wdesk
 * Internationalization
 
 == Upgrade Notice ==
+
+= 0.5 =
+Admin improvement
+
+= 0.4 =
+Agent utilities
 
 = 0.3 =
 Usability

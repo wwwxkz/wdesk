@@ -78,10 +78,10 @@ Available in https://wordpress.org/plugins/wdesk
 	- [X] Tags
 	- [ ] Department email
 	- [ ] Rich text
-- [ ] Add more customization and tools
+- [X] Add more customization and tools
 	- [X] Date format
 	- [X] Ban emails
 	- [X] Ban email providers
 	- [X] Reports
-	- [ ] Max text, subject, file
+	- [X] Max subject, thread
 	- [X] Autoclose

@@ -1,6 +1,10 @@
 <?php
 function wdesk_shortcode_component_guest() {
 	global $wpdb;
+	// Get ticket settings
+	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
+	$max_subject = $settings[4]->value;
+	$max_thread = $settings[5]->value;
 	$return = '';
 	$return .= '
         <div id="wdesk-shortcode-guest">	
@@ -23,10 +27,10 @@ function wdesk_shortcode_component_guest() {
 					$return .= '</select><br>';
 					$return .= '
 					<label>' . __('Subject', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-					<input type="text" name="subject" value="" placeholder="' . __('Ticket subject', 'wdesk') . '" required />
+					<input type="text" name="subject" value="" placeholder="' . __('Ticket subject', 'wdesk') . '" maxlength="' . $max_subject . '" required />
 					<br>
 					<label>' . __('Description', 'wdesk') . ' <a style="color: #FF0000;">*</a></label>
-					<textarea type="text" name="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" style="height: 170px;" required></textarea>
+					<textarea type="text" name="thread" placeholder="' . __('Ticket thread start', 'wdesk') . '" maxlength="' . $max_thread . '" style="height: 170px;" required></textarea>
 					<br>
 					<input type="file" name="file" />
 					<br>

@@ -3,7 +3,7 @@
 /*
 Plugin Name: 	wdesk
 Description: 	Plugin developed to track inquiries in a Helpdesk platform inside Wordpress
-Version: 		0.4
+Version: 		0.5
 Author: 		Marcelo Rodrigues Campos
 Author URI: 	https://github.com/wwwxkz
 Text Domain:	wdesk
@@ -76,6 +76,7 @@ function wdesk_activation() {
 	$sql2 = "CREATE TABLE $table2 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		name tinytext NOT NULL,
+		email tinytext NOT NULL,
 		UNIQUE KEY id (id)
 	) $charset_collate2;";
 	dbDelta($sql2);
@@ -143,7 +144,6 @@ function wdesk_activation() {
 		id mediumint(9) NOT NULL,
 		setting tinytext NOT NULL,
 		value tinytext NOT NULL,
-		date_format tinytext NOT NULL,
 		UNIQUE KEY id (id)
 	) $charset_collate7;";
 	dbDelta($sql7);
@@ -168,6 +168,16 @@ function wdesk_activation() {
 		'id' => 3,
 		'setting' => 'Date format',
 		'value' => 'd-m-Y H:i:s'
+	));
+	$wpdb->replace($table7, array(
+		'id' => 4,
+		'setting' => 'Max subject',
+		'value' => '180'
+	));
+	$wpdb->replace($table7, array(
+		'id' => 5,
+		'setting' => 'Max thread',
+		'value' => '2800'
 	));
 		
 	// Settings emails

@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wdesk 2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
-"POT-Creation-Date: 2022-11-30T14:49:26-03:00\n"
-"PO-Revision-Date: 2022-11-30 14:50-0300\n"
+"POT-Creation-Date: 2022-12-01T16:13:27-03:00\n"
+"PO-Revision-Date: 2022-12-01 16:24-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Domain: wdesk\n"
 
 #. Plugin Name of the plugin
@@ -35,7 +35,7 @@ msgstr "Marcelo Rodrigues Campos"
 msgid "https://github.com/wwwxkz"
 msgstr "https://github.com/wwwxkz"
 
-#: admin/departments/html.php:6 index.php:41
+#: admin/departments/html.php:6 index.php:43
 msgid "Departments"
 msgstr "Departamentos"
 
@@ -75,7 +75,15 @@ msgstr "Novo departamento"
 msgid "Create"
 msgstr "Criar"
 
-#: admin/settings/html.php:8 index.php:43
+#: admin/reports/html.php:6 index.php:45
+msgid "Reports"
+msgstr "Reportes"
+
+#: admin/reports/html.php:53
+msgid "Number of tickets"
+msgstr "Numero de tickets"
+
+#: admin/settings/html.php:8 index.php:46
 msgid "Settings"
 msgstr "Configurações"
 
@@ -142,7 +150,7 @@ msgstr "Provedor"
 msgid "Provider without @"
 msgstr "Provedor sem @"
 
-#: admin/tags/html.php:6 admin/tickets/html.php:105 index.php:42
+#: admin/tags/html.php:6 admin/tickets/html.php:105 index.php:44
 msgid "Tags"
 msgstr "Tags"
 
@@ -262,7 +270,7 @@ msgstr "Ultima atualização"
 msgid "Notify"
 msgstr "Notificar"
 
-#: admin/tickets/html.php:195 index.php:39
+#: admin/tickets/html.php:195 index.php:41
 #: shortcode/components/guest-ticket.php:21
 #: shortcode/components/new-ticket.php:13 shortcode/components/profile.php:12
 #: shortcode/components/ticket.php:21 shortcode/components/tickets.php:12
