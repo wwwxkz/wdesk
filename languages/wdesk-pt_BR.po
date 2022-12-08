@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wdesk 2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wdesk\n"
-"POT-Creation-Date: 2022-12-01T16:13:27-03:00\n"
-"PO-Revision-Date: 2022-12-01 16:24-0300\n"
+"POT-Creation-Date: 2022-12-08T12:51:40-03:00\n"
+"PO-Revision-Date: 2022-12-08 12:54-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -40,38 +40,49 @@ msgid "Departments"
 msgstr "Departamentos"
 
 #: admin/departments/html.php:15 admin/tickets/html.php:136
-#: admin/tickets/html.php:219 shortcode/components/guest.php:16
-#: shortcode/components/new-ticket.php:19 shortcode/components/tickets.php:34
+#: admin/tickets/html.php:219 shortcode/components/guest.php:20
+#: shortcode/components/new-ticket.php:24 shortcode/components/tickets.php:34
 msgid "Department"
 msgstr "Departamento"
 
-#: admin/departments/html.php:21 admin/departments/html.php:73
+#: admin/departments/html.php:21 admin/departments/html.php:74
 #: admin/tags/html.php:21 admin/tags/html.php:44
-#: shortcode/components/guest.php:12 shortcode/components/profile.php:20
+#: shortcode/components/guest.php:16 shortcode/components/profile.php:20
 #: shortcode/components/sign-in.php:12
 msgid "Name"
 msgstr "Nome"
 
-#: admin/departments/html.php:21 admin/departments/html.php:73
+#: admin/departments/html.php:21 admin/departments/html.php:74
 msgid "Department name"
 msgstr "Nome do departamento"
 
-#: admin/departments/html.php:54 admin/settings/html.php:57
+#: admin/departments/html.php:22 admin/departments/html.php:75
+#: admin/settings/html.php:102 shortcode/components/guest.php:13
+#: shortcode/components/log-in.php:9 shortcode/components/profile.php:17
+#: shortcode/components/sign-in.php:9
+msgid "Email"
+msgstr "Email"
+
+#: admin/departments/html.php:22 admin/departments/html.php:75
+msgid "Department email"
+msgstr "Nome do departamento"
+
+#: admin/departments/html.php:55 admin/settings/html.php:69
 #: admin/tags/html.php:25 admin/tickets/html.php:168
 msgid "Update"
 msgstr "Atualizar"
 
-#: admin/departments/html.php:55 admin/settings/html.php:81
-#: admin/settings/html.php:120 admin/tags/html.php:26 admin/tickets/html.php:51
+#: admin/departments/html.php:56 admin/settings/html.php:93
+#: admin/settings/html.php:132 admin/tags/html.php:26 admin/tickets/html.php:51
 #: admin/tickets/html.php:304
 msgid "Delete"
 msgstr "Deletar"
 
-#: admin/departments/html.php:68
+#: admin/departments/html.php:69
 msgid "New department"
 msgstr "Novo departamento"
 
-#: admin/departments/html.php:76 admin/tags/html.php:48
+#: admin/departments/html.php:78 admin/tags/html.php:48
 msgid "Create"
 msgstr "Criar"
 
@@ -119,34 +130,44 @@ msgstr "Url do helpdesk"
 msgid "Date"
 msgstr "Data"
 
-#: admin/settings/html.php:67
+#: admin/settings/html.php:57
+msgid "Max subject"
+msgstr "Tamanho máximo para o assunto"
+
+#: admin/settings/html.php:58
+msgid "Ex: 180"
+msgstr "Ex: 180"
+
+#: admin/settings/html.php:63
+msgid "Max thread"
+msgstr "Tamanho máximo para a thread"
+
+#: admin/settings/html.php:64
+msgid "Ex: 2800"
+msgstr "Ex: 2800"
+
+#: admin/settings/html.php:79
 msgid "Email blocklist"
 msgstr "Lista de bloqueio de emails"
 
-#: admin/settings/html.php:90 shortcode/components/guest.php:9
-#: shortcode/components/log-in.php:9 shortcode/components/profile.php:17
-#: shortcode/components/sign-in.php:9
-msgid "Email"
-msgstr "Email"
-
-#: admin/settings/html.php:91
+#: admin/settings/html.php:103
 msgid "Full email"
 msgstr "Email completo"
 
-#: admin/settings/html.php:96 admin/settings/html.php:135
+#: admin/settings/html.php:108 admin/settings/html.php:147
 #: admin/tickets/html.php:113
 msgid "Add"
 msgstr "Adicionar"
 
-#: admin/settings/html.php:106
+#: admin/settings/html.php:118
 msgid "Email provider blocklist"
 msgstr "Lista de bloqueio de provedores"
 
-#: admin/settings/html.php:129
+#: admin/settings/html.php:141
 msgid "Provider"
 msgstr "Provedor"
 
-#: admin/settings/html.php:130
+#: admin/settings/html.php:142
 msgid "Provider without @"
 msgstr "Provedor sem @"
 
@@ -176,16 +197,16 @@ msgstr "Nova tag"
 
 #: admin/tickets/html.php:22 admin/tickets/html.php:163
 #: admin/tickets/html.php:203 admin/tickets/html.php:222
-#: shortcode/components/guest-ticket.php:35 shortcode/components/ticket.php:35
+#: shortcode/components/guest-ticket.php:39 shortcode/components/ticket.php:39
 msgid "User"
 msgstr "Usuário"
 
-#: admin/tickets/html.php:23 script/helpers.php:90
-#: shortcode/components/guest-ticket.php:36 shortcode/components/ticket.php:36
+#: admin/tickets/html.php:23 script/helpers.php:98
+#: shortcode/components/guest-ticket.php:40 shortcode/components/ticket.php:40
 msgid "File"
 msgstr "Arquivo"
 
-#: admin/tickets/html.php:24 script/helpers.php:89
+#: admin/tickets/html.php:24 script/helpers.php:97
 msgid "Note"
 msgstr "Observação"
 
@@ -195,7 +216,7 @@ msgid "Actions"
 msgstr "Ações"
 
 #: admin/tickets/html.php:42 admin/tickets/html.php:170
-#: shortcode/components/guest-ticket.php:50 shortcode/components/ticket.php:50
+#: shortcode/components/guest-ticket.php:54 shortcode/components/ticket.php:54
 msgid "Download"
 msgstr "Download"
 
@@ -208,8 +229,8 @@ msgid "Please, describe your problem"
 msgstr "Por favor, descreva seu problema"
 
 #: admin/tickets/html.php:75 admin/tickets/html.php:77
-#: shortcode/components/guest-ticket.php:71 shortcode/components/guest.php:33
-#: shortcode/components/new-ticket.php:36 shortcode/components/ticket.php:71
+#: shortcode/components/guest-ticket.php:75 shortcode/components/guest.php:37
+#: shortcode/components/new-ticket.php:41 shortcode/components/ticket.php:75
 msgid "Send"
 msgstr "Enviar"
 
@@ -256,7 +277,7 @@ msgstr "Encerrado"
 msgid "Agent"
 msgstr "Agente"
 
-#: admin/tickets/html.php:164 admin/tickets/html.php:217 script/helpers.php:87
+#: admin/tickets/html.php:164 admin/tickets/html.php:217 script/helpers.php:95
 #: shortcode/components/tickets.php:31
 msgid "Created"
 msgstr "Criado"
@@ -271,9 +292,9 @@ msgid "Notify"
 msgstr "Notificar"
 
 #: admin/tickets/html.php:195 index.php:41
-#: shortcode/components/guest-ticket.php:21
-#: shortcode/components/new-ticket.php:13 shortcode/components/profile.php:12
-#: shortcode/components/ticket.php:21 shortcode/components/tickets.php:12
+#: shortcode/components/guest-ticket.php:25
+#: shortcode/components/new-ticket.php:18 shortcode/components/profile.php:12
+#: shortcode/components/ticket.php:25 shortcode/components/tickets.php:12
 msgid "Tickets"
 msgstr "Chamados"
 
@@ -282,7 +303,7 @@ msgid "Reset"
 msgstr "Resetar"
 
 #: admin/tickets/html.php:203 admin/tickets/html.php:220
-#: shortcode/components/guest.php:25 shortcode/components/new-ticket.php:28
+#: shortcode/components/guest.php:29 shortcode/components/new-ticket.php:33
 #: shortcode/components/tickets.php:33
 msgid "Subject"
 msgstr "Assunto"
@@ -291,45 +312,45 @@ msgstr "Assunto"
 msgid "Search"
 msgstr "Pesquisar"
 
-#: script/functions.php:23
-msgid "Email already in use"
-msgstr "Email já em uso"
-
-#: script/functions.php:41
-msgid "User updated"
-msgstr "Usuário atualizado"
-
-#: script/functions.php:54 script/functions.php:58
-msgid "Registered successfully"
-msgstr "Registrado com sucesso"
-
-#: script/functions.php:59
-msgid "Acess the helpdesk with your email and password"
-msgstr "Acesse o helpdesk com seu email e senha"
-
-#: script/functions.php:63
-msgid "User does not exist"
-msgstr "Usuário não existe"
-
-#: script/functions.php:67
+#: script/functions.php:20
 msgid "Your personal email or provider is in our blocklist"
 msgstr "Seu email pessoal ou provedor está em nossa blocklist"
 
-#: script/functions.php:81
+#: script/functions.php:26
+msgid "Email already in use"
+msgstr "Email já em uso"
+
+#: script/functions.php:44
+msgid "User updated"
+msgstr "Usuário atualizado"
+
+#: script/functions.php:57 script/functions.php:61
+msgid "Registered successfully"
+msgstr "Registrado com sucesso"
+
+#: script/functions.php:62
+msgid "Acess the helpdesk with your email and password"
+msgstr "Acesse o helpdesk com seu email e senha"
+
+#: script/functions.php:66
+msgid "User does not exist"
+msgstr "Usuário não existe"
+
+#: script/functions.php:80
 msgid "Password incorrect or user does not exist"
 msgstr "Senha incorreta ou usuário não existe"
 
-#: script/functions.php:159
+#: script/functions.php:127
+msgid "Your personal email or provider is in the blocklist"
+msgstr "Seu email pessoal ou provedor está em nossa blocklist"
+
+#: script/functions.php:133
 msgid ""
 "Your already have a ticket open, wait until you ticket is solved or close it "
 "to create another"
 msgstr ""
 "Você já tem um chamado em aberto, espere até que se chamado seja solucionado "
 "ou o encerre para criar outro"
-
-#: script/functions.php:162
-msgid "Your personal email or provider is in the blocklist"
-msgstr "Seu email pessoal ou provedor está em nossa blocklist"
 
 #: script/helpers.php:19
 msgid "Ticket update"
@@ -340,21 +361,21 @@ msgid "Access the helpdesk by using your email and password or using the url"
 msgstr ""
 "Acesse o helpdesk usando seu email e senha ou utilizando a url a seguir"
 
-#: script/helpers.php:33 script/helpers.php:36 script/helpers.php:81
-#: script/helpers.php:86 shortcode/components/guest-ticket.php:17
-#: shortcode/components/guest.php:7 shortcode/components/ticket.php:17
+#: script/helpers.php:32 script/helpers.php:35 script/helpers.php:89
+#: script/helpers.php:94 shortcode/components/guest-ticket.php:21
+#: shortcode/components/guest.php:11 shortcode/components/ticket.php:21
 msgid "Ticket"
 msgstr "Chamado"
 
-#: script/helpers.php:33
+#: script/helpers.php:32
 msgid "was updated"
 msgstr "foi atualizado"
 
-#: script/helpers.php:58
+#: script/helpers.php:66
 msgid "Recover your helpdesk access password"
 msgstr "Recupere sua senha de acesso ao helpdesk"
 
-#: script/helpers.php:65
+#: script/helpers.php:73
 msgid ""
 "If your user is found in the database we will send you a email with an OTP "
 "code and URL to reset your password. If not, sign-in or submit a ticket as a "
@@ -364,15 +385,15 @@ msgstr ""
 "código OTP e uma URL para você resetar sua senha. Caso não, registre-se ou "
 "envie um chamado como convidado"
 
-#: script/helpers.php:85 script/helpers.php:86
+#: script/helpers.php:93 script/helpers.php:94
 msgid "ID"
 msgstr "ID"
 
-#: script/helpers.php:88
+#: script/helpers.php:96
 msgid "Text"
 msgstr "Texto"
 
-#: script/helpers.php:91
+#: script/helpers.php:99
 msgid "Username"
 msgstr "Usuário"
 
@@ -380,34 +401,34 @@ msgstr "Usuário"
 msgid "This user does not exist"
 msgstr "Usuário não existe"
 
-#: shortcode/components/guest-ticket.php:25 shortcode/components/ticket.php:25
+#: shortcode/components/guest-ticket.php:29 shortcode/components/ticket.php:29
 #: shortcode/components/tickets.php:69
 msgid "Close"
 msgstr "Encerrar"
 
-#: shortcode/components/guest-ticket.php:67 shortcode/components/ticket.php:67
+#: shortcode/components/guest-ticket.php:71 shortcode/components/ticket.php:71
 msgid "Describe your case"
 msgstr "Descreva seu caso"
 
-#: shortcode/components/guest.php:10 shortcode/components/log-in.php:10
+#: shortcode/components/guest.php:14 shortcode/components/log-in.php:10
 #: shortcode/components/profile.php:18 shortcode/components/sign-in.php:10
 msgid "Valid email adress"
 msgstr "Email valido"
 
-#: shortcode/components/guest.php:13 shortcode/components/profile.php:21
+#: shortcode/components/guest.php:17 shortcode/components/profile.php:21
 #: shortcode/components/sign-in.php:13
 msgid "Full name"
 msgstr "Nome completo"
 
-#: shortcode/components/guest.php:26 shortcode/components/new-ticket.php:29
+#: shortcode/components/guest.php:30 shortcode/components/new-ticket.php:34
 msgid "Ticket subject"
 msgstr "Assunto do chamado"
 
-#: shortcode/components/guest.php:28 shortcode/components/new-ticket.php:31
+#: shortcode/components/guest.php:32 shortcode/components/new-ticket.php:36
 msgid "Description"
 msgstr "Descrição"
 
-#: shortcode/components/guest.php:29 shortcode/components/new-ticket.php:32
+#: shortcode/components/guest.php:33 shortcode/components/new-ticket.php:37
 msgid "Ticket thread start"
 msgstr "Inicio do thread do chamado"
 
@@ -424,7 +445,7 @@ msgstr "Senha"
 msgid "A strong password"
 msgstr "Uma senha forte"
 
-#: shortcode/components/new-ticket.php:8
+#: shortcode/components/new-ticket.php:13
 msgid "New ticket"
 msgstr "Novo chamado"
 

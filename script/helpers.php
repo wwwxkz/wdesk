@@ -30,7 +30,7 @@ function wdesk_helper_notify_agent($ticket_id)
 	global $wpdb;
 	// Email message
 	$subject = __('Ticket', 'wdesk') . " $ticket_id " . __('was updated', 'wdesk');
-    $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
+	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$url = $settings[2]->value;
 	$message = __('Ticket', 'wdesk') . "$ticket_id." . __("Access the helpdesk by using the url") . " $url";
 	// Get ticket info
