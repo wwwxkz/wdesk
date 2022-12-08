@@ -2,6 +2,17 @@
 
 Available in https://wordpress.org/plugins/wdesk
 
+# Screenshots
+
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-1.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-2.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-3.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-4.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-5.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-6.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-7.png)
+![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-8.png)
+
 # Support
 
 ### Environment

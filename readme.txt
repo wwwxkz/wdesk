@@ -9,7 +9,7 @@ Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Straightforward and fast helpdesk with multilanguage support for Wordpress
+Fast and straightforward Helpdesk with multilanguage support for Wordpress
 
 == Description ==
 
