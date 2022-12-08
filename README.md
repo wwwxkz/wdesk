@@ -76,7 +76,7 @@ Available in https://wordpress.org/plugins/wdesk
 	- [X] Search and filter
 	- [X] Last update
 	- [X] Tags
-	- [ ] Department email
+	- [X] Department email
 	- [ ] Rich text
 - [X] Add more customization and tools
 	- [X] Date format

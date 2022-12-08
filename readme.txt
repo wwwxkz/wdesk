@@ -49,6 +49,7 @@ https://github.com/wwwxkz/wdesk
 * Provider, email blocklist
 * Autoclose if inactive
 * Date formats
+* Department email
 
 = 0.4 =
 * Tags

@@ -28,13 +28,21 @@ function wdesk_helper_notify_user($ticket_id)
 function wdesk_helper_notify_agent($ticket_id) 
 {
 	global $wpdb;
-	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
-	$agent = get_user_by('id', $tickets[0]->agent);
+	// Email message
 	$subject = __('Ticket', 'wdesk') . " $ticket_id " . __('was updated', 'wdesk');
     $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
 	$url = $settings[2]->value;
 	$message = __('Ticket', 'wdesk') . "$ticket_id." . __("Access the helpdesk by using the url") . " $url";
-	// Notify ticket agent if it is set
+	// Get ticket info
+	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
+	// Agent not assigned, use department email
+	$agent = get_user_by('id', $tickets[0]->agent);
+	if (!$agent) {
+		$departments = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_departments` WHERE id = %s", $tickets[0]->department));
+		wdesk_helper_send_mail($departments[0]->email, $subject, $message);
+		return;
+	}
+	// Notify agent if it's email is set
 	(isset($agent->user_email) && $agent->user_email != "") ? wdesk_helper_send_mail($agent->user_email, $subject, $message) : '';
 }
 

@@ -19,6 +19,7 @@ function wdesk_departments() {
 							<form method="post">
 								<input type="hidden" name="id" value="<?php echo esc_textarea($department->id) ?>"/>
 								<tr><th><?php _e('Name', 'wdesk') ?>: <br><input type="text" name="name" placeholder="<?php _e('Department name', 'wdesk') ?>" value="<?php echo esc_textarea($department->name) ?>" style="padding: 0 8px; margin: 0;"/></th></tr>
+								<tr><th><?php _e('Email', 'wdesk') ?>: <br><input type="email" name="email" placeholder="<?php _e('Department email', 'wdesk') ?>" value="<?php echo esc_textarea($department->email) ?>" style="padding: 0 8px; margin: 0;"/></th></tr>
 								<tr>
 									<th>
 										Agents
@@ -71,6 +72,7 @@ function wdesk_departments() {
 				<tbody>
 					<form method="post">
 						<tr><th><?php _e('Name', 'wdesk') ?>: <br><input type="text" name="name" placeholder="<?php _e('Department name', 'wdesk') ?>" style="padding: 0 8px; margin: 0;"/></th></tr>
+						<tr><th><?php _e('Email', 'wdesk') ?>: <br><input type="email" name="email" placeholder="<?php _e('Department email', 'wdesk') ?>" style="padding: 0 8px; margin: 0;"/></th></tr>
 						<tr>
 							<th>
 								<input type="submit" class="button action" name="wdesk-department-new" value="<?php _e('Create', 'wdesk') ?>" />
