@@ -4,14 +4,14 @@ Available in https://wordpress.org/plugins/wdesk
 
 # Screenshots
 
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-1.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-2.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-3.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-4.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-5.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-6.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-7.png)
-![](https://github.com/wwwxkz/wdesk/blob/master/README/screenshot-8.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-1.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-2.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-3.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-4.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-5.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-6.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-7.png)
+![](https://github.com/wwwxkz/wdesk/blob/main/README/screenshot-8.png)
 
 # Support
 
@@ -68,6 +68,7 @@ Available in https://wordpress.org/plugins/wdesk
 	- [X] Remove serialized in the DB
 	- [X] Remove main script from frontend
 	- [X] INSERT wdesk_settings example data IF NOT EXIST
+	- [X] Replace wdesk_settings for get_option
 - [X] Refactor frontend/script and frontend.php
 	- [X] Padronize variables and function names
 	- [X] Replace colspan by css

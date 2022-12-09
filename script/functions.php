@@ -14,9 +14,9 @@ function wdesk_user()
         $name = sanitize_text_field($_POST['name']);
 		// Email or provider in the blocklist
 		$provider = substr($email, strpos($email, '@') + 1);
-		$blocked_emails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_emails` WHERE email = %s", $email));
-		$blocked_providers = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_email_providers` WHERE provider = %s", $provider));
-		if (count($blocked_providers) > 0 && count($blocked_emails) > 0) {
+		$blocked_emails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_blocklist_emails` WHERE email = %s", $email));
+		$blocked_providers = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_blocklist_email_providers` WHERE provider = %s", $provider));
+		if (count($blocked_providers) > 0 || count($blocked_emails) > 0) {
 			echo "<script>alert('" . __('Your personal email or provider is in our blocklist', 'wdesk') . "')</script>";
 			return 1;
 		}
@@ -121,9 +121,9 @@ function wdesk_ticket()
 		$thread_user = sanitize_text_field($_POST['thread-user']);
 		// Email or provider in the blocklist
 		$provider = substr($user_email, strpos($user_email, '@') + 1);
-		$blocked_emails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_emails` WHERE email = %s", $user_email));
-		$blocked_providers = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_settings_email_providers` WHERE provider = %s", $provider));
-		if (count($blocked_providers) > 0 && count($blocked_emails) > 0) {
+		$blocked_emails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_blocklist_emails` WHERE email = %s", $user_email));
+		$blocked_providers = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_blocklist_email_providers` WHERE provider = %s", $provider));
+		if (count($blocked_providers) > 0 || count($blocked_emails) > 0) {
 			echo "<script>alert('" . __('Your personal email or provider is in the blocklist', 'wdesk') . "')</script>";
 			return 1;
 		}
@@ -328,60 +328,17 @@ function wdesk_setting()
 {
 	// Update all general settings values together
 	if (isset($_POST['wdesk-setting-update'])) {
-        global $wpdb;
-		$wpdb->update(
-			'wdesk_settings',
-			array(
-				'value' => sanitize_text_field($_POST['name']),
-			), array(
-				'id' => 0,
-			)
-		);
-		$wpdb->update(
-			'wdesk_settings',
-			array(
-				'value' => sanitize_email($_POST['email']),
-			), array(
-				'id' => 1,
-			)
-		);
-		$wpdb->update(
-			'wdesk_settings',
-			array(
-				'value' => sanitize_text_field($_POST['url']),
-			), array(
-				'id' => 2,
-			)
-		);
-		$wpdb->update(
-			'wdesk_settings',
-			array(
-				'value' => sanitize_text_field($_POST['date-format']),
-			), array(
-				'id' => 3,
-			)
-		);
-		$wpdb->update(
-			'wdesk_settings',
-			array(
-				'value' => sanitize_text_field($_POST['subject']),
-			), array(
-				'id' => 4,
-			)
-		);
-		$wpdb->update(
-			'wdesk_settings',
-			array(
-				'value' => sanitize_text_field($_POST['thread']),
-			), array(
-				'id' => 5,
-			)
-		);
+    	update_option('wdesk_name', 		sanitize_text_field($_POST['name']));
+		update_option('wdesk_sender', 		sanitize_email($_POST['email']));
+		update_option('wdesk_url', 			sanitize_text_field($_POST['url']));
+		update_option('wdesk_date_format', 	sanitize_text_field($_POST['date-format']));
+		update_option('wdesk_max_subject', 	sanitize_text_field($_POST['subject']));
+		update_option('wdesk_max_thread', 	sanitize_text_field($_POST['thread']));
 	}
 	if (isset($_POST['wdesk-setting-email-add'])) {
         global $wpdb;
 		$wpdb->insert(
-			'wdesk_settings_emails',
+			'wdesk_blocklist_emails',
 			array(
 				'email' => sanitize_text_field($_POST['email']),
 			)
@@ -390,7 +347,7 @@ function wdesk_setting()
 	if (isset($_POST['wdesk-setting-email-delete'])) {
         global $wpdb;
 		$wpdb->delete(
-			'wdesk_settings_emails',
+			'wdesk_blocklist_emails',
 			array(
 				'id' => sanitize_text_field($_POST['id']),
 			)
@@ -399,7 +356,7 @@ function wdesk_setting()
 	if (isset($_POST['wdesk-setting-email-provider-add'])) {
         global $wpdb;
 		$wpdb->insert(
-			'wdesk_settings_email_providers',
+			'wdesk_blocklist_email_providers',
 			array(
 				'provider' => sanitize_text_field($_POST['provider']),
 			)
@@ -408,7 +365,7 @@ function wdesk_setting()
 	if (isset($_POST['wdesk-setting-email-provider-delete'])) {
         global $wpdb;
 		$wpdb->delete(
-			'wdesk_settings_email_providers',
+			'wdesk_blocklist_email_providers',
 			array(
 				'id' => sanitize_text_field($_POST['id']),
 			)

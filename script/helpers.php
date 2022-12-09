@@ -2,9 +2,8 @@
 function wdesk_helper_send_mail($to, $subject, $message) 
 {
 	global $wpdb;
-	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
-	$email = $settings[1]->value;
-    $headers[] = "From: $email";
+	$wdesk_sender = get_option('wdesk_sender');
+    $headers[] = "From: $wdesk_sender";
     wp_mail($to, $subject, $message, $headers);
 }
 
@@ -17,10 +16,9 @@ function wdesk_helper_notify_user($ticket_id)
 		$tickets[0]->user_email != ""
 	) {
 		$subject = __('Ticket update', 'wdesk');
-		$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
-		$url = $settings[2]->value;
+		$wdesk_url = get_option('wdesk_url');
 		$token = $tickets[0]->token;
-		$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $url?ticket=$ticket_id&token=$token";
+		$message = __("Access the helpdesk by using your email and password or using the url", 'wdesk') . " $wdesk_url?ticket=$ticket_id&token=$token";
 		wdesk_helper_send_mail($tickets[0]->user_email, $subject, $message);
 	}
 }
@@ -30,9 +28,8 @@ function wdesk_helper_notify_agent($ticket_id)
 	global $wpdb;
 	// Email message
 	$subject = __('Ticket', 'wdesk') . " $ticket_id " . __('was updated', 'wdesk');
-	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
-	$url = $settings[2]->value;
-	$message = __('Ticket', 'wdesk') . "$ticket_id." . __("Access the helpdesk by using the url") . " $url";
+	$wdesk_url = get_option('wdesk_url');
+	$message = __('Ticket', 'wdesk') . "$ticket_id." . __("Access the helpdesk by using the url") . " $wdesk_url";
 	// Get ticket info
 	$tickets = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket_id));
 	// Agent not assigned, use department email
@@ -49,7 +46,6 @@ function wdesk_helper_notify_agent($ticket_id)
 function wdesk_helper_recover_password($email)
 {
     global $wpdb;
-    $settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
     $users = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_users` WHERE email = %s;", $email));
     if (isset($users[0])) {
     	$otp = uniqid();
@@ -63,11 +59,11 @@ function wdesk_helper_recover_password($email)
 			)
 		);
 		// Send email with website recover url and OTP code
+		$wdesk_url = get_option('wdesk_url');
+		$wdesk_sender = get_option('wdesk_sender');
 		$subject =  __('Recover your helpdesk access password', 'wdesk');
-		$url = $settings[2]->value;
-		$message = __("Access $url?recover=$otp to reset your password", 'wdesk');
-		$sender = $settings[1]->value;
-		$headers[] = "From: $sender";
+		$message = __("Access $wdesk_url?recover=$otp to reset your password", 'wdesk');
+		$headers[] = "From: $wdesk_sender";
 		wp_mail($email, $subject, $message, $headers);
     }
     echo '<script>alert("' . __('If your user is found in the database we will send you a email with an OTP code and URL to reset your password. If not, sign-in or submit a ticket as a guest', 'wdesk') . '")</script>';

@@ -2,7 +2,12 @@
 
 function wdesk_settings() {
 	global $wpdb;
-	$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
+	$wdesk_name 		= get_option('wdesk_name');
+	$wdesk_sender 		= get_option('wdesk_sender');
+	$wdesk_url 			= get_option('wdesk_url');
+	$wdesk_date_format 	= get_option('wdesk_date_format');
+	$wdesk_max_subject 	= get_option('wdesk_max_subject');
+	$wdesk_max_thread 	= get_option('wdesk_max_thread');
 	?>
 	<div style="display: flex; margin-top: 15px; padding: 0; flex-direction: column; justify-content: space-between;">
 	<h2><?php _e('Settings', 'wdesk') ?></h2>
@@ -18,50 +23,50 @@ function wdesk_settings() {
 						<tr>
 							<th>
 								<?php _e('Helpdesk', 'wdesk') ?>: <br>
-								<input type="text" name="name" placeholder="<?php _e('Helpdesk name', 'wdesk') ?>" value="<?php echo esc_html($settings[0]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+								<input type="text" name="name" placeholder="<?php _e('Helpdesk name', 'wdesk') ?>" value="<?php echo esc_html($wdesk_name) ?>" style="padding: 0 8px; margin: 0;"/>
 							</th>
 						</tr>
 						<tr>
 							<th>
 								<?php _e('Sender', 'wdesk') ?>: <br>
-								<input type="text" name="email" placeholder="<?php _e('Sender email', 'wdesk') ?>" value="<?php echo esc_html($settings[1]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+								<input type="text" name="email" placeholder="<?php _e('Sender email', 'wdesk') ?>" value="<?php echo esc_html($wdesk_sender) ?>" style="padding: 0 8px; margin: 0;"/>
 							</th>
 						</tr>
 						<tr>
 							<th>
 								<?php _e('URL', 'wdesk') ?>: <br>
-								<input type="text" name="url" placeholder="<?php _e('Helpdesk url', 'wdesk') ?>" value="<?php echo esc_html($settings[2]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+								<input type="text" name="url" placeholder="<?php _e('Helpdesk url', 'wdesk') ?>" value="<?php echo esc_html($wdesk_url) ?>" style="padding: 0 8px; margin: 0;"/>
 							</th>
 						</tr>
 						<tr>
 							<th>
 								<?php _e('Date', 'wdesk') ?>: <br>
 								<select name="date-format">
-								  <option value="d-m-Y" <?php echo ($settings[3]->value == "d-m-Y") ? 'selected' : '' ?>>d-m-Y</option>
-								  <option value="m-d-Y" <?php echo ($settings[3]->value == "m-d-Y") ? 'selected' : '' ?>>m-d-Y</option>
-								  <option value="Y-m-d" <?php echo ($settings[3]->value == "Y-m-d") ? 'selected' : '' ?>>Y-m-d</option>
-								  <option value="d/m/Y" <?php echo ($settings[3]->value == "d/m/Y") ? 'selected' : '' ?>>d/m/Y</option>
-								  <option value="m/d/Y" <?php echo ($settings[3]->value == "m/d/Y") ? 'selected' : '' ?>>m/d/Y</option>
-								  <option value="Y/m/d" <?php echo ($settings[3]->value == "Y/m/d") ? 'selected' : '' ?>>Y/m/d</option>
-								  <option value="d-m-Y H:i:s" <?php echo ($settings[3]->value == "d-m-Y H:i:s") ? 'selected' : '' ?>>d-m-Y H:i:s</option>
-								  <option value="m-d-Y H:i:s" <?php echo ($settings[3]->value == "m-d-Y H:i:s") ? 'selected' : '' ?>>m-d-Y H:i:s</option>
-								  <option value="Y-m-d H:i:s" <?php echo ($settings[3]->value == "Y-m-d H:i:s") ? 'selected' : '' ?>>Y-m-d H:i:s</option>
-								  <option value="d/m/Y H:i:s" <?php echo ($settings[3]->value == "d/m/Y H:i:s") ? 'selected' : '' ?>>d/m/Y H:i:s</option>
-								  <option value="m/d/Y H:i:s" <?php echo ($settings[3]->value == "m/d/Y H:i:s") ? 'selected' : '' ?>>m/d/Y H:i:s</option>
-								  <option value="Y/m/d H:i:s" <?php echo ($settings[3]->value == "Y/m/d H:i:s") ? 'selected' : '' ?>>Y/m/d H:i:s</option>
+								  <option value="d-m-Y" <?php echo ($wdesk_date_format == "d-m-Y") ? 'selected' : '' ?>>d-m-Y</option>
+								  <option value="m-d-Y" <?php echo ($wdesk_date_format == "m-d-Y") ? 'selected' : '' ?>>m-d-Y</option>
+								  <option value="Y-m-d" <?php echo ($wdesk_date_format == "Y-m-d") ? 'selected' : '' ?>>Y-m-d</option>
+								  <option value="d/m/Y" <?php echo ($wdesk_date_format == "d/m/Y") ? 'selected' : '' ?>>d/m/Y</option>
+								  <option value="m/d/Y" <?php echo ($wdesk_date_format == "m/d/Y") ? 'selected' : '' ?>>m/d/Y</option>
+								  <option value="Y/m/d" <?php echo ($wdesk_date_format == "Y/m/d") ? 'selected' : '' ?>>Y/m/d</option>
+								  <option value="d-m-Y H:i:s" <?php echo ($wdesk_date_format == "d-m-Y H:i:s") ? 'selected' : '' ?>>d-m-Y H:i:s</option>
+								  <option value="m-d-Y H:i:s" <?php echo ($wdesk_date_format == "m-d-Y H:i:s") ? 'selected' : '' ?>>m-d-Y H:i:s</option>
+								  <option value="Y-m-d H:i:s" <?php echo ($wdesk_date_format == "Y-m-d H:i:s") ? 'selected' : '' ?>>Y-m-d H:i:s</option>
+								  <option value="d/m/Y H:i:s" <?php echo ($wdesk_date_format == "d/m/Y H:i:s") ? 'selected' : '' ?>>d/m/Y H:i:s</option>
+								  <option value="m/d/Y H:i:s" <?php echo ($wdesk_date_format == "m/d/Y H:i:s") ? 'selected' : '' ?>>m/d/Y H:i:s</option>
+								  <option value="Y/m/d H:i:s" <?php echo ($wdesk_date_format == "Y/m/d H:i:s") ? 'selected' : '' ?>>Y/m/d H:i:s</option>
 								</select>
 							</th>
 						</tr>
 						<tr>
 							<th>
 								<?php _e('Max subject', 'wdesk') ?>: <br>
-								<input type="number" name="subject" placeholder="<?php _e('Ex: 180', 'wdesk') ?>" value="<?php echo esc_html($settings[4]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+								<input type="number" name="subject" placeholder="<?php _e('Ex: 180', 'wdesk') ?>" value="<?php echo esc_html($wdesk_max_subject) ?>" style="padding: 0 8px; margin: 0;"/>
 							</th>
 						</tr>
 						<tr>
 							<th>
 								<?php _e('Max thread', 'wdesk') ?>: <br>
-								<input type="number" name="thread" placeholder="<?php _e('Ex: 2800', 'wdesk') ?>" value="<?php echo esc_html($settings[5]->value) ?>" style="padding: 0 8px; margin: 0;"/>
+								<input type="number" name="thread" placeholder="<?php _e('Ex: 2800', 'wdesk') ?>" value="<?php echo esc_html($wdesk_max_thread) ?>" style="padding: 0 8px; margin: 0;"/>
 							</th>
 						</tr>
 						<tr>
@@ -82,7 +87,7 @@ function wdesk_settings() {
 				<tbody>
 					<form method="post">
 						<?php 
-						$blocked_emails = $wpdb->get_results("SELECT * FROM `wdesk_settings_emails`");
+						$blocked_emails = $wpdb->get_results("SELECT * FROM `wdesk_blocklist_emails`");
 						foreach ($blocked_emails as $blocked_email) {
 							?>
 							<tr>
@@ -121,7 +126,7 @@ function wdesk_settings() {
 				<tbody>
 					<form method="post">
 						<?php 
-						$blocked_providers = $wpdb->get_results("SELECT * FROM `wdesk_settings_email_providers`");
+						$blocked_providers = $wpdb->get_results("SELECT * FROM `wdesk_blocklist_email_providers`");
 						foreach ($blocked_providers as $blocked_provider) {
 							?>
 							<tr>

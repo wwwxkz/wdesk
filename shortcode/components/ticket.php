@@ -4,8 +4,7 @@ function wdesk_shortcode_component_ticket() {
 	if (isset($_GET['ticket'])) {
 		global $wpdb;
 		// Get ticket settings
-		$settings = $wpdb->get_results("SELECT * FROM `wdesk_settings`");
-		$max_thread = $settings[5]->value;
+		$wdesk_max_thread = get_option('wdesk_max_thread');
 		//
 		$ticket = sanitize_text_field($_GET['ticket']);
 		$ticket = $wpdb->get_results($wpdb->prepare("SELECT * FROM `wdesk_tickets` WHERE id = %s", $ticket));
@@ -68,7 +67,7 @@ function wdesk_shortcode_component_ticket() {
 			<input type="hidden" name="ticket" value="' . $ticket[0]->id . '"/>
 			<input type="hidden" name="subject" value="' . $ticket[0]->subject . '"/>
 			<input type="hidden" name="thread-user" value="' . $ticket[0]->user_name . '" />
-			<textarea required type="text" name="thread" id="thread" placeholder="' . __('Describe your case', 'wdesk') . '" maxlength="' . $max_thread . '" value="" style="height: 170px;"></textarea>
+			<textarea required type="text" name="thread" id="thread" placeholder="' . __('Describe your case', 'wdesk') . '" maxlength="' . $wdesk_max_thread . '" value="" style="height: 170px;"></textarea>
 			<br>
 			<input type="file" name="file" />
 			<br>

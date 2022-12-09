@@ -54,6 +54,14 @@ register_activation_hook(__FILE__, 'wdesk_activation');
 function wdesk_activation() {
 	global $wpdb;
 	
+	// Settings 
+	update_option('wdesk_name', 		'Example Company');
+	update_option('wdesk_sender', 		'email@example.com');
+	update_option('wdesk_url', 			'https://www.wordpress.org/');
+	update_option('wdesk_date_format', 	'd-m-Y H:i:s');
+	update_option('wdesk_max_subject', 	'180');
+	update_option('wdesk_max_thread', 	'2800');
+
 	// Users
 	$table1 = "wdesk_users"; 
 	$charset_collate1 = $wpdb->get_charset_collate();
@@ -136,51 +144,8 @@ function wdesk_activation() {
 	) $charset_collate6;";
 	dbDelta($sql6);
 	
-	// Settings
-	$table7 = "wdesk_settings"; 
-	$charset_collate7 = $wpdb->get_charset_collate();
-	$sql7 = "CREATE TABLE $table7 (
-		id mediumint(9) NOT NULL,
-		setting tinytext NOT NULL,
-		value tinytext NOT NULL,
-		UNIQUE KEY id (id)
-	) $charset_collate7;";
-	dbDelta($sql7);
-	
-	// Default settings
-	$wpdb->replace($table7, array(
-		'id' => 0,
-		'setting' => 'Helpdesk name',
-		'value' => 'ExemCompany'
-	));
-	$wpdb->replace($table7, array(
-		'id' => 1,
-		'setting' => 'Sender email',
-		'value' => 'email@example.com'
-	));
-	$wpdb->replace($table7, array(
-		'id' => 2,
-		'setting' => 'Helpdesk url',
-		'value' => 'https://www.wordpress.org/'
-	));
-	$wpdb->replace($table7, array(
-		'id' => 3,
-		'setting' => 'Date format',
-		'value' => 'd-m-Y H:i:s'
-	));
-	$wpdb->replace($table7, array(
-		'id' => 4,
-		'setting' => 'Max subject',
-		'value' => '180'
-	));
-	$wpdb->replace($table7, array(
-		'id' => 5,
-		'setting' => 'Max thread',
-		'value' => '2800'
-	));
-		
-	// Settings emails
-	$table8 = "wdesk_settings_emails"; 
+	// Blocklist emails
+	$table8 = "wdesk_blocklist_emails"; 
 	$charset_collate8 = $wpdb->get_charset_collate();
 	$sql8 = "CREATE TABLE $table8 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -189,8 +154,8 @@ function wdesk_activation() {
 	) $charset_collate8;";
 	dbDelta($sql8);
 	
-	// Settings email providers
-	$table9 = "wdesk_settings_email_providers"; 
+	// Blocklist email providers
+	$table9 = "wdesk_blocklist_email_providers"; 
 	$charset_collate9 = $wpdb->get_charset_collate();
 	$sql9 = "CREATE TABLE $table9 (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -216,7 +181,8 @@ function wdesk_uninstall() {
 	$wpdb->query("DROP TABLE IF EXISTS wdesk_tags;");
    	$wpdb->query("DROP TABLE IF EXISTS wdesk_tickets;");
 	$wpdb->query("DROP TABLE IF EXISTS wdesk_tickets_threads;");
-   	$wpdb->query("DROP TABLE IF EXISTS wdesk_settings;");
+   	$wpdb->query("DROP TABLE IF EXISTS wdesk_blocklist_emails;");
+   	$wpdb->query("DROP TABLE IF EXISTS wdesk_blocklist_email_providers;");
 }
 
 // Setting up crons
