@@ -1,14 +1,14 @@
 <?php
 
 /*
-Plugin Name: 	wdesk
-Description: 	Plugin developed to track inquiries in a Helpdesk platform inside Wordpress
-Version: 		0.5
-Author: 		Marcelo Rodrigues Campos
-Author URI: 	https://github.com/wwwxkz
-Text Domain:	wdesk
-Domain Path:	/languages
-*/
+ * Plugin Name: 	wdesk
+ * Description: 	Plugin developed to track inquiries in a Helpdesk platform inside Wordpress
+ * Version: 		0.5
+ * Author: 		Marcelo Rodrigues Campos
+ * Author URI: 	https://github.com/wwwxkz
+ * Text Domain:	wdesk
+ * Domain Path:	/languages
+ */
 
 define('WDESK_LOCAL', plugin_dir_path(__FILE__));
 
